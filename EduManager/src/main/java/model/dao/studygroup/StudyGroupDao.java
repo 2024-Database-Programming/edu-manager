@@ -394,25 +394,30 @@ public StudyGroup findGroupInfo(long groupId) {
     public StudyGroupApplication findById(Long applicationId) throws SQLException {
         StudyGroupApplication application = null;
         
-        String sql = "SELECT studygroupapplicationId, status, createat, stuId, studygroupid " +
-                "FROM studygroupapplication " +
-                "WHERE studygroupapplicationId = ?";
+        String sql = "SELECT sga.studygroupapplicationId, sga.status, sga.createat, sga.stuId, "
+                + "sga.studygroupid, m.name AS student_name "
+                + "FROM studygroupapplication sga "
+                + "JOIN member m ON sga.stuId = m.id "
+                + "WHERE sga.studygroupapplicationId = ?";
         
         
         jdbcUtil.setSqlAndParameters(sql, new Object[]{applicationId});
-        ResultSet rs = jdbcUtil.executeQuery();
+        try {
+            ResultSet rs = jdbcUtil.executeQuery();
 
-        if (rs.next()) {
-            application = new StudyGroupApplication();
-            application.setStudyGroupApplicationId(rs.getLong("studygroupapplicationId"));
-            application.setStatus(rs.getString("status"));
-            application.setCreateAt(rs.getDate("createat"));
-            application.setMemberId(rs.getString("stuId"));
-            application.setStudyGroupId(rs.getLong("studygroupid"));
-            application.setMemberName(rs.getString("student_name"));
+            if (rs.next()) {
+                application = new StudyGroupApplication();
+                application.setStudyGroupApplicationId(rs.getLong("studygroupapplicationId"));
+                application.setStatus(rs.getString("status"));
+                application.setCreateAt(rs.getDate("createat"));
+                application.setMemberId(rs.getString("stuId"));
+                application.setStudyGroupId(rs.getLong("studygroupid"));
+                application.setMemberName(rs.getString("student_name"));
+            }
+        } finally {
+            jdbcUtil.close();
         }
-        
-        jdbcUtil.close();
+
         return application;
     }
     
@@ -595,17 +600,21 @@ public StudyGroup findGroupInfo(long groupId) {
 
         jdbcUtil.setSqlAndParameters(sql, new Object[]{studyGroupId, memberId, studyGroupId, memberId});
         
-        ResultSet rs = jdbcUtil.executeQuery();
-        
-        if (rs != null && rs.next()) {
-            int count = rs.getInt(1);  // COUNT(*) 결과
-            System.out.println("Is member of study group: " + count);  // 로그 출력
+        try {
+            ResultSet rs = jdbcUtil.executeQuery();
 
-            return count > 0;  // count가 0보다 크면 멤버
+            if (rs != null && rs.next()) {
+                int count = rs.getInt(1);  // COUNT(*) 결과
+                System.out.println("Is member of study group: " + count);  // 로그 출력
+
+                return count > 0;  // count가 0보다 크면 멤버
+            }
+
+            System.out.println("No matching records found.");  // 로그 출력
+            return false;  // 결과가 없으면 false
+        } finally {
+            jdbcUtil.close();
         }
-        
-        System.out.println("No matching records found.");  // 로그 출력
-        return false;  // 결과가 없으면 false
     }
     
     // 스터디후기 생성

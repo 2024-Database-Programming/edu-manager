@@ -30,8 +30,10 @@ public class ViewLectureController implements Controller {
         LectureManager lectureManager = LectureManager.getInstance();
         StudentManager studentManager = StudentManager.getInstance();
         
-         // LectureManager를 통해 강의 정보 조회
+        // LectureManager를 통해 강의 정보 조회
         Lecture lecture = lectureManager.findLectureById(lectureId);
+        int enrolledCount = lectureManager.findLectureMembers(lectureId.intValue()).size();
+        long availableSeats = lecture.getCapacity() - enrolledCount;
           
         List<LectureReview> lectureReviewList = lectureManager.getReviewsByLectureId(lectureId);
         
@@ -65,6 +67,7 @@ public class ViewLectureController implements Controller {
         request.setAttribute("description", lecture.getDescription());
         request.setAttribute("lectureroom", lecture.getLectureRoom());
         request.setAttribute("reviewList", lectureReviewList);
+        request.setAttribute("availableSeats", availableSeats);
         
         
         // 강의 상세 페이지로 이동

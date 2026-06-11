@@ -81,6 +81,10 @@ public class StudyGroupManager {
     public List<StudyGroupApplication> getStudyRequestList(long studyGroupId) throws SQLException {
         return  studyGroupDao.getStudyRequestList(studyGroupId);
     }
+
+    public StudyGroupApplication findApplicationById(long applicationId) throws SQLException {
+        return studyGroupDao.findById(applicationId);
+    }
  
     
     //스터디 요청 상태 확인하기

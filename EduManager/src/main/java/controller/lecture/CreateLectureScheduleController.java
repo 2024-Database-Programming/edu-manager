@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import controller.AuthorizationUtils;
 import controller.Controller;
 import controller.member.MemberSessionUtils;
 import model.domain.Schedule;
@@ -23,10 +24,15 @@ public class CreateLectureScheduleController implements Controller {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if (!MemberSessionUtils.hasLogined(request.getSession())) {
 			return "redirect:/member/login/form"; // login form 요청으로 redirect
-		}
+			}
 
-		String leaderId = MemberSessionUtils.getLoginMemberId(request.getSession());
-		System.out.print("내 아이디 : 스터디 리더:" + leaderId);
+			String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
+			long lectureId = Long.parseLong(request.getParameter("lectureId"));
+			LectureManager manager = LectureManager.getInstance();
+			if (!AuthorizationUtils.canManageLecture(manager, memberId, lectureId)) {
+				return "redirect:/lecture/over-view?lectureId=" + lectureId;
+			}
+			System.out.print("내 아이디 : 스터디 리더:" + memberId);
 
 		// GET요청
 		if (request.getMethod().equals("GET")) {
@@ -45,8 +51,7 @@ public class CreateLectureScheduleController implements Controller {
 			schedule.setEndTime(LocalTime.parse(request.getParameter("endTime")));
 			schedule.setType("special");
 			
-			LectureManager manager = LectureManager.getInstance();
-			int scheduleId = manager.createSchedule(schedule);
+				int scheduleId = manager.createSchedule(schedule);
 			log.debug("Create Schedule : {}", scheduleId);
 
 //			request.setAttribute("lectureId", Long.parseLong(request.getParameter("lectureId")));

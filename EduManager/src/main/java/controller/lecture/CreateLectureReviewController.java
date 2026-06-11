@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.Controller;
+import controller.member.MemberSessionUtils;
 import model.domain.lecture.LectureReview;
 import model.service.LectureManager;
 import model.service.member.MemberManager;
@@ -20,10 +21,18 @@ public class CreateLectureReviewController implements Controller {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (!MemberSessionUtils.hasLogined(request.getSession())) {
+            return "redirect:/member/login/form";
+        }
+
         // 요청 파라미터에서 데이터 추출
-        String memberId = request.getParameter("memberId");
+        String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
         Long lectureId = Long.parseLong(request.getParameter("lectureId"));
         String reviewText = request.getParameter("reviewText");
+
+        if (!lectureManager.isEnrolledInLecture(memberId, lectureId)) {
+            return "redirect:/lecture/over-view?lectureId=" + lectureId;
+        }
         
         System.out.println("memberId: " + memberId + " lectureId: " + lectureId + " reviewText: " + reviewText);
 

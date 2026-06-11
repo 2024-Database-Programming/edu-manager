@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.AuthorizationUtils;
 import controller.Controller;
 import controller.member.MemberSessionUtils;
 import model.domain.studyGroup.StudyGroupApplication;
@@ -21,9 +22,14 @@ public class ViewStudyRequestListController implements Controller {
 
         // PathVariable을 사용하여 lectureId를 URL 경로에서 받도록 수정
         Long groupId = Long.parseLong(request.getParameter("groupId"));
+        String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
         // LectureManager를 통해 강의 정보 조회
         StudyGroupManager manager = StudyGroupManager.getInstance();
-      
+
+        if (!AuthorizationUtils.canManageStudy(manager, memberId, groupId)) {
+            return "redirect:/study/over-view?groupId=" + groupId;
+        }
+	      
 
         List<StudyGroupApplication> groupRequestList = manager.getStudyRequestList(groupId);
 

@@ -21,6 +21,7 @@ import model.service.StudyManager;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
+import controller.AuthorizationUtils;
 import controller.Controller;
 import controller.member.MemberSessionUtils;
 
@@ -34,12 +35,16 @@ public class ViewMyLectureController implements Controller {
 			return "redirect:/member/login/form"; // login form 요청으로 redirect
 		}
         LectureManager manager = LectureManager.getInstance();
+        String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
 
 
-		
-		 // 클라이언트에서 보낸 날짜 받기
+        // 클라이언트에서 보낸 날짜 받기
         String selectedDateStr = request.getParameter("selectedDate");
         Integer lectureId = Integer.parseInt(request.getParameter("lectureId"));
+        Lecture lectureInfo = manager.findLectureById(lectureId);
+        if (!AuthorizationUtils.canViewLecture(manager, memberId, lectureInfo)) {
+            return "redirect:/lecture/over-view?lectureId=" + lectureId;
+        }
 //        Integer studyId = 10;
         LocalDate selectedDate;
         if (selectedDateStr != null && !selectedDateStr.isEmpty()) {
@@ -76,14 +81,12 @@ public class ViewMyLectureController implements Controller {
             request.setAttribute("regularSchedules", regularSchedules);
             request.setAttribute("specialSchedules", specialSchedules);
 
-            Lecture lectureInfo = manager.findLectureById(lectureId);
             log.debug("lectureInfo: " + lectureId);
 
             List<String> members = manager.findLectureMembers(lectureId);
             log.debug("members: " + members);
 
-            String teacherId = MemberSessionUtils.getLoginMemberId(request.getSession());
-    		Boolean isTeacher= (teacherId.equals(lectureInfo.getTeacherId())) ? true : false;
+    		Boolean isTeacher= AuthorizationUtils.canManageLecture(memberId, lectureInfo);
             
     		
     		

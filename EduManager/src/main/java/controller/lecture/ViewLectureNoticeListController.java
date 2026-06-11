@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.AuthorizationUtils;
 import controller.Controller;
 import controller.member.MemberSessionUtils;
 import model.domain.Notice;
@@ -19,7 +20,12 @@ public class ViewLectureNoticeListController implements Controller {
         }
 
         int groupId = Integer.parseInt(request.getParameter("groupId"));
+        String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
         LectureManager lectureManager = LectureManager.getInstance();
+
+        if (!AuthorizationUtils.canViewLecture(lectureManager, memberId, groupId)) {
+            return "redirect:/lecture/over-view?lectureId=" + groupId;
+        }
 
         String searchParam = request.getParameter("searchParam");
 

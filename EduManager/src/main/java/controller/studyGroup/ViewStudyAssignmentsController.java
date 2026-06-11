@@ -5,10 +5,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.AuthorizationUtils;
 import controller.Controller;
 import controller.member.MemberSessionUtils;
 import model.domain.Assignment;
-import model.domain.Notice;
+import model.service.StudyGroupManager;
 import model.service.StudyManager;
 
 public class ViewStudyAssignmentsController implements Controller {
@@ -20,7 +21,13 @@ public class ViewStudyAssignmentsController implements Controller {
         }
 
         int groupId = Integer.parseInt(request.getParameter("groupId"));
+        String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
+        StudyGroupManager studyGroupAccessManager = StudyGroupManager.getInstance();
         StudyManager studyGroupManager = StudyManager.getInstance();
+
+        if (!AuthorizationUtils.canViewStudy(studyGroupAccessManager, memberId, groupId)) {
+            return "redirect:/study/over-view?groupId=" + groupId;
+        }
 
       
 

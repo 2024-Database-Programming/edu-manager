@@ -3,7 +3,11 @@ package controller.studyGroup;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.AuthorizationUtils;
 import controller.Controller;
+import controller.member.MemberSessionUtils;
+import model.domain.studyGroup.StudyGroup;
+import model.service.StudyManager;
 import model.service.StudyGroupManager;
 
 public class StudyGroupJoinRequestController implements Controller {
@@ -16,8 +20,21 @@ public class StudyGroupJoinRequestController implements Controller {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String memberId = request.getParameter("memberId");
+        if (!MemberSessionUtils.hasLogined(request.getSession())) {
+            return "redirect:/member/login/form";
+        }
+
+        String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
         Long groupId = Long.parseLong(request.getParameter("groupId"));
+        StudyGroup studyGroup = studyGroupManager.findStudyGroupById(groupId);
+        String requestStatus = studyGroupManager.getStatusByMemberIdAndGroupId(memberId, groupId);
+
+        if (studyGroup == null
+                || AuthorizationUtils.canViewStudy(studyGroupManager, memberId, groupId)
+                || requestStatus != null
+                || StudyManager.getInstance().findStudyMembers(groupId.intValue()).size() + 1 >= studyGroup.getCapacity()) {
+            return "redirect:/study/over-view?groupId=" + groupId;
+        }
 
         //가입 요청 생성
         studyGroupManager.createApplication(memberId, groupId);

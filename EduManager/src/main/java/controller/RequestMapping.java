@@ -13,6 +13,7 @@ import controller.lecture.CreateLectureNoticeController;
 import controller.lecture.CreateLectureReviewController;
 import controller.lecture.CreateLectureScheduleController;
 import controller.lecture.UpdateLectureController;
+import controller.lecture.ViewLectureAssignmentsController;
 import controller.lecture.ViewLectureController;
 import controller.lecture.ViewLectureNoticeListController;
 import controller.lecture.ViewMyLectureController;
@@ -186,6 +187,7 @@ public class RequestMapping {
         
         mappings.put("/lecture/listNotice", new ViewLectureNoticeListController());
         mappings.put("/lecture/searchListNotice", new ViewLectureNoticeListController());
+        mappings.put("/lecture/listAssignment", new ViewLectureAssignmentsController());
         
         
         mappings.put("/study/listAssignment", new ViewStudyAssignmentsController());

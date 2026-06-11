@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.Controller;
+import controller.member.MemberSessionUtils;
 import model.service.StudyGroupManager;
 
 public class ToggleStudyGroupLikeController implements Controller {
@@ -16,7 +17,11 @@ public class ToggleStudyGroupLikeController implements Controller {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String memberId = request.getParameter("memberId");
+        if (!MemberSessionUtils.hasLogined(request.getSession())) {
+            return "redirect:/member/login/form";
+        }
+
+        String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
         Long groupId = Long.parseLong(request.getParameter("groupId"));
 
         // 좋아요 상태 토글

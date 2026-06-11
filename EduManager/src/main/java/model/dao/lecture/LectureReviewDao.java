@@ -20,17 +20,21 @@ public class LectureReviewDao {
 
         jdbcUtil.setSqlAndParameters(sql, new Object[]{lectureId, memberId});
 
-        ResultSet rs = jdbcUtil.executeQuery();
+        try {
+            ResultSet rs = jdbcUtil.executeQuery();
 
-        if (rs != null && rs.next()) {
-            int count = rs.getInt(1);
-            System.out.println("Is enrolled in lecture: " + count);  // 로그 출력
+            if (rs != null && rs.next()) {
+                int count = rs.getInt(1);
+                System.out.println("Is enrolled in lecture: " + count);  // 로그 출력
 
-            return count > 0;  
+                return count > 0;
+            }
+
+            System.out.println("No matching enrollment records found.");  // 로그 출력
+            return false;
+        } finally {
+            jdbcUtil.close();
         }
-
-        System.out.println("No matching enrollment records found.");  // 로그 출력
-        return false; 
     }
     
     // 강의 리뷰 등록

@@ -15,8 +15,10 @@ import model.service.StudyManager;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
+import controller.AuthorizationUtils;
 import controller.Controller;
 import controller.member.MemberSessionUtils;
+import model.service.StudyGroupManager;
 
 
 public class ViewMyStudyController implements Controller {
@@ -28,12 +30,17 @@ public class ViewMyStudyController implements Controller {
 			return "redirect:/member/login/form"; // login form 요청으로 redirect
 		}
 		StudyManager manager = StudyManager.getInstance();
+		StudyGroupManager studyGroupManager = StudyGroupManager.getInstance();
+		String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
 
 
-		
-		 // 클라이언트에서 보낸 날짜 받기
+        // 클라이언트에서 보낸 날짜 받기
         String selectedDateStr = request.getParameter("selectedDate");
         Integer studyId = Integer.parseInt(request.getParameter("groupId"));
+        StudyGroup studyInfo = manager.findStudyById(studyId);
+        if (!AuthorizationUtils.canViewStudy(studyGroupManager, memberId, studyId)) {
+            return "redirect:/study/over-view?groupId=" + studyId;
+        }
 //        Integer studyId = 10;
         LocalDate selectedDate;
         if (selectedDateStr != null && !selectedDateStr.isEmpty()) {
@@ -58,30 +65,19 @@ public class ViewMyStudyController implements Controller {
             List<Schedule> specialSchedules = manager.findSchedulesByFilters(studyId, selectedDate, "special", null);
             log.debug("특수일정: " + specialSchedules);
             
-            List<Notice> notices = manager.findNoticesBystudygroupid(studyId);
-            log.debug("공지: " + notices);
-            
-            List<Assignment> assignments = manager.findAssignmentsByStudyId(studyId);
-            log.debug("과제: " + assignments);
-
-            
             // 필요한 비즈니스 로직 수행 (예: DB 조회)
             request.setAttribute("selectedDate", selectedDate);
             request.setAttribute("assignmentList", assignmentList);
             request.setAttribute("noticeList", noticeList);
             request.setAttribute("regularSchedules", regularSchedules);
             request.setAttribute("specialSchedules", specialSchedules);
-            request.setAttribute("noticeList", notices);
-            request.setAttribute("assignmentList", assignments);
 
-            StudyGroup studyInfo = manager.findStudyById(studyId);
             log.debug("studyInfo: " + studyInfo);
 
             List<String> members = manager.findStudyMembers(studyId);
             log.debug("members: " + members);
 
-            String leaderId = MemberSessionUtils.getLoginMemberId(request.getSession());
-    		Boolean isLeader = (leaderId.equals(studyInfo.getLeaderId())) ? true : false;
+    		Boolean isLeader = AuthorizationUtils.canManageStudy(memberId, studyInfo);
             
       //study 기본 정보
             request.setAttribute("studyInfo", studyInfo);
