@@ -15,17 +15,20 @@ public class StudyAssignmentDao {
 		jdbcUtil = new JDBCUtil(); // JDBCUtil 객체 생성
 	}
 
-	// 날짜로 강의 과제 목록 조회
-	public List<Assignment> findAssignmentsByDate(int year, int month) {
+	// 날짜로 스터디 과제 목록 조회
+	public List<Assignment> findAssignmentsByDate(int year, int month, String memberId) {
 		StringBuffer query = new StringBuffer();
-		query.append("SELECT la.studyassignmentid AS id, la.duedate, la.title, la.description, ");
-		query.append("la.studyid, l.name AS lectureName ");
+		query.append("SELECT DISTINCT la.studyassignmentid AS id, la.duedate, la.title, la.description, ");
+		query.append("la.studygroupid, l.name AS lectureName ");
 		query.append("FROM studyassignment la ");
-		query.append("JOIN studygroup l ON la.studyid = l.studyid ");
-		query.append("WHERE EXTRACT(YEAR FROM la.duedate) = ? AND EXTRACT(MONTH FROM la.duedate) = ? ");
+		query.append("JOIN studygroup l ON la.studygroupid = l.studygroupid ");
+		query.append("WHERE (l.leaderId = ? ");
+		query.append("OR EXISTS (SELECT 1 FROM StudyGroupApplication sga ");
+		query.append("WHERE sga.studyGroupId = l.studyGroupId AND sga.stuId = ? AND sga.status = '수락')) ");
+		query.append("AND EXTRACT(YEAR FROM la.duedate) = ? AND EXTRACT(MONTH FROM la.duedate) = ? ");
 		query.append("ORDER BY la.duedate");
 
-		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { year, month });
+		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { memberId, memberId, year, month });
 		List<Assignment> assignments = new ArrayList<>();
 
 		try {
@@ -35,7 +38,7 @@ public class StudyAssignmentDao {
 				ass.setId(rs.getInt("id"));
 				ass.setTitle(rs.getString("title"));
 				ass.setDescription(rs.getString("description"));
-				ass.setLectureId(rs.getInt("studyid"));
+				ass.setStudyId(rs.getInt("studygroupid"));
 				ass.setDueDate(rs.getDate("duedate").toLocalDate());
 				ass.setLectureName(rs.getString("lectureName")); // 강의 이름 설정
 

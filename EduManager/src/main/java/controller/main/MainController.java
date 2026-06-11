@@ -46,21 +46,23 @@ public class MainController implements Controller {
 
 		System.out.println("DEBUG: Year = " + year + ", Month = " + month + ", Selected Day = " + selectedDay);
 
+		String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
+
 		// LectureManager를 통해 데이터 가져오기
 		LectureManager lectureManager = LectureManager.getInstance();
-		List<Schedule> lectureScheduleEntries = lectureManager.getScheduleCalendarList(year, month);// LectureManager를
+		List<Schedule> lectureScheduleEntries = lectureManager.getScheduleCalendarList(year, month, memberId);// LectureManager를
 																									// 통해 데이터
-		List<Notice> lectureNoticeEntries = lectureManager.getNoticeCalendarList(year, month);// LectureManager를 통해 데이터
+		List<Notice> lectureNoticeEntries = lectureManager.getNoticeCalendarList(year, month, memberId);// LectureManager를 통해 데이터
 																								// 가져오기
-		List<Assignment> lectureAssignmentEntries = lectureManager.getAssignmentCalendarList(year, month);// LectureManager를
+		List<Assignment> lectureAssignmentEntries = lectureManager.getAssignmentCalendarList(year, month, memberId);// LectureManager를
 																											// 통해
 
 		StudyManager studyManager = StudyManager.getInstance();
-		List<Schedule> studyScheduleEntries = studyManager.getScheduleCalendarList(year, month);// LectureManager를
+		List<Schedule> studyScheduleEntries = studyManager.getScheduleCalendarList(year, month, memberId);// LectureManager를
 		// 통해 데이터
-		List<Notice> studyNoticeEntries = studyManager.getNoticeCalendarList(year, month);// LectureManager를 통해 데이터
+		List<Notice> studyNoticeEntries = studyManager.getNoticeCalendarList(year, month, memberId);// LectureManager를 통해 데이터
 		// 가져오기
-		List<Assignment> studyAssignmentEntries = studyManager.getAssignmentCalendarList(year, month);// LectureManager를
+		List<Assignment> studyAssignmentEntries = studyManager.getAssignmentCalendarList(year, month, memberId);// LectureManager를
 
 // 데이터
 		// 가져오기

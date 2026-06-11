@@ -196,6 +196,61 @@ td {
 	font-size: 18px;
 }
 
+.calendar-events {
+	max-height: 58px;
+	margin-top: 6px;
+	display: grid;
+	gap: 4px;
+	overflow-y: auto;
+}
+
+.calendar-event {
+	min-width: 0;
+	padding: 3px 6px;
+	border-radius: 6px;
+	overflow: hidden;
+	font-size: 11px;
+	font-weight: 700;
+	line-height: 1.25;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.calendar-event--lecture {
+	background-color: #eff6ff;
+	color: #1d4ed8;
+}
+
+.calendar-event--notice {
+	background-color: #fff7ed;
+	color: #c2410c;
+}
+
+.calendar-event--assignment {
+	background-color: #fefce8;
+	color: #a16207;
+}
+
+.calendar-event--study {
+	background-color: #ecfdf5;
+	color: #047857;
+}
+
+.calendar-event--study-notice {
+	background-color: #f5f3ff;
+	color: #6d28d9;
+}
+
+.calendar-event--study-assignment {
+	background-color: #fdf2f8;
+	color: #be185d;
+}
+
+.empty-list-item {
+	border: 1px dashed #DADADA;
+	color: #777;
+}
+
 
 
 .dotred {

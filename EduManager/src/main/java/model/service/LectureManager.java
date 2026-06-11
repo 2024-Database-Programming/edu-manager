@@ -49,23 +49,23 @@ public class LectureManager {
 	 * lectureDao.getAllLectures(); }
 	 */
 	// 특정 연도와 월의 데이터를 캘린더에 띄우기
-	public List<Schedule> getScheduleCalendarList(int year, int month) {
+	public List<Schedule> getScheduleCalendarList(int year, int month, String memberId) {
 
-		List<Schedule> schedules = scheduleDao.findSchedulesByDate(year, month);
+		List<Schedule> schedules = scheduleDao.findSchedulesByDate(year, month, memberId);
 
 		return schedules;
 	}
 
-	public List<Notice> getNoticeCalendarList(int year, int month) {
+	public List<Notice> getNoticeCalendarList(int year, int month, String memberId) {
 
-		List<Notice> notices = noticeDao.findNoticesByDate(year, month);
+		List<Notice> notices = noticeDao.findNoticesByDate(year, month, memberId);
 
 		return notices;
 	}
 
-	public List<Assignment> getAssignmentCalendarList(int year, int month) {
+	public List<Assignment> getAssignmentCalendarList(int year, int month, String memberId) {
 
-		List<Assignment> assignments = assignmentDao.findAssignmentsByDate(year, month);
+		List<Assignment> assignments = assignmentDao.findAssignmentsByDate(year, month, memberId);
 
 		return assignments;
 	}

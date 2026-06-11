@@ -1,7 +1,9 @@
 package model.dao.studygroup;
 
 import java.sql.*;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,19 +17,28 @@ public class StudyScheduleDao {
 		jdbcUtil = new JDBCUtil();
 	}
 
-	// 스케줄 조회 by 날짜 (년, 월)
-	public List<Schedule> findSchedulesByDate(int year, int month) {
+	// 스케줄 조회 by 날짜 (년, 월, 로그인 사용자)
+	public List<Schedule> findSchedulesByDate(int year, int month, String memberId) {
+		YearMonth calendarMonth = YearMonth.of(year, month);
+		LocalDate lastDayOfMonth = calendarMonth.atEndOfMonth();
+
 		StringBuffer query = new StringBuffer();
-		query.append("SELECT ls.studyscheduleid AS scheduleId, ");
+		query.append("SELECT DISTINCT ls.studyscheduleid AS scheduleId, ");
 		query.append("ls.startTime, ls.endTime, ls.STUDYGROUPID, ls.startDate, ");
-		query.append("ls.type, ls.title, l.name AS lectureName ");
+		query.append("ls.dayofweek, ls.frequency, ls.type, ls.title, l.name AS lectureName ");
 		query.append("FROM studyschedule ls ");
-		query.append("LEFT JOIN studygroup l ON ls.STUDYGROUPID = l.STUDYGROUPID ");
-		query.append("WHERE EXTRACT(YEAR FROM ls.startDate) = ? ");
-		query.append("AND EXTRACT(MONTH FROM ls.startDate) = ? ");
+		query.append("JOIN studygroup l ON ls.STUDYGROUPID = l.STUDYGROUPID ");
+		query.append("WHERE (l.leaderId = ? ");
+		query.append("OR EXISTS (SELECT 1 FROM StudyGroupApplication sga ");
+		query.append("WHERE sga.studyGroupId = l.studyGroupId AND sga.stuId = ? AND sga.status = '수락')) ");
+		query.append("AND ((ls.type = 'regular' AND ls.startDate <= ?) ");
+		query.append("OR ((ls.type <> 'regular' OR ls.type IS NULL) ");
+		query.append("AND EXTRACT(YEAR FROM ls.startDate) = ? ");
+		query.append("AND EXTRACT(MONTH FROM ls.startDate) = ?)) ");
 		query.append("ORDER BY ls.startDate, ls.startTime");
 
-		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { year, month });
+		jdbcUtil.setSqlAndParameters(query.toString(),
+				new Object[] { memberId, memberId, java.sql.Date.valueOf(lastDayOfMonth), year, month });
 		List<Schedule> schedules = new ArrayList<>();
 
 		try {
@@ -35,15 +46,18 @@ public class StudyScheduleDao {
 			while (rs.next()) {
 				Schedule schedule = new Schedule();
 				schedule.setScheduleId(rs.getInt("scheduleId"));
-				schedule.setStartTime(rs.getTime("startTime").toLocalTime());
-				schedule.setEndTime(rs.getTime("endTime").toLocalTime());
+				schedule.setDayOfWeek(rs.getString("dayofweek"));
+				schedule.setStartTime(rs.getTime("startTime") != null ? rs.getTime("startTime").toLocalTime() : null);
+				schedule.setEndTime(rs.getTime("endTime") != null ? rs.getTime("endTime").toLocalTime() : null);
+				schedule.setFrequency(rs.getString("frequency"));
 				schedule.setLectureId(rs.getLong("STUDYGROUPID"));
+				schedule.setStudyGroupId(rs.getLong("STUDYGROUPID"));
 				schedule.setStartDate(rs.getDate("startDate").toLocalDate());
 				schedule.setType(rs.getString("type"));
 				schedule.setTitle(rs.getString("title"));
 				schedule.setLectureName(rs.getString("lectureName")); // Lecture Name 추가
 
-				schedules.add(schedule);
+				addScheduleOccurrences(schedules, schedule, calendarMonth);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -52,6 +66,51 @@ public class StudyScheduleDao {
 		}
 
 		return schedules;
+	}
+
+	private void addScheduleOccurrences(List<Schedule> schedules, Schedule schedule, YearMonth calendarMonth) {
+		if (!"regular".equals(schedule.getType()) || schedule.getDayOfWeek() == null) {
+			schedules.add(schedule);
+			return;
+		}
+
+		DayOfWeek targetDay = null;
+		try {
+			targetDay = DayOfWeek.valueOf(schedule.getDayOfWeek());
+		} catch (IllegalArgumentException ex) {
+			if (schedule.getStartDate() != null && YearMonth.from(schedule.getStartDate()).equals(calendarMonth)) {
+				schedules.add(schedule);
+			}
+			return;
+		}
+		LocalDate start = calendarMonth.atDay(1);
+		if (schedule.getStartDate() != null && schedule.getStartDate().isAfter(start)) {
+			start = schedule.getStartDate();
+		}
+
+		for (LocalDate date = start; !date.isAfter(calendarMonth.atEndOfMonth()); date = date.plusDays(1)) {
+			if (date.getDayOfWeek() == targetDay) {
+				Schedule occurrence = copySchedule(schedule);
+				occurrence.setStartDate(date);
+				schedules.add(occurrence);
+			}
+		}
+	}
+
+	private Schedule copySchedule(Schedule source) {
+		Schedule copy = new Schedule();
+		copy.setScheduleId(source.getScheduleId());
+		copy.setDayOfWeek(source.getDayOfWeek());
+		copy.setStartTime(source.getStartTime());
+		copy.setEndTime(source.getEndTime());
+		copy.setFrequency(source.getFrequency());
+		copy.setLectureId(source.getLectureId());
+		copy.setStudyGroupId(source.getStudyGroupId());
+		copy.setStartDate(source.getStartDate());
+		copy.setType(source.getType());
+		copy.setTitle(source.getTitle());
+		copy.setLectureName(source.getLectureName());
+		return copy;
 	}
 
 	// 스케줄 생성

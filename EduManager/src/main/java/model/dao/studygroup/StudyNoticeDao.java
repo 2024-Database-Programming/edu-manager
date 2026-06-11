@@ -18,14 +18,18 @@ public class StudyNoticeDao {
 	}
 
 	// 공지 조회 by 날짜 (년, 월)
-	public List<Notice> findNoticesByDate(int year, int month) {
+	public List<Notice> findNoticesByDate(int year, int month, String memberId) {
 		StringBuffer query = new StringBuffer();
-		query.append("SELECT studynoticeid AS id, title, description, createat, studygroupId ");
-		query.append("FROM studynotice ");
-		query.append("WHERE EXTRACT(YEAR FROM createat) = ? AND EXTRACT(MONTH FROM createat) = ? ");
-		query.append("ORDER BY createat");
+		query.append("SELECT DISTINCT sn.studynoticeid AS id, sn.title, sn.description, sn.createat, sn.studygroupId ");
+		query.append("FROM studynotice sn ");
+		query.append("JOIN studygroup sg ON sn.studygroupId = sg.studygroupId ");
+		query.append("WHERE (sg.leaderId = ? ");
+		query.append("OR EXISTS (SELECT 1 FROM StudyGroupApplication sga ");
+		query.append("WHERE sga.studyGroupId = sg.studyGroupId AND sga.stuId = ? AND sga.status = '수락')) ");
+		query.append("AND EXTRACT(YEAR FROM sn.createat) = ? AND EXTRACT(MONTH FROM sn.createat) = ? ");
+		query.append("ORDER BY sn.createat");
 
-		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { year, month });
+		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { memberId, memberId, year, month });
 		List<Notice> notices = new ArrayList<>();
 
 		try {

@@ -16,16 +16,19 @@ public class LectureAssignmentDao {
 		jdbcUtil = new JDBCUtil(); // JDBCUtil 객체 생성
 	}
 
-	public List<Assignment> findAssignmentsByDate(int year, int month) {
+	public List<Assignment> findAssignmentsByDate(int year, int month, String memberId) {
 		StringBuffer query = new StringBuffer();
-		query.append("SELECT la.lectureassignmentid AS id, la.duedate, la.title, la.description, ");
+		query.append("SELECT DISTINCT la.lectureassignmentid AS id, la.duedate, la.title, la.description, ");
 		query.append("la.lectureid, l.name AS lectureName ");
 		query.append("FROM lectureassignment la ");
 		query.append("JOIN lecture l ON la.lectureid = l.lectureid ");
-		query.append("WHERE EXTRACT(YEAR FROM la.duedate) = ? AND EXTRACT(MONTH FROM la.duedate) = ? ");
+		query.append("WHERE (l.teacherId = ? ");
+		query.append("OR EXISTS (SELECT 1 FROM LectureEnrollment le ");
+		query.append("WHERE le.lectureId = l.lectureId AND le.stuId = ?)) ");
+		query.append("AND EXTRACT(YEAR FROM la.duedate) = ? AND EXTRACT(MONTH FROM la.duedate) = ? ");
 		query.append("ORDER BY la.duedate");
 
-		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { year, month });
+		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { memberId, memberId, year, month });
 		List<Assignment> assignments = new ArrayList<>();
 
 		try {
