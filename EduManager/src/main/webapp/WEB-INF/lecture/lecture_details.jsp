@@ -206,8 +206,9 @@
 				<div class="flex-column-fc">
 					<div class="flex-column">
 						<div class="notice_main">과제</div>
-						<a href="<c:url value='/lecture/listAssignment' />"
-							class="more-link">더보기</a>
+							<a
+								href="<c:url value='/lecture/listAssignment'><c:param name='groupId' value='${lectureInfo.lectureId}' /></c:url>"
+								class="more-link">더보기</a>
 					</div>
 					<div class="important-notice">
 						<ul>

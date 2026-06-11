@@ -40,11 +40,11 @@
                         </c:url>">스터디 정보 수정하기</a>
          </c:if>
 
-			<a class="complete-button"
-			style="margin-top:20px"
-				href="<c:url value="/lecture/over-view">
-				<c:param name="lectureId" value="${lectureInfo.lectureId}" />
-								</c:url>">스터디 후기 작성하기</a>
+				<a class="complete-button"
+				style="margin-top:20px"
+					href="<c:url value="/study/over-view">
+					<c:param name="groupId" value="${studyInfo.studyGroupId}" />
+									</c:url>">스터디 후기 작성하기</a>
 
 
 			<div class="study-info-box"></div>

@@ -40,11 +40,10 @@
 					<c:choose>
 						<c:when test="${existStudent}">
 							<div class="likeButtonContainer">
-								<form action="<c:url value='/lecture/like' />" method="post"
-									id="likeForm">
-									<input type="hidden" name="lectureId" value="${lectureId}" />
-									<input type="hidden" name="memberId" value="${userId}" />
-									<c:choose>
+									<form action="<c:url value='/lecture/like' />" method="post"
+										id="likeForm">
+										<input type="hidden" name="lectureId" value="${lectureId}" />
+										<c:choose>
 										<c:when test="${isLiked}">
 											<img src="<c:url value='/images/likeButton.svg' />"
 												class="likeButton"
@@ -64,11 +63,10 @@
 						</c:when>
 					</c:choose>
 					<div>
-						<form action="<c:url value='/lecture/join' />" method="post"
-							id="lectureRequestForm">
-							<input type="hidden" name="lectureId" value="${lectureId}" /> <input
-								type="hidden" name="memberId" value="${userId}" />
-							<c:choose>
+							<form action="<c:url value='/lecture/join' />" method="post"
+								id="lectureRequestForm">
+								<input type="hidden" name="lectureId" value="${lectureId}" />
+								<c:choose>
 								<c:when test="${existStudent}">
 									<c:choose>
 										<c:when test="${!isInclude}">
@@ -112,11 +110,9 @@
 				<div class="reviewIconText">수강 후기</div>
 			</div>
 			<div class="writeReviewContainer">
-				<form action="<c:url value='/lecture/createReview' />" method="post"
-					id="reviewForm">
-					<!-- 숨겨진 필드로 lectureId와 memberId를 전달 -->
-					<input type="hidden" name="lectureId" value="${lectureId}" /> <input
-						type="hidden" name="memberId" value="${userId}" />
+					<form action="<c:url value='/lecture/createReview' />" method="post"
+						id="reviewForm">
+						<input type="hidden" name="lectureId" value="${lectureId}" />
 
 					<!-- 리뷰 내용을 작성할 textarea -->
 					<textarea class="reviewTextArea" name="reviewText"

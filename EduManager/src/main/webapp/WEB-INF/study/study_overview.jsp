@@ -36,10 +36,9 @@
 
 				<div class="section3">
 					<div class="likeButtonContainer">
-						<form action="<c:url value='/studyGroup/like' />" method="post"
-							id="likeForm">
-							<input type="hidden" name="groupId" value="${groupId}" /> <input
-								type="hidden" name="memberId" value="${userId}" />
+							<form action="<c:url value='/studyGroup/like' />" method="post"
+								id="likeForm">
+								<input type="hidden" name="groupId" value="${groupId}" />
 							<c:choose>
 								<c:when test="${isLiked}">
 									<img src="<c:url value='/images/likeButton.svg' />"
@@ -57,10 +56,9 @@
 						</form>
 					</div>
 					<div>
-						<form action="<c:url value='/studyGroup/join-request' />"
-							method="post" id="requestForm">
-							<input type="hidden" name="groupId" value="${groupId}" /> <input
-								type="hidden" name="memberId" value="${userId}" />
+							<form action="<c:url value='/studyGroup/join-request' />"
+								method="post" id="requestForm">
+								<input type="hidden" name="groupId" value="${groupId}" />
 
 							<c:choose>
 								<c:when test="${requestStatus == '진행중'}">
@@ -88,11 +86,9 @@
 				<div class="reviewIconText">스터디 후기</div>
 			</div>
 			<div class="writeReviewContainer">
-				<form action="<c:url value='/study/createReview' />" method="post"
-					id="studyReviewForm">
-					<!-- 숨겨진 필드로 lectureId와 memberId를 전달 -->
-					<input type="hidden" name="groupId" value="${groupId}" /> <input
-						type="hidden" name="memberId" value="${userId}" />
+					<form action="<c:url value='/study/createReview' />" method="post"
+						id="studyReviewForm">
+						<input type="hidden" name="groupId" value="${groupId}" />
 
 					<!-- 리뷰 내용을 작성할 textarea -->
 					<textarea class="reviewTextArea" name="reviewText"
