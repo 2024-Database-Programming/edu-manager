@@ -1,105 +1,127 @@
-body,
-html {
-	margin: 0;
-	padding: 0;
-	height: 100%;
-	font-family: 'Pretendard', sans-serif;
-}
+/* 회원 탈퇴 확인 — theme.css 토큰 사용 */
 
 .page {
-	width: 1300px;
+	width: min(var(--page-wide), calc(100% - 2 * var(--gutter)));
 	margin: 0 auto;
+	padding-bottom: 64px;
 }
 
 #form-container {
-	padding-top: 100px;
+	padding-top: 40px;
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
 }
 
 #sign-up-container {
-	margin-top: 50px;
-	background-color: #f4f4fb;
-	padding: 30px;
-	border-radius: 8px;
+	margin-top: 8px;
 	width: 100%;
-	max-width: 600px;
-	box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1);
+	max-width: 440px;
+	padding: 34px 32px;
+	box-sizing: border-box;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: var(--r-lg);
+	box-shadow: var(--shadow);
 }
 
 h3 {
-	font-size: 24px;
-	font-weight: 600;
-	color: black;
+	margin: 0 0 10px;
+	font-size: 22px;
+	font-weight: 800;
+	color: var(--ink);
 	text-align: center;
-	margin-bottom: 20px;
 }
 
 p {
-	font-size: 16px;
-	color: #505154;
-	margin-bottom: 30px;
+	margin: 0 0 24px;
+	font-size: 14px;
+	color: var(--muted);
 	text-align: center;
+	line-height: 1.6;
 }
 
 form label {
-	font-size: 14px;
-	font-weight: 500;
-	color: #505154;
-	margin-bottom: 6px;
 	display: block;
+	margin-bottom: 8px;
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--ink-2);
 }
 
 form input {
-	height: 30px;
+	height: 46px;
 	width: 100%;
-	padding: 10px;
-	border: none;
-	border-radius: 4px;
-	margin-bottom: 20px;
-	font-size: 14px;
-	box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1);
+	padding: 0 14px;
+	box-sizing: border-box;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-sm);
+	margin-bottom: 22px;
+	font-size: 15px;
+	font-weight: 500;
+	font-family: 'Pretendard', inherit;
+	box-shadow: none;
+	outline: none;
+	transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 form input::placeholder {
-	color: #c1c1c1;
+	color: var(--faint);
 }
 
-#error-message {
-	color: red;
-	font-size: 14px;
+form input:focus {
+	border-color: var(--brand);
+	box-shadow: 0 0 0 4px var(--ring);
+}
+
+#error-message,
+.error-message {
+	color: var(--danger);
+	font-size: 13px;
+	font-weight: 600;
 	text-align: center;
-	margin-top: 10px;
+	margin-top: 12px;
 }
 
 #form-controls {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
+	gap: 12px;
 }
 
-button {
-	background-color: #1e2a7c;
-	color: white;
-	font-size: 16px;
-	font-weight: 600;
-	padding: 10px 20px;
-	border: none;
-	border-radius: 8px;
+#form-controls button {
+	flex: 1;
+	height: 48px;
+	font-size: 15px;
+	font-weight: 700;
+	padding: 0 20px;
+	border: 1px solid transparent;
+	border-radius: var(--r-sm);
 	cursor: pointer;
-	box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1);
-	transition: background-color 0.3s, transform 0.2s;
+	font-family: 'Pretendard', inherit;
+	box-shadow: none;
+	transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
-button:hover {
-	background-color: #4a54a1;
-	transform: scale(1.05);
+/* 탈퇴(파괴적) = danger */
+.confirm-button {
+	background-color: var(--danger);
+	color: #ffffff;
 }
 
+.confirm-button:hover {
+	background-color: #b91c1c;
+}
+
+/* 취소 = 보조 */
 button.cancel {
-	background-color: #c0c0c0;
+	background-color: var(--surface);
+	border-color: var(--line-strong);
+	color: var(--ink-2);
 }
 
 button.cancel:hover {
-	background-color: #a0a0a0;
+	background-color: var(--surface-3);
+	border-color: var(--brand-line);
+	color: var(--brand);
 }

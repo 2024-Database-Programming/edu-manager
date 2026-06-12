@@ -5,36 +5,55 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>EduManager</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/navigation.css" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/navigation.css?v=20260613-ds4" />
 <style>
 .member-page {
-	width: min(960px, calc(100% - 80px));
-	margin: 48px auto;
+	width: min(960px, calc(100% - 2 * var(--gutter)));
+	margin: 8px auto 64px;
 }
 .member-title {
-	font-size: 26px;
-	font-weight: 700;
-	margin-bottom: 24px;
+	color: var(--ink);
+	font-size: 22px;
+	font-weight: 800;
+	letter-spacing: -0.01em;
+	margin: 8px 0 18px;
 }
 .member-table {
 	width: 100%;
-	border-collapse: collapse;
-	background: #fff;
+	border-collapse: separate;
+	border-spacing: 0;
+	overflow: hidden;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: var(--r-lg);
+	box-shadow: var(--shadow);
 }
 .member-table th,
 .member-table td {
 	padding: 14px 16px;
-	border-bottom: 1px solid #e5e7eb;
+	border-bottom: 1px solid var(--line);
 	text-align: left;
 }
 .member-table th {
-	color: #6b7280;
-	font-size: 14px;
+	background: var(--surface-3);
+	color: var(--muted);
+	font-size: 13px;
+	font-weight: 800;
+}
+.member-table tbody tr:last-child td {
+	border-bottom: 0;
+}
+.member-table tbody tr:hover {
+	background: var(--surface-2);
 }
 .member-link {
-	color: #1E2A7C;
+	color: var(--brand);
 	font-weight: 700;
 	text-decoration: none;
+}
+.member-link:hover {
+	text-decoration: underline;
 }
 </style>
 </head>

@@ -1,22 +1,4 @@
-/*강의/스터디 만들기 css*/
-#logo-link {
-	margin-left: 100px;
-
-	margin-top: 30px;
-}
-
-header>nav {
-	width: 600px;
-	height: 100%;
-	margin-right: 100px;
-
-}
-
-.subTitle {
-	font-size: 24px;
-	color: #643E23;
-	font-weight: bold;
-}
+/* 강의/스터디 만들기·수정 — theme.css 토큰 사용 */
 
 #makeStudy_container {
 	display: flex;
@@ -25,157 +7,203 @@ header>nav {
 }
 
 #makeStudy_form {
-	width: 50%;
-	min-width: 600px;
-	margin-top: 50px;
+	width: min(640px, 100%);
+	min-width: 0;
+	margin-top: 8px;
+	padding: 28px 28px 24px;
+	box-sizing: border-box;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: var(--r-lg);
+	box-shadow: var(--shadow);
+}
+
+.subTitle {
+	font-size: 22px;
+	color: var(--ink);
+	font-weight: 800;
+	letter-spacing: -0.01em;
+}
+
+#makeStudy_form hr {
+	height: 1px;
+	margin: 18px 0 !important;
+	border: 0;
+	background: var(--line);
 }
 
 .study {
-	margin: 10px 10px;
-	/*  font-size: 1.05rem;
-*/
-	font-weight: 600;
+	margin: 0 0 16px;
+	font-weight: 700;
 }
 
-.study>input[type='text'],
-.study>input[type='number'] {
+.study > span {
+	display: inline-block;
+	margin-bottom: 8px;
+	color: var(--ink-2);
+	font-size: 13px;
+	font-weight: 700;
+}
+
+.required {
+	margin-left: 2px;
+	color: var(--danger);
+}
+
+.study > input[type='text'],
+.study > input[type='number'] {
 	width: 100%;
-	padding: 15px;
-	height: 32px;
+	height: 46px;
+	padding: 0 14px;
 }
 
 .study input::placeholder {
-	color: #a6a9af;
+	color: var(--faint);
 }
 
 .study input,
 select {
-	height: 32px;
-	color: #28292a;
-	margin: 5px 0;
-	border-radius: 5px;
-	/*      border: 1px solid #a6a9af;
-*/
-	border: none;
-	box-shadow: 1px 2px 15px #f3f3f3;
+	height: 46px;
+	box-sizing: border-box;
+	color: var(--ink);
+	margin: 4px 0;
+	padding: 0 14px;
+	border-radius: var(--r-sm);
+	border: 1px solid var(--line-strong);
+	background: var(--surface);
+	box-shadow: none;
 	font-weight: 500;
-	font-family: 'Pretendard';
+	font-size: 15px;
+	font-family: 'Pretendard', inherit;
 	outline: none;
+	transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
-.schedule input[type='checkbox']{
+
+.study input:focus,
+select:focus {
+	border-color: var(--brand);
+	box-shadow: 0 0 0 4px var(--ring);
+}
+
+.schedule input[type='checkbox'] {
 	height: auto;
 }
-.required {
-	color: #DB1D1D;
+
+/* 카테고리 / 요일 토글 */
+.category {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	height: 40px;
+	min-width: 30px;
+	margin: 5px 8px 5px 0;
+	padding: 0 16px;
+	box-sizing: border-box;
+	text-align: center;
+	font-size: 14px;
+	font-weight: 700;
+	background-color: var(--surface);
+	color: var(--muted);
+	border-radius: var(--r-pill);
+	border: 1px solid var(--line-strong);
+	box-shadow: none;
+	cursor: pointer;
+	font-family: 'Pretendard', inherit;
+	outline: none;
+	transition: color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
 }
 
-/*.study input:focus {
-  border: 2px solid blue;
-}*/
-#plus_btn {
-	margin-top: 5px;
-	width: 335px;
-	height: 25px;
-	border: none;
-	border-radius: 5px;
-	background-color: #E5E5EA;
-	color: #643e23;
-	font-size: medium;
+.category:hover {
+	color: var(--brand);
+	border-color: var(--brand-line);
+	background-color: var(--brand-tint);
 }
 
-.delete_btn {
-	border-radius: 20px;
-	color: #DB1D1D;
-	box-shadow: 1px 2px 15px #f3f3f3;
-	border: none;
-	background-color: #EFEFEF;
-	font-family: 'Pretendard';
-	padding: 5px 10px;
-
+.category.selected,
+.category.selected-category,
+.category.selected-day {
+	color: var(--on-brand);
+	background-color: var(--brand);
+	border-color: var(--brand);
 }
 
+.category input {
+	display: none;
+}
+
+.small {
+	height: 40px;
+	width: fit-content;
+	min-width: 60px;
+	text-align: center;
+	font-size: 14px;
+	padding: 0 12px;
+	margin-right: 10px;
+}
+
+/* 일정 추가/삭제 (다중 일정) */
 .schedule {
 	margin: 10px 0;
 }
 
-.small,
-.category {
-	height: 32px;
-	width: fit-content;
-	min-width: 60px;
-	text-align: center;
-	font-size: medium;
-	padding: 0 5px;
-	margin-right: 10px;
-}
-
-
-.category,
-#submit {
-	background-color: #fff;
+#plus_btn {
+	margin-top: 6px;
+	width: 100%;
+	max-width: 335px;
+	height: 34px;
+	border: 1px dashed var(--brand-line);
+	border-radius: var(--r-sm);
+	background-color: var(--brand-tint);
+	color: var(--brand);
+	font-size: 15px;
+	font-weight: 700;
 	cursor: pointer;
-	color: #a6a9af;
-	border-radius: 5px;
-	border: none;
-	box-shadow: 1px 2px 15px #f3f3f3;
-	min-width: 60px;
-	margin: 5px 0;
-	margin-right: 5px;
-
-	font-weight: 400;
-	font-family: 'Pretendard';
-	outline: none;
-	transition: color 0.2s, background-color 0.2s, border-radius 0.2s;
+	transition: background-color 0.18s ease, color 0.18s ease;
 }
 
-.category:hover,
-.category.selected {
-	color: #fff;
-	background-color: #1E2A7C;
+#plus_btn:hover {
+	background-color: var(--brand);
+	color: var(--on-brand);
 }
 
+.delete_btn {
+	border-radius: var(--r-pill);
+	color: var(--danger);
+	box-shadow: none;
+	border: 1px solid var(--danger-line);
+	background-color: var(--danger-bg);
+	font-family: 'Pretendard', inherit;
+	font-weight: 700;
+	padding: 6px 12px;
+	cursor: pointer;
+}
 
-/* 기본적으로 삭제 버튼은 숨김 */
 .schedule .delete_btn {
 	display: none;
 }
 
-/* article에 커서가 올라가면 버튼 보이기 */
 .schedule:hover .delete_btn {
 	display: inline-block;
 }
 
+/* 제출 버튼 */
 #submit {
 	min-height: 50px;
-	padding: 0 30px;
-	font-size: medium;
-	border-radius: 10px;
-	font-weight: 600;
+	margin-top: 8px;
+	padding: 0 28px;
+	font-size: 15px;
+	border-radius: var(--r-sm);
+	border: 0;
+	font-weight: 700;
 	float: right;
-	background-color: #E5E5EA;
-	color: #643E23;
+	background-color: var(--brand);
+	color: var(--on-brand);
+	cursor: pointer;
+	box-shadow: var(--shadow-brand);
+	font-family: 'Pretendard', inherit;
+	transition: background-color 0.18s ease;
 }
 
 #submit:hover {
-	color: #fff;
-	background-color: #1E2A7C;
-}
-
-
-/* 기본 스타일 */
-.category {
-  display: inline-flex; /* inline-block 대신 flex 사용 */
-    justify-content: center; /* 수평 중앙 정렬 */
-    align-items: center; /* 수직 중앙 정렬 */
-	padding: 0 10px;
-	min-width: 30px;
-}
-
-/* 선택된 라벨 스타일 */
-.category.selected-category , .categoy.selected-day{
-	color: #fff;
-	background-color: #1E2A7C;
-}
-.category input{
-	display: none;
+	background-color: var(--brand-strong);
 }

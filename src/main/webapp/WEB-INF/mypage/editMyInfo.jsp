@@ -6,7 +6,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="<c:url value='/css/editInfo.css' />" type="text/css">
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+    <link rel="stylesheet" href="<c:url value='/css/editInfo.css' />?v=20260613-ds4" type="text/css">
     <title>회원 정보 수정</title>
 </head>
 <body>
@@ -48,7 +49,7 @@
                     <!-- 비밀번호 -->
                     <div>
                         <label class="info-label" for="password">새 비밀번호</label>
-                        <input type="password" class="info-box" id="password" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679" required />
+                        <input type="password" class="info-box" id="password" name="password" placeholder="새 비밀번호를 입력하세요" required />
                     </div>
                 </div>
 

@@ -4,7 +4,8 @@
 <html>
   <head>
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- <link rel=stylesheet href="<c:url value='/css/loginForm.css' />" type="text/css" >
+ <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+ <link rel=stylesheet href="<c:url value='/css/loginForm.css' />?v=20260613-ds4" type="text/css" >
     <title>EduManager LoginForm</title>
   <script>
   function login() {
@@ -53,9 +54,9 @@
                   <form name="form" method="POST" action="<c:url value='/member/login' />">
                       <div class="input-group">
                        <label for="email">아이디</label>
-                 		<input type="text" name="id" id="id" placeholder="id">
+                 		<input type="text" name="id" id="id" placeholder="아이디를 입력하세요">
                        <label for="password">비밀번호</label>
-                       <input type="password" name="pwd" id="pwd" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+                       <input type="password" name="pwd" id="pwd" placeholder="비밀번호를 입력하세요">
                       </div>
                       <div id="form-controls">
                       	

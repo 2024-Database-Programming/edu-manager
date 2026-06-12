@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel=stylesheet href="<c:url value='/css/registerForm.css' />"
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+<link rel=stylesheet href="<c:url value='/css/registerForm.css' />?v=20260613-ds4"
 	type="text/css">
 <title>EduManager registerForm</title>
 </head>
@@ -56,11 +57,11 @@
 					</div>
 					<label for="password">비밀번호</label> <input type="password"
 						name="pwd" id="password"
-						placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" required>
+						placeholder="비밀번호를 입력하세요" required>
 					<label for="password-confirm">비밀번호 확인</label> 
 					<input
 						type="password" name="password-confirm" id="password-confirm"
-						placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" required /> 
+						placeholder="비밀번호를 다시 입력하세요" required />
 						<label
 						for="name">이름</label> <input type="text" name="name" id="name"
 						placeholder="Name" required> 

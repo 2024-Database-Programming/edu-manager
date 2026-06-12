@@ -6,7 +6,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>공지사항 리스트</title>
-<link rel=stylesheet href="<c:url value='/css/listAssignmentAndNotice.css' />"
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+<link rel=stylesheet href="<c:url value='/css/listAssignmentAndNotice.css' />?v=20260613-ds4"
 	type="text/css">
 </head>
 <body>

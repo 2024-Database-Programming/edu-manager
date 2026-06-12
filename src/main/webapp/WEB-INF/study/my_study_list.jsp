@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel=stylesheet href="<c:url value='/css/my_study_list.css' />"
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+<link rel=stylesheet href="<c:url value='/css/my_study_list.css' />?v=20260613-ds4"
 	type="text/css">
 <title>EduManager</title>
 <script src="<c:url value='/js/myStudyGroups.js' />"></script>

@@ -121,7 +121,8 @@ for (Assignment studyAssignment : studyAssignmentEntries) {
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel=stylesheet href="<c:url value='/css/main.css' />?v=20260612-compact"
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+<link rel=stylesheet href="<c:url value='/css/main.css' />?v=20260613-ds4"
 	type="text/css">
 <script>
 	// 이전/다음 달 이동 함수

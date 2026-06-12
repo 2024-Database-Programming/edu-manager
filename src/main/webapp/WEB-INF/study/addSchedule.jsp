@@ -6,7 +6,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>일정 추가하기</title>
-<link rel="stylesheet" href="<c:url value='/css/addSchedule.css' />" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+<link rel="stylesheet" href="<c:url value='/css/addSchedule.css' />?v=20260613-ds4" />
 </head>
 <body>
 	<div class="main-container">

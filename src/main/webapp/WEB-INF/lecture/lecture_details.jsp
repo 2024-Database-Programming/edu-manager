@@ -9,7 +9,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link rel="stylesheet" href="<c:url value='/css/study_details.css' />"
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+<link rel="stylesheet" href="<c:url value='/css/study_details.css' />?v=20260613-ds4"
 	type="text/css">
 <script src="<c:url value='/js/study_calendar.js' />"></script>
 <title>강의 상세보기</title>
@@ -26,6 +27,7 @@
     request.setAttribute("dayMap", dayMap);
 %>
 <body>
+	<div class="page">
 	<jsp:include page="../navigation/navigation.jsp" />
 <input type="hidden" id="eventsData" value='${events}'/>
 
@@ -222,6 +224,7 @@
 			</div>
 		</div>
 
+	</div>
 	</div>
 </body>
 </html>

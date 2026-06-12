@@ -1,31 +1,52 @@
+/* 일정/공지/과제 추가 — theme.css 토큰 사용 (addSchedule/addNotice/addAssignment 공용) */
+
 .main-container {
 	width: 100%;
 	margin: 0 auto;
-	font-family: 'Pretendard';
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-family: 'Pretendard', inherit;
+	padding-bottom: 64px;
+}
+
+/* 네비게이션 래퍼 폭 정렬 */
+.main-container > div {
+	width: min(var(--page-wide), 100%) !important;
+	margin: 0 auto;
 }
 
 .title {
 	display: block;
-	height: 30px;
-	justify-self: center;
-	font-size: 30px;
-    font-weight: bold;
-	margin: 80px;
-	margin-bottom: 30px;
+	height: auto;
+	margin: 28px 0 20px;
+	font-size: 24px;
+	font-weight: 800;
+	color: var(--ink);
 	text-align: center;
 }
 
 .form {
-	width: 690px;
-	justify-self: center;
+	width: min(560px, calc(100% - 2 * var(--gutter)));
+	margin: 0 auto;
+	padding: 28px;
+	box-sizing: border-box;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: var(--r-lg);
+	box-shadow: var(--shadow);
 }
 
 .task-name-input,
 .deadline-input,
 .time-input,
 .detail-input {
-	width: 690px;
-	margin-bottom: 10px;
+	width: 100%;
+	margin-bottom: 16px;
+}
+
+.time-input {
+	margin-bottom: 16px;
 }
 
 .assignment-name,
@@ -33,9 +54,11 @@
 .time-label,
 .detail-text {
 	display: block;
-	height: 19px;
-	color: #000000;
-	font-weight: 500;
+	height: auto;
+	margin-bottom: 8px;
+	color: var(--ink-2);
+	font-weight: 700;
+	font-size: 13px;
 	text-align: left;
 }
 
@@ -44,57 +67,71 @@
 .input-field-1,
 .time-selector {
 	width: 100%;
-	height: 20px;
-	padding: 10px;
-	background: #ffffff;
-
-	color: #28292a;
-	margin: 5px 0;
-	border-radius: 5px;
-	border: 1px solid #a6a9af;
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	box-shadow: 1px 2px 15px #f3f3f3;
+	height: 46px;
+	padding: 0 14px;
+	box-sizing: border-box;
+	background: var(--surface);
+	color: var(--ink);
+	margin: 0;
+	border-radius: var(--r-sm);
+	border: 1px solid var(--line-strong);
+	box-shadow: none;
 	font-weight: 500;
-	font-family: 'Pretendard';
+	font-size: 15px;
+	font-family: 'Pretendard', inherit;
 	outline: none;
-/*	outline-color: #163580;
-	outline-width: thin;*/
+	transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.input::placeholder,
+.input-field-1::placeholder {
+	color: var(--faint);
+}
+
+.input:focus,
+.input-field:focus,
+.input-field-1:focus,
+.time-selector:focus {
+	border-color: var(--brand);
+	box-shadow: 0 0 0 4px var(--ring);
 }
 
 .input-field-1 {
-	height: 100px;
+	height: auto;
+	min-height: 120px;
+	padding: 12px 14px;
+	line-height: 1.6;
 	resize: vertical;
 }
 
-.time-input {
-	margin-bottom: 20px;
-}
-
 .button-container {
-	display: block;
+	display: flex;
+	justify-content: center;
 	width: 100%;
-	height: 50px;
-	justify-items: center;
+	margin-top: 22px;
 }
 
 .complete-button {
-	display: block;
-	width: 200px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 200px;
 	height: 50px;
-	background-color: #E5E5EA;
-  color: #643E23;
-	font-size: medium;
-	font-weight: 600;
+	padding: 0 28px;
+	background-color: var(--brand);
+	color: var(--on-brand);
+	font-size: 15px;
+	font-weight: 700;
 	text-align: center;
 	border: none;
-	border-radius: 10px;
+	border-radius: var(--r-sm);
 	cursor: pointer;
-	font-family: 'Pretendard';
+	box-shadow: var(--shadow-brand);
+	font-family: 'Pretendard', inherit;
+	transition: background-color 0.18s ease;
 }
 
 .complete-button:hover {
-	color: #ffffff;
-	background-color: #163580;
-
-
+	color: var(--on-brand);
+	background-color: var(--brand-strong);
 }

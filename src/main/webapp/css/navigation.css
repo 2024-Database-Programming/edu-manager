@@ -1,41 +1,26 @@
-body,
-html {
-	margin: 0;
-	padding: 0;
-	min-height: 100%;
-	font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-	background: #f6f7f9;
-	color: #111827;
-}
-
-ul {
-	list-style: none;
-}
-
-a {
-	text-decoration: none;
-	outline: none;
-}
+/* 상단 네비게이션 — theme.css 토큰 사용 */
 
 .page {
-	width: min(1680px, calc(100% - 48px));
+	width: min(var(--page-wide), calc(100% - 2 * var(--gutter)));
 	min-width: 0;
 	margin: 0 auto;
 }
 
 header {
 	width: 100%;
-	height: 66px;
-	margin: 14px 0 22px;
-	padding: 0 26px;
+	height: 64px;
+	margin: 22px 0;
+	padding: 0 22px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	box-sizing: border-box;
-	background: rgba(255, 255, 255, 0.96);
-	border: 1px solid #e2e8f0;
-	border-radius: 14px;
-	box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+	background: rgba(255, 255, 255, 0.92);
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
+	border: 1px solid var(--line);
+	border-radius: var(--r-lg);
+	box-shadow: var(--shadow);
 }
 
 #logo-link {
@@ -45,13 +30,13 @@ header {
 }
 
 #logo-link img {
-	width: 220px;
-	max-height: 46px;
+	width: 208px;
+	max-height: 44px;
 	object-fit: contain;
 	display: block;
 }
 
-header>nav {
+header > nav {
 	height: 100%;
 	display: flex;
 	align-items: center;
@@ -63,37 +48,47 @@ header ul {
 	height: 100%;
 	display: flex;
 	align-items: center;
-	gap: 6px;
+	gap: 4px;
 }
 
-header ul>li {
+header ul > li {
 	padding: 0;
 }
 
-header ul>li>a {
+header ul > li > a {
 	min-width: 0;
-	height: 34px;
-	padding: 0 12px;
+	height: 36px;
+	padding: 0 14px;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	border-radius: 999px;
-	color: #667085;
-	font-size: 13px;
-	font-weight: 800;
+	border-radius: var(--r-pill);
+	color: var(--muted);
+	font-size: 14px;
+	font-weight: 700;
 	line-height: 1;
 	white-space: nowrap;
 	transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-header ul>li>a:hover {
-	color: #111827;
-	background-color: #f1f4f8;
+header ul > li > a:hover {
+	color: var(--brand);
+	background-color: var(--brand-tint);
+}
+
+/* 마지막 메뉴(로그아웃)는 살짝 구분 */
+header ul > li:last-child > a {
+	color: var(--faint);
+}
+
+header ul > li:last-child > a:hover {
+	color: var(--ink);
+	background-color: var(--surface-3);
 }
 
 @media (max-width: 900px) {
 	.page {
-		width: min(100% - 28px, 1680px);
+		width: min(100% - 28px, var(--page-wide));
 	}
 
 	header {
@@ -102,6 +97,10 @@ header ul>li>a:hover {
 		align-items: flex-start;
 		gap: 12px;
 		flex-direction: column;
+	}
+
+	#logo-link img {
+		width: 184px;
 	}
 
 	header ul {

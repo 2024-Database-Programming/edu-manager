@@ -1,10 +1,4 @@
-body,
-html {
-	margin: 0;
-	padding: 0;
-	height: 100%;
-	font-family: 'Pretendard', sans-serif;
-}
+/* 내 정보 수정 — theme.css 토큰 사용 (네비게이션은 navigation.css가 관장) */
 
 ul {
 	list-style: none;
@@ -16,218 +10,171 @@ a {
 }
 
 .page {
-	width: 1300px;
+	width: min(var(--page-wide), calc(100% - 2 * var(--gutter)));
 	margin: 0 auto;
+	padding-bottom: 64px;
 }
-
-header {
-	width: 100%;
-	height: 80px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
-header>img {
-	margin-top: 30px;
-}
-
-header>nav {
-	width: 600px;
-	height: 100%;
-	margin-right: 100px;
-}
-
-header ul {
-	margin-top: 30px;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: space-between;
-}
-
-header ul>li {
-	padding: 0;
-}
-
-header ul>li>a {
-	width: 120px;
-	height: 30px;
-	cursor: pointer;
-	padding: 10px 10px;
-	margin: 5px;
-	transition: color 0.3s, background-color 0.3s, border-radius 0.3s;
-	border-radius: 30px;
-	display: inline-block;
-	text-align: center;
-	line-height: 30px;
-	text-decoration: none;
-	color: black;
-	font-weight: 600;
-	font-size: 15px;
-}
-
-header ul>li>a:hover {
-	color: #fff;
-	background-color: rgba(30, 42, 124, 0.8);
-	border-radius: 30px;
-}
-
 
 #form-container {
-	padding-top: 100px;
+	padding-top: 24px;
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
-
 }
 
 #info-container {
-	background-color: white;
-	padding: 30px;
-	border-radius: 8px;
-	width: 600px;
-	max-width: 600px;
-
+	width: 100%;
+	max-width: 560px;
+	padding: 32px;
+	box-sizing: border-box;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: var(--r-lg);
+	box-shadow: var(--shadow);
 }
 
 #info-title {
+	margin-bottom: 24px;
+	color: var(--ink);
 	font-size: 20px;
-	font-weight: 600;
-	color: gray;
+	font-weight: 800;
 	text-align: left;
-	margin-bottom: 50px;
 }
 
-
 .info-label {
-	font-size: 14px;
-	font-weight: 500;
-	color: #505154;
-	margin-bottom: 6px;
 	display: block;
+	margin-bottom: 8px;
+	color: var(--ink-2);
+	font-size: 13px;
+	font-weight: 700;
 }
 
 .info-box {
-	height: 30px;
+	height: 46px;
 	width: 100%;
-	padding: 10px;
-	border: none;
-	border-radius: 4px;
-	margin-bottom: 20px;
-	font-size: 14px;
-	box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.1);
-	background-color: #f9f9f9;
-	color: #505154;
+	padding: 0 14px;
+	box-sizing: border-box;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-sm);
+	margin-bottom: 18px;
+	font-size: 15px;
+	font-weight: 500;
+	font-family: 'Pretendard', inherit;
+	box-shadow: none;
+	background-color: var(--surface);
+	color: var(--ink);
+	outline: none;
+	transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.info-box::placeholder {
+	color: var(--faint);
+}
+
+.info-box:focus {
+	border-color: var(--brand);
+	box-shadow: 0 0 0 4px var(--ring);
+}
+
+.info-box[readonly] {
+	background-color: var(--surface-3);
+	color: var(--muted);
+	cursor: default;
+}
+
+#profile_img_container {
 	display: flex;
 	align-items: center;
+	gap: 18px;
+	margin-bottom: 22px;
+}
+
+#profile_img {
+	width: 92px;
+	height: 92px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 1px solid var(--line);
+	background: var(--surface-3);
+}
+
+#profile_img_upload {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--ink-2);
+	cursor: pointer;
+}
+
+#profile_img_upload::file-selector-button {
+	margin-right: 10px;
+	padding: 9px 14px;
+	border-radius: var(--r-sm);
+	border: 1px solid var(--line-strong);
+	background: var(--surface);
+	color: var(--ink-2);
+	font-family: 'Pretendard', inherit;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+#profile_img_upload::file-selector-button:hover {
+	border-color: var(--brand-line);
+	background: var(--brand-tint);
+	color: var(--brand);
 }
 
 #form-controls {
 	display: flex;
 	justify-content: center;
-	margin-top: 50px;
-}
-
-#button-container {
-	position: relative;
-	margin-top: 90px;
-	padding-top: 20px;
-	height: 50px;
-}
-
-.footer-button {
-	font-size: 14px;
-	font-weight: 600;
-	color: gray;
-	border: none;
-	background: none;
-	cursor: pointer;
-	padding: 10px 20px;
-	position: absolute;
-	transition: color 0.3s;
-}
-
-
-
-#profile_img_container {
-    display: flex;
-    align-items: center; /* 세로 가운데 정렬 */
-    gap: 20px; /* 이미지와 버튼 간 간격 */
-    margin-bottom: 20px;
-}
-
-#profile_img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-#profile_img_upload {
-    font-size: 14px;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-
-    border: none;
-}
-
-#profile_img_upload:hover {
-    background-color: #e6e6e6;
-}
-
-#deleteAccount {
-	left: 0;
-}
-
-#editInfo {
-	right: 0;
-}
-
-.footer-button:hover {
-	color: black;
+	margin-top: 24px;
 }
 
 #updateBt {
-	justify-content: space-evenly;
-	display: flex;
-	text-align: center;
-	align: center;
-	background-color: #1e2a7c;
-	color: white;
-	font-size: 16px;
-	font-weight: 600;
-	padding: 10px 20px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: min(100%, 320px);
+	height: 50px;
+	background-color: var(--brand);
+	color: var(--on-brand);
+	font-size: 15px;
+	font-weight: 700;
+	padding: 0 24px;
 	border: none;
-	border-radius: 8px;
+	border-radius: var(--r-sm);
 	cursor: pointer;
-	width: 60%;
-	box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1);
+	box-shadow: var(--shadow-brand);
+	font-family: 'Pretendard', inherit;
+	transition: background-color 0.18s ease;
 }
 
-button:hover {
-	background-color: #4a54a1;
+#updateBt:hover {
+	background-color: var(--brand-strong);
 }
 
+/* 모달 버튼(있을 경우) */
 .btn {
-	padding: 10px 20px;
+	height: 44px;
+	padding: 0 20px;
 	font-size: 14px;
+	font-weight: 700;
 	border: none;
-	border-radius: 5px;
+	border-radius: var(--r-sm);
 	cursor: pointer;
 }
 
 #cancelBtn {
-	background-color: #ccc;
+	background-color: var(--surface-3);
+	color: var(--ink-2);
 }
 
 #confirmBtn {
-	background-color: #1e2a7c;
-	color: white;
+	background-color: var(--brand);
+	color: var(--on-brand);
 }
 
 #cancelBtn:hover,
 #confirmBtn:hover {
-	opacity: 0.8;
+	opacity: 0.9;
 }

@@ -5,21 +5,25 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>EduManager</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/navigation.css" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/navigation.css?v=20260613-ds4" />
 <style>
 .member-page {
-	width: min(640px, calc(100% - 80px));
-	margin: 48px auto;
+	width: min(640px, calc(100% - 2 * var(--gutter)));
+	margin: 8px auto 64px;
 }
 .member-title {
-	font-size: 26px;
-	font-weight: 700;
-	margin-bottom: 24px;
+	color: var(--ink);
+	font-size: 22px;
+	font-weight: 800;
+	letter-spacing: -0.01em;
+	margin: 8px 0 18px;
 }
 .member-form {
-	background: #fff;
-	border: 1px solid #e5e7eb;
-	border-radius: 8px;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: var(--r-lg);
+	box-shadow: var(--shadow);
 	padding: 28px;
 }
 .member-field {
@@ -28,38 +32,66 @@
 .member-field label {
 	display: block;
 	margin-bottom: 8px;
-	color: #6b7280;
+	color: var(--ink-2);
+	font-size: 13px;
 	font-weight: 700;
 }
 .member-field input {
 	width: 100%;
-	height: 42px;
-	border: 1px solid #d1d5db;
-	border-radius: 6px;
-	padding: 0 12px;
+	height: 46px;
+	box-sizing: border-box;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-sm);
+	padding: 0 14px;
+	font-size: 15px;
+	font-family: 'Pretendard', inherit;
+	outline: none;
+	transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.member-field input:focus {
+	border-color: var(--brand);
+	box-shadow: 0 0 0 4px var(--ring);
+}
+.member-field input[readonly] {
+	background: var(--surface-3);
+	color: var(--muted);
 }
 .member-actions {
 	display: flex;
 	justify-content: flex-end;
 	gap: 10px;
+	margin-top: 22px;
 }
 .member-button {
-	min-width: 92px;
-	height: 40px;
-	border-radius: 6px;
-	border: 0;
-	background: #1E2A7C;
-	color: #fff;
-	font-weight: 700;
-	text-decoration: none;
-	cursor: pointer;
-}
-.member-button.secondary {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	background: #E5E5EA;
-	color: #28292a;
+	min-width: 92px;
+	height: 46px;
+	padding: 0 20px;
+	border-radius: var(--r-sm);
+	border: 1px solid transparent;
+	background: var(--brand);
+	color: var(--on-brand);
+	font-weight: 700;
+	text-decoration: none;
+	cursor: pointer;
+	box-shadow: var(--shadow-brand);
+	transition: background-color 0.18s ease;
+}
+.member-button:hover {
+	background: var(--brand-strong);
+}
+.member-button.secondary {
+	background: var(--surface);
+	border-color: var(--line-strong);
+	color: var(--ink-2);
+	box-shadow: none;
+}
+.member-button.secondary:hover {
+	background: var(--surface-3);
+	border-color: var(--brand-line);
+	color: var(--brand);
 }
 </style>
 </head>

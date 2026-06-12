@@ -5,35 +5,41 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>EduManager</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/navigation.css" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/navigation.css?v=20260613-ds4" />
 <style>
 .member-page {
-	width: min(720px, calc(100% - 80px));
-	margin: 48px auto;
+	width: min(720px, calc(100% - 2 * var(--gutter)));
+	margin: 8px auto 64px;
 }
 .member-title {
-	font-size: 26px;
-	font-weight: 700;
-	margin-bottom: 24px;
+	color: var(--ink);
+	font-size: 22px;
+	font-weight: 800;
+	letter-spacing: -0.01em;
+	margin: 8px 0 18px;
 }
 .member-card {
-	background: #fff;
-	border: 1px solid #e5e7eb;
-	border-radius: 8px;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: var(--r-lg);
+	box-shadow: var(--shadow);
 	padding: 28px;
 }
 .member-row {
 	display: grid;
 	grid-template-columns: 120px 1fr;
 	gap: 16px;
-	padding: 12px 0;
-	border-bottom: 1px solid #f1f3f5;
+	padding: 14px 0;
+	border-bottom: 1px solid var(--line);
+	color: var(--ink);
+	font-weight: 600;
 }
 .member-row:last-child {
 	border-bottom: 0;
 }
 .member-label {
-	color: #6b7280;
+	color: var(--muted);
 	font-weight: 700;
 }
 .member-actions {
@@ -46,24 +52,44 @@
 	align-items: center;
 	justify-content: center;
 	min-width: 92px;
-	height: 40px;
-	border-radius: 6px;
-	border: 0;
-	background: #1E2A7C;
-	color: #fff;
+	height: 44px;
+	padding: 0 18px;
+	border-radius: var(--r-sm);
+	border: 1px solid transparent;
+	background: var(--brand);
+	color: var(--on-brand);
 	font-weight: 700;
 	text-decoration: none;
+	box-shadow: var(--shadow-brand);
+	transition: background-color 0.18s ease;
+}
+.member-button:hover {
+	background: var(--brand-strong);
 }
 .member-button.secondary {
-	background: #E5E5EA;
-	color: #28292a;
+	background: var(--surface);
+	border-color: var(--line-strong);
+	color: var(--ink-2);
+	box-shadow: none;
+}
+.member-button.secondary:hover {
+	background: var(--surface-3);
+	border-color: var(--brand-line);
+	color: var(--brand);
 }
 .member-button.danger {
-	background: #DB1D1D;
+	background: var(--danger);
+	box-shadow: none;
+}
+.member-button.danger:hover {
+	background: #b91c1c;
 }
 .member-alert {
 	margin-bottom: 16px;
-	color: #DB1D1D;
+	padding: 12px 16px;
+	border-radius: var(--r-sm);
+	background: var(--danger-bg);
+	color: var(--danger);
 	font-weight: 700;
 }
 </style>

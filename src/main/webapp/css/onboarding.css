@@ -1,61 +1,69 @@
+/* 온보딩(역할/나이/관심분야 선택) — theme.css 토큰 사용 */
+
 body {
-	min-width: 900px;
-	font-family: 'Pretendard', sans-serif;
+	min-width: 0;
 }
 
 nav {
 	display: flex;
 	justify-content: center;
-	margin-top: 40px;
+	margin-top: 44px;
 }
-
 
 #logo-link {
-      justify-self: center;
+	display: inline-flex;
+	justify-self: center;
 }
-#logo-link img{
-   width: 250px;
-   
+
+#logo-link img {
+	width: 210px;
+	height: auto;
+	object-fit: contain;
+	/* 로고 PNG가 흰 배경(투명 아님)이라 캔버스에 녹여 흰 박스를 없앰 */
+	mix-blend-mode: multiply;
 }
 
 .container {
-	margin: 100px auto;
-	margin-bottom: 0;
+	/* fit-content면 컨테이너가 콘텐츠로 줄어들어 .role의 flex:1 버튼이 안 펴짐 → 확정 너비 사용 */
+	width: min(760px, calc(100% - 2 * var(--gutter)));
+	margin: 72px auto 0;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	max-height: 100vh;
-	width: fit-content;
 }
 
 .title {
-	font-weight: 700;
-	font-size: 1.8em;
+	color: var(--ink);
+	font-weight: 800;
+	font-size: 1.7em;
+	line-height: 1.3;
+	text-align: center;
 }
 
-
+/* 선택지 레이아웃 */
 .role {
 	display: flex;
-	justify-content: space-between;
-	width: 400px;
-	margin: 100px 0px;
+	justify-content: center;
+	gap: 16px;
+	width: min(440px, 100%);
+	margin: 56px 0;
 }
 
 .age {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 200px;
-	gap: 10px;
-	/* 버튼 간격 설정 */
-
+	flex-wrap: wrap;
+	height: auto;
+	gap: 12px;
+	margin: 48px 0;
 }
 
 #category {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-	margin-bottom: 0px;
+	margin-bottom: 0;
 }
 
 .category {
@@ -63,80 +71,89 @@ nav {
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
-	width: 700px;
-	gap: 10px;
-	/* 버튼 간격 설정 */
-	height: 120px;
-	margin: 40px auto;
+	width: min(700px, 100%);
+	gap: 12px;
+	height: auto;
+	margin: 36px auto;
 }
 
-
+/* 토글 버튼 (기본 = 흰 카드, 선택/hover = 네이비) */
 .role-button,
 .age-button,
 .category label {
-	font-family: 'Pretendard';
-	font-size: 1.1em;
-	font-weight: 400;
-	height: 50px;
-	border: none;
-	background-color: white;
-	color: #a8a7a7;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 52px;
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-md);
+	background: var(--surface);
+	color: var(--muted);
+	font-family: inherit;
+	font-size: 1.02em;
+	font-weight: 700;
 	cursor: pointer;
-	transition: color 0.2s, background-color 0.2s, border-radius 0.2s;
-	box-shadow: 1px 2px 8px #f3f3f3;
-	border-radius: 5px;
+	box-shadow: var(--shadow-xs);
+	transition: color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease;
 }
 
 .role-button {
-	width: 45%;
+	flex: 1;
 }
 
 .age-button,
 .category label {
-	width: 120px;
-	/*	margin: auto 10px;
-*/
+	width: 124px;
+}
+
+.role-button:hover,
+.age-button:hover,
+.category label:hover {
+	border-color: var(--brand-line);
+	color: var(--brand);
+	background: var(--brand-tint);
 }
 
 .role-button.selected,
-.styled-button.selected,
-.role-button:hover,
-.styled-button:hover,
-.category label.selected,
-.category label:hover,
-.age-button:hover,
-.age-button.selected {
-	background-color: #1E2A7C;
-	color: white;
+.age-button.selected,
+.category label.selected {
+	background-color: var(--brand);
+	border-color: var(--brand);
+	color: var(--on-brand);
+	box-shadow: var(--shadow-brand);
+	transform: translateY(-1px);
 }
 
-
+/* 메인 CTA (다음 / 시작하기) */
 .styled-button {
-	width: 400px;
-	font-size: 1.1em;
-	height: 40px;
-	border: none;
-	background-color: #D1D3D9;
-	color: white;
-	font-weight: 400;
-	font-family: 'Pretendard';
+	width: min(420px, 100%);
+	height: 50px;
+	margin-top: 36px;
+	border: 0;
+	border-radius: var(--r-sm);
+	background-color: var(--brand);
+	color: var(--on-brand);
+	font-family: inherit;
+	font-size: 1.05em;
+	font-weight: 700;
 	cursor: pointer;
-	transition: color 0.2s, background-color 0.2s, border-radius 0.2s;
-	box-shadow: 1px 2px 8px #f3f3f3;
-	border-radius: 5px;
-	margin-top: 30px;
+	box-shadow: var(--shadow-brand);
+	transition: background-color 0.18s ease, transform 0.12s ease;
 }
 
-/* 체크박스 스타일링 */
+.styled-button:hover {
+	background-color: var(--brand-strong);
+}
+
+.styled-button:active {
+	transform: translateY(1px);
+}
+
+/* 라벨 정렬 보조 */
 .category label,
 .role label,
 .age label {
-	display: inline-block;
-	display: flex;
-	align-items: center;
-	/* 세로 중앙 정렬 */
-	justify-content: center;
-	/* 가로 중앙 정렬 */
+	text-align: center;
 }
 
 .category input[type="checkbox"],

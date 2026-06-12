@@ -1,80 +1,170 @@
-body,
-html {
-   height: 100%;
-   margin: 0;
-   padding: 0;
-   font-family: 'Pretendard'
-}
+/* 마이 페이지(허브) — theme.css 토큰 사용 */
 
 ul {
-   list-style: none;
+	list-style: none;
 }
 
 a {
-   text-decoration: none;
-   outline: none;
+	text-decoration: none;
+	outline: none;
 }
 
 .page {
-   width: 1300px;
-   margin: 0 auto;
+	width: min(var(--page-wide), calc(100% - 2 * var(--gutter)));
+	margin: 0 auto;
+	padding-bottom: 64px;
 }
 
 .subTitle {
-   margin-top: 50px;
-   font-size: 20px;
-   color: #643E23;
-   font-weight: bold;
-}
-
-#profile_img {
-	width: 130px;
-	height: 130px;
-	border-radius: 40px;
+	margin: 8px 0 0;
+	color: var(--ink);
+	font-size: 22px;
+	font-weight: 800;
+	letter-spacing: -0.01em;
 }
 
 #mypage_container {
-	padding-top: 120px;
+	width: min(620px, 100%);
+	margin: 26px auto 0;
 	display: flex;
-	flex-flow: column;
-	align-items: center;
+	flex-direction: column;
+	gap: 18px;
 }
 
-#mypage_btn_container {
-	display: inline-flex;
-	flex-flow: row wrap;
-	height: 200px;
-	width: 800px;
-	align-content: space-evenly;
-	justify-content: space-around;
-
-}
-
-.mypageBtn {
-		font-family: 'Pretendard';
-	width: 370px;
-	height: 60px;
-	border-radius: 15px;
+/* 프로필 카드 */
+.profile-card {
 	display: flex;
-	font-size: 20px;
-	font-weight: 600;
+	flex-direction: column;
 	align-items: center;
-	justify-content: center;
-	background-color: #fff;
-	border: 1px solid #643E23;
-	cursor: pointer;
-	color: #643E23;
-	transition: color 0.2s, background-color 0.2s, border-radius 0.2s;
+	padding: 34px 24px 30px;
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: var(--r-xl);
+	box-shadow: var(--shadow);
 }
 
-.mypageBtn:hover {
-	border: 1px solid rgba(30, 42, 124, 0.8);
-	color: #fff;
-	background-color: rgba(30, 42, 124, 0.8);
+#profile_img_container {
+	line-height: 0;
+}
+
+#profile_img {
+	width: 104px;
+	height: 104px;
+	border-radius: 50%;
+	object-fit: cover;
+	background: var(--surface-3);
+	border: 3px solid var(--surface);
+	box-shadow: 0 0 0 1px var(--line), 0 0 0 7px var(--brand-tint);
 }
 
 #mypage_name {
-	font-size: 25px;
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+}
+
+#mypage_name p {
+	margin: 0;
+	color: var(--ink);
+	font-size: 20px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.role-badge {
+	display: inline-flex;
+	align-items: center;
+	height: 26px;
+	padding: 0 13px;
+	border-radius: var(--r-pill);
+	background: var(--brand-tint);
+	color: var(--brand);
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.02em;
+}
+
+/* 메뉴 카드 그리드 */
+#mypage_btn_container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 14px;
+	width: 100%;
+}
+
+.mypageBtn {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	width: 100%;
+	min-height: 78px;
+	padding: 16px 18px;
+	text-align: left;
+	background: var(--surface);
+	border: 1px solid var(--line-strong);
+	border-radius: var(--r-lg);
+	cursor: pointer;
+	font-family: 'Pretendard', inherit;
+	transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.mypageBtn:hover {
+	transform: translateY(-2px);
+	border-color: var(--brand-line);
+	box-shadow: var(--shadow);
+}
+
+.mp-ico {
+	flex: 0 0 auto;
+	width: 46px;
+	height: 46px;
+	display: grid;
+	place-items: center;
+	border-radius: var(--r-md);
+	background: var(--brand-tint);
+	font-size: 22px;
+	line-height: 1;
+}
+
+.mp-text {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	min-width: 0;
+}
+
+.mp-title {
+	color: var(--ink);
+	font-size: 15px;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.mp-sub {
+	color: var(--muted);
+	font-size: 12px;
 	font-weight: 600;
-	padding-left: 10px;
+	line-height: 1.2;
+}
+
+.mp-arrow {
+	margin-left: auto;
+	color: var(--faint);
+	font-size: 22px;
+	font-weight: 400;
+	line-height: 1;
+	transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.mypageBtn:hover .mp-arrow {
+	color: var(--brand);
+	transform: translateX(2px);
+}
+
+@media (max-width: 560px) {
+	#mypage_btn_container {
+		grid-template-columns: 1fr;
+	}
 }
