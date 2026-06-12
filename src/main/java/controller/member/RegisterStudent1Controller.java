@@ -22,11 +22,11 @@ public class RegisterStudent1Controller implements Controller {
 		String email = request.getParameter("email");
 		String phone = request.getParameter("phone");
 		// 입력받은 데이터 세션에 저장
-		session.setAttribute("id", id);
-		session.setAttribute("pwd", pwd);
-		session.setAttribute("name", name);
-		session.setAttribute("email", email);
-		session.setAttribute("phone", phone);
+		session.setAttribute("registerId", id);
+		session.setAttribute("registerPwd", pwd);
+		session.setAttribute("registerName", name);
+		session.setAttribute("registerEmail", email);
+		session.setAttribute("registerPhone", phone);
 
 		log.debug("RegisterStudent1Controller - User Input: id={}, pwd={}, name={}, email={}, phone={}", id, name,
 				email, phone);

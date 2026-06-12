@@ -18,6 +18,9 @@ public class RegisterTeacherController implements Controller {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		if (request.getMethod().equals("GET")) {
+			return "/member/teacherRegisterForm.jsp";
+		}
 
 		TeacherManager tmanager = TeacherManager.getInstance();
 		MemberManager manager = MemberManager.getInstance();
@@ -30,17 +33,43 @@ public class RegisterTeacherController implements Controller {
 				request.getParameter("name"), request.getParameter("email"), request.getParameter("phone"));
 
 		log.debug("Create User : {}", teacher);
+		boolean memberCreated = false;
+		boolean teacherCreated = false;
 
 		try {
-			tmanager.create(teacher); // teacher DB에 생성
 			manager.create(member); // member DB에 생성
-			return "redirect:/main/main"; // 성공 시 사용자 리스트 화면으로 redirect
+			memberCreated = true;
+
+			tmanager.create(teacher); // teacher DB에 생성
+			teacherCreated = true;
+			return "redirect:/member/login/form"; // 성공 시 로그인 페이지로 redirect
 
 		} catch (ExistingMemberException e) { // 예외 발생 시 회원가입 form으로 forwarding
+			cleanupPartialRegistration(member.getId(), manager, tmanager, memberCreated, teacherCreated);
 			request.setAttribute("registerFailed", true);
 			request.setAttribute("exception", e);
 			request.setAttribute("teacher", teacher);
 			return "/member/teacherRegisterForm.jsp";
+		} catch (Exception ex) {
+			cleanupPartialRegistration(member.getId(), manager, tmanager, memberCreated, teacherCreated);
+			request.setAttribute("registerFailed", true);
+			request.setAttribute("exception", ex);
+			request.setAttribute("teacher", teacher);
+			return "/member/teacherRegisterForm.jsp";
+		}
+	}
+
+	private void cleanupPartialRegistration(String id, MemberManager manager, TeacherManager tmanager,
+			boolean memberCreated, boolean teacherCreated) {
+		try {
+			if (teacherCreated) {
+				tmanager.remove(id);
+			}
+			if (memberCreated) {
+				manager.remove(id);
+			}
+		} catch (Exception cleanupException) {
+			log.error("Failed to clean up partial teacher registration for id={}", id, cleanupException);
 		}
 	}
 }

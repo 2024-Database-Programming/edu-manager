@@ -34,5 +34,22 @@ public class StudentInterestCategoryDAO {
 		}
 		return 0;
 	}
+
+	public int removeByStudentId(String stuid) throws SQLException {
+		String sql = "DELETE FROM studentinterestcategory WHERE stuid=?";
+		jdbcUtil.setSqlAndParameters(sql, new Object[] { stuid });
+
+		try {
+			int result = jdbcUtil.executeUpdate();
+			return result;
+		} catch (Exception ex) {
+			jdbcUtil.rollback();
+			ex.printStackTrace();
+		} finally {
+			jdbcUtil.commit();
+			jdbcUtil.close();
+		}
+		return 0;
+	}
     
 }

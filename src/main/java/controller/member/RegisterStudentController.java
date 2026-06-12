@@ -28,28 +28,34 @@ public class RegisterStudentController implements Controller {
 
         // 세션에서 데이터 가져오기
         HttpSession session = request.getSession();
-        String id = (String) session.getAttribute("id");
-        String pwd = (String) session.getAttribute("pwd");
-        String name = (String) session.getAttribute("name");
-        String email = (String) session.getAttribute("email");
-        String phone = (String) session.getAttribute("phone");
+        String id = (String) session.getAttribute("registerId");
+        String pwd = (String) session.getAttribute("registerPwd");
+        String name = (String) session.getAttribute("registerName");
+        String email = (String) session.getAttribute("registerEmail");
+        String phone = (String) session.getAttribute("registerPhone");
         String ageRange = (String) session.getAttribute("age");
         
         int[] interestCategoryIds = (int[]) session.getAttribute("interest");
 
-      
+        if (id == null || pwd == null || name == null || email == null || phone == null || ageRange == null) {
+            return "redirect:/member/register/form";
+        }
 
         // 학생 객체 생성
         Student student = new Student(id, pwd, name, email, phone, ageRange);
         Member member = new Member(id, pwd, name, email, phone);
+        boolean memberCreated = false;
+        boolean studentCreated = false;
 
         try {
             // 데이터베이스 등록
-            log.debug("Registering student: {}", student);
-            smanager.create(student);
-
             log.debug("Registering member: {}", member);
             manager.create(member);
+            memberCreated = true;
+
+            log.debug("Registering student: {}", student);
+            smanager.create(student);
+            studentCreated = true;
             
             //관심분야등록
             if (interestCategoryIds != null && interestCategoryIds.length != 0) {
@@ -64,19 +70,37 @@ public class RegisterStudentController implements Controller {
             session.invalidate();
             log.debug("Session invalidated.");
 
-            response.getWriter().write("Student registration successful!");
-            return "redirect:/main/main"; // 성공 시 메인 페이지로 리다이렉트
+            return "redirect:/member/login/form"; // 성공 시 로그인 페이지로 리다이렉트
 
         } catch (ExistingMemberException e) {
+            cleanupPartialRegistration(id, manager, smanager, memberCreated, studentCreated);
             log.error("ExistingMemberException occurred: ", e);
             request.setAttribute("registerFailed", true);
             request.setAttribute("exception", e);
             request.setAttribute("student", student);
             return "/member/studentRegisterForm.jsp";
         } catch (Exception ex) {
+            cleanupPartialRegistration(id, manager, smanager, memberCreated, studentCreated);
             log.error("Unexpected error during registration: ", ex);
-            response.getWriter().write("Error: Registration failed.");
+            request.setAttribute("registerFailed", true);
+            request.setAttribute("exception", ex);
+            request.setAttribute("student", student);
             return "/member/studentRegisterForm.jsp";
+        }
+    }
+
+    private void cleanupPartialRegistration(String id, MemberManager manager, StudentManager smanager,
+            boolean memberCreated, boolean studentCreated) {
+        try {
+            if (studentCreated) {
+                new StudentInterestCategoryDAO().removeByStudentId(id);
+                smanager.remove(id);
+            }
+            if (memberCreated) {
+                manager.remove(id);
+            }
+        } catch (Exception cleanupException) {
+            log.error("Failed to clean up partial student registration for id={}", id, cleanupException);
         }
     }
 }
