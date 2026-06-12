@@ -1,8 +1,6 @@
 package controller.study;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +49,11 @@ public class CreateStudyController implements Controller {
 			StudyManager manager = StudyManager.getInstance();
 
 			String[] dayOfWeek = request.getParameterValues("dayOfWeek");
+			if (dayOfWeek == null || dayOfWeek.length == 0) {
+				request.setAttribute("creationFailed", true);
+				return "redirect:/study/create";
+			}
+
 			log.debug("dayOfWeek{}",dayOfWeek);
 
 			for (int i = 0; i < dayOfWeek.length; i++) { // 각 일정 항목의 값들을 받아오기 String

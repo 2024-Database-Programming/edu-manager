@@ -8,7 +8,6 @@ import controller.Controller;
 import model.dao.member.MemberDAO;
 import model.dao.member.StudentDAO;
 import model.dao.member.TeacherDAO;
-import controller.member.MemberSessionUtils;
 
 
 public class DeleteAccountController implements Controller {
@@ -40,14 +39,13 @@ public class DeleteAccountController implements Controller {
                 return "/mypage/deleteConfirm.jsp";
             }
 
-            // Member 데이터 삭제 처리
-            if (memberDAO.remove(memberId) > 0) {
-                if (studentDAO.existingStudent(memberId)) {
-                    studentDAO.remove(memberId);
-                } else if (teacherDAO.existingTeacher(memberId)) {
-                    teacherDAO.remove(memberId);
-                }
+            // 외래키 참조가 있는 역할 데이터를 먼저 삭제한 뒤 Member를 삭제한다.
+            if (studentDAO.existingStudent(memberId)) {
+                studentDAO.remove(memberId);
+            } else if (teacherDAO.existingTeacher(memberId)) {
+                teacherDAO.remove(memberId);
             }
+            memberDAO.remove(memberId);
 
             session.invalidate(); // 세션 무효화
             // 탈퇴 성공 상태를 JSP에 전달
