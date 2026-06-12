@@ -5,8 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>EduManager</title>
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-<link rel="stylesheet" href="<c:url value='/css/onboarding.css'/>?v=20260613-ds4">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds5">
+<link rel="stylesheet" href="<c:url value='/css/onboarding.css'/>?v=20260613-ds5">
 <script src="<c:url value='/js/onboarding/category.js'/>"></script>
 <%--  <input type="hidden" name="age" value="<%= request.getParameter("age") %>" />
  --%>

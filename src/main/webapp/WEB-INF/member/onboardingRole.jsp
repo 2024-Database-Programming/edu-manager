@@ -5,8 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>EduManager</title>
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/onboarding.css?v=20260613-ds4">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds5">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/onboarding.css?v=20260613-ds5">
 <script src="${pageContext.request.contextPath}/js/onboarding/role.js"
 	defer></script>
 </head>

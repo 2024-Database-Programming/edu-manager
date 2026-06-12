@@ -32,6 +32,14 @@ nav {
 	align-items: center;
 }
 
+/* role/age/category 폼이 .container 안에서 콘텐츠 크기로 쪼그라들지 않도록 전체폭 + 중앙정렬 */
+.container form {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .title {
 	color: var(--ink);
 	font-weight: 800;
