@@ -51,9 +51,9 @@ nav {
 /* 선택지 레이아웃 */
 .role {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: center;
 	gap: 16px;
-	width: min(440px, 100%);
 	margin: 56px 0;
 }
 
@@ -106,7 +106,9 @@ nav {
 }
 
 .role-button {
-	flex: 1;
+	/* 부모 폭(form/container)에 의존하지 않는 고정 크기 → 절대 안 찌그러짐 */
+	flex: 0 0 180px;
+	height: 64px;
 }
 
 .age-button,
