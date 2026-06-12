@@ -81,7 +81,7 @@
 		</div>
 		<div class="section4">
 			<div class="reviewIconContainer">
-				<img src="<c:url value='/images/reviewIcon.svg"' />"
+				<img src="<c:url value='/images/reviewIcon.svg' />"
 					class="reviewIcon" />
 				<div class="reviewIconText">스터디 후기</div>
 			</div>
@@ -110,7 +110,7 @@
 				<c:forEach var="group" items="${reviewList}">
 					<div class="reviewContainer">
 
-						<img src="<c:url value='/images/profileImg.svg"' />"
+						<img src="<c:url value='/images/profileImg.svg' />"
 							class="reviewProfileImg" />
 						<div class="reviewTextContainer">
 							<div class="reviewUserName">${group.memberName}</div>

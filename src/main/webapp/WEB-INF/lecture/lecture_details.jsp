@@ -52,7 +52,7 @@
 
 			<table class="study-location">
 				<tr class="icon">
-					<td><img src="<c:url value='/images/phoneIcon.svg"' />"
+					<td><img src="<c:url value='/images/phoneIcon.svg' />"
 						class="infoIcon" /></td>
 					<td class="location-inform">${lectureInfo.phone}</td>
 				</tr>

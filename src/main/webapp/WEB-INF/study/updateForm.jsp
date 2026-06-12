@@ -53,7 +53,7 @@
 					<c:forEach var="category" items="${categories}">
 						<label
 							class="category ${category.id == study.category ? 'selected-category' : ''}"
-							onclick="updateCategoryStyle(this)"> <input type="radio"
+							onclick="updateCategoryStyle(this)"> <input type="radio" required
 							name="category" value="${category.id}"
 							<c:if test="${category.id == study.category}">checked</c:if> />
 							${category.name}
@@ -79,31 +79,31 @@
                         .collect(Collectors.toSet());
                   %>
 
-                  <label> <input type="checkbox" name="dayOfWeek"
+                  <label class="category"> <input type="checkbox" name="dayOfWeek"
                      value="MONDAY"
                      <%= selectedDays.contains("MONDAY") ? "checked" : "" %>>
                      월
-                  </label> <label> <input type="checkbox" name="dayOfWeek"
+                  </label> <label class="category"> <input type="checkbox" name="dayOfWeek"
                      value="TUESDAY"
                      <%= selectedDays.contains("TUESDAY") ? "checked" : "" %>>
                      화
-                  </label> <label> <input type="checkbox" name="dayOfWeek"
+                  </label> <label class="category"> <input type="checkbox" name="dayOfWeek"
                      value="WEDNESDAY"
                      <%= selectedDays.contains("WEDNESDAY") ? "checked" : "" %>>
                      수
-                  </label> <label> <input type="checkbox" name="dayOfWeek"
+                  </label> <label class="category"> <input type="checkbox" name="dayOfWeek"
                      value="THURSDAY"
                      <%= selectedDays.contains("THURSDAY") ? "checked" : "" %>>
                      목
-                  </label> <label> <input type="checkbox" name="dayOfWeek"
+                  </label> <label class="category"> <input type="checkbox" name="dayOfWeek"
                      value="FRIDAY"
                      <%= selectedDays.contains("FRIDAY") ? "checked" : "" %>>
                      금
-                  </label> <label> <input type="checkbox" name="dayOfWeek"
+                  </label> <label class="category"> <input type="checkbox" name="dayOfWeek"
                      value="SATURDAY"
                      <%= selectedDays.contains("SATURDAY") ? "checked" : "" %>>
                      토
-                  </label> <label> <input type="checkbox" name="dayOfWeek"
+                  </label> <label class="category"> <input type="checkbox" name="dayOfWeek"
                      value="SUNDAY"
                      <%= selectedDays.contains("SUNDAY") ? "checked" : "" %>>
                      일

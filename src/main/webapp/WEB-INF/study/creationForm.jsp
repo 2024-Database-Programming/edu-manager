@@ -46,7 +46,7 @@
 				<section class="study">
 					<span>카테고리</span><br />
 					<c:forEach var="category" items="${categories}">
-						<label class="category"> <input type="radio" name="category"
+						<label class="category"> <input type="radio" name="category" required
 							value="${category.id}" onclick="updateCategoryStyle(this)" />
 							${category.name}
 						</label>

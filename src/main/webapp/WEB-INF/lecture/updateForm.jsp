@@ -67,7 +67,7 @@
 					<c:forEach var="category" items="${categories}">
 						<label
 							class="category ${category.id == lecture.category ? 'selected-category' : ''}"
-							onclick="updateCategoryStyle(this)"> <input type="radio"
+							onclick="updateCategoryStyle(this)"> <input type="radio" required
 							name="category" value="${category.id}"
 							<c:if test="${category.id == lecture.category}">checked</c:if> />
 							${category.name}

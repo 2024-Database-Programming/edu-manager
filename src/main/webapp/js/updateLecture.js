@@ -1,40 +1,56 @@
 document.addEventListener('DOMContentLoaded', () => {
-	// 전역 변수 selectedCategory는 JSP에서 전달됨
-	if (typeof selectedCategory !== 'undefined' && selectedCategory) {
-		const buttonToSelect = document.querySelector(`.category[data-index="${selectedCategory}"]`);
-		const hiddenInput = document.getElementById('categories');
-
-		// 해당 버튼이 존재하면 선택 상태로 설정
-		if (buttonToSelect) {
-			buttonToSelect.classList.add('selected');
-			hiddenInput.value = selectedCategory;
+	const applyCategoryStyle = (input) => {
+		const categorySection = input.closest('.study');
+		if (!categorySection) {
+			return;
 		}
-	}
-});
 
-// 단일 선택을 처리하는 함수
-function selectLectureCategory(button) {
-	const hiddenInput = document.getElementById('categories');
-	const selectedButton = document.querySelector('.category.selected');
+		categorySection.querySelectorAll('.category').forEach(label => {
+			label.classList.remove('selected');
+			label.classList.remove('selected-category');
+		});
 
-	// 이전 선택 해제
-	if (selectedButton) {
-		selectedButton.classList.remove('selected');
-	}
+		const label = input.closest('.category');
+		if (label) {
+			label.classList.add('selected');
+			label.classList.add('selected-category');
+		}
+	};
 
-	// 선택한 버튼 스타일 추가
-	button.classList.add('selected');
+	document.querySelectorAll('input[type="radio"][name="category"]').forEach(input => {
+		if (input.checked) {
+			applyCategoryStyle(input);
+		}
 
-	// 숨겨진 input 값 업데이트
-	hiddenInput.value = button.getAttribute('data-index');
-}
+		input.addEventListener('change', () => applyCategoryStyle(input));
+	});
 
-document.addEventListener('DOMContentLoaded', () => {
-	const categoryButtons = document.querySelectorAll('.category');
+	document.querySelectorAll('input[type="checkbox"][name="dayOfWeek"]').forEach(input => {
+		const label = input.closest('.category');
+		if (label && input.checked) {
+			label.classList.add('selected-category');
+		}
 
-	categoryButtons.forEach(button => {
-		button.addEventListener('click', () => {
-			selectLectureCategory(button);
+		input.addEventListener('change', () => {
+			const changedLabel = input.closest('.category');
+			if (changedLabel) {
+				changedLabel.classList.toggle('selected-category', input.checked);
+			}
+		});
+	});
+
+	document.querySelectorAll('form').forEach(form => {
+		form.addEventListener('submit', event => {
+			const dayInputs = form.querySelectorAll('input[type="checkbox"][name="dayOfWeek"]');
+			if (dayInputs.length === 0) {
+				return;
+			}
+
+			const hasCheckedDay = Array.from(dayInputs).some(input => input.checked);
+			if (!hasCheckedDay) {
+				event.preventDefault();
+				alert('정기 모임 요일을 하나 이상 선택해주세요.');
+			}
 		});
 	});
 });

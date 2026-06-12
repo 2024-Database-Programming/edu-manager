@@ -24,11 +24,11 @@
 					<div class="overViewInfoText" id="lectureTeacherName">
 						${teacherName} 강사님</div>
 					<div class="overViewInfoText" id="lectureTeacherPhone">
-						<img src="<c:url value='/images/phoneIcon.svg"' />"
+						<img src="<c:url value='/images/phoneIcon.svg' />"
 							class="infoIcon" />${teacherPhone}
 					</div>
 					<div class="overViewInfoText" id="lectureTeacherRoom">
-						<img src="<c:url value='/images/roomIcon.svg"' />"
+						<img src="<c:url value='/images/roomIcon.svg' />"
 							class="infoIcon" />${lectureroom}호
 					</div>
 				</div>
@@ -105,7 +105,7 @@
 		</div>
 		<div class="section4">
 			<div class="reviewIconContainer">
-				<img src="<c:url value='/images/reviewIcon.svg"' />"
+				<img src="<c:url value='/images/reviewIcon.svg' />"
 					class="reviewIcon" />
 				<div class="reviewIconText">수강 후기</div>
 			</div>
@@ -135,7 +135,7 @@
 				<c:forEach var="group" items="${reviewList}">
 					<div class="reviewContainer">
 
-						<img src="<c:url value='/images/profileImg.svg"' />"
+						<img src="<c:url value='/images/profileImg.svg' />"
 							class="reviewProfileImg" />
 						<div class="reviewTextContainer">
 							<div class="reviewUserName">${group.memberName}</div>

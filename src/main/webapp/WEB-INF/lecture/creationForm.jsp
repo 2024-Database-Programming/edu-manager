@@ -74,7 +74,7 @@
 				<section class="study">
 					<span>카테고리</span><br />
 					<c:forEach var="category" items="${categories}">
-						<label class="category"> <input type="radio" name="category"
+						<label class="category"> <input type="radio" name="category" required
 							value="${category.id}" onclick="updateCategoryStyle(this)" />
 							${category.name}
 						</label>
@@ -94,7 +94,7 @@
 							<option value="FRIDAY">금</option>
 							<option value="SATURDAY">토</option>
 							<option value="SUNDAY">일</option>
-						</select> <span>시간</span> <input type="time" name="schedule[0][startTime]"/> ~ <input type="time" name="schedule[0][endTime]"/>
+						</select> <span>시간</span> <input type="time" name="schedule[0][startTime]" required/> ~ <input type="time" name="schedule[0][endTime]" required/>
 						<button type="button" class="delete_btn"
 							onClick="deleteSchedule(this)">삭제</button>
 					</article>
