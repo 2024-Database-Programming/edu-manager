@@ -1,18 +1,22 @@
 package controller.study;
 
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import controller.Controller;
 import controller.member.MemberSessionUtils;
+import model.dao.ImageDAO;
 import model.dao.member.InterestCategoryDAO;
+import model.dao.studygroup.StudyGroupDao;
 import model.domain.Schedule;
 import model.domain.studyGroup.StudyGroup;
 import model.service.StudyManager;
@@ -67,7 +71,19 @@ public class CreateStudyController implements Controller {
 			
 			study = manager.createStudy(study);
 			log.debug("Create Lecture : {}", study.getStudyGroupId());
-			
+
+			// 업로드된 스터디 사진을 DB(BLOB)에 저장하고 img 경로를 서빙 URL로 갱신
+			Part imgPart = request.getPart("img");
+			if (imgPart != null && imgPart.getSize() > 0) {
+				byte[] imgData;
+				try (InputStream in = imgPart.getInputStream()) {
+					imgData = in.readAllBytes();
+				}
+				new ImageDAO().save("study", String.valueOf(study.getStudyGroupId()), imgData, imgPart.getContentType());
+				study.setImg("/image?type=study&id=" + study.getStudyGroupId());
+				new StudyGroupDao().update(study);
+			}
+
 			for (int i = 0; i < dayOfWeek.length; i++) { // 각 일정 항목의 값들을 받아오기 String
 				Schedule schedule = new Schedule(dayOfWeek[i], null, null, null, 0L, "regular",
 						"정기모임");

@@ -1,5 +1,6 @@
 package controller.lecture;
 
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -9,12 +10,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import controller.Controller;
 import controller.member.MemberSessionUtils;
+import model.dao.ImageDAO;
 import model.dao.member.InterestCategoryDAO;
 import model.domain.Schedule;
 import model.domain.lecture.Lecture;
@@ -74,6 +77,19 @@ public class CreateLectureController implements Controller {
 			}
 			lecture = manager.createLecture(lecture);
 			log.debug("Create Lecture : {}", lecture.getLectureId());
+
+			// 업로드된 강의 사진을 DB(BLOB)에 저장하고 img 경로를 서빙 URL로 갱신
+			Part imgPart = request.getPart("img");
+			if (imgPart != null && imgPart.getSize() > 0) {
+				byte[] imgData;
+				try (InputStream in = imgPart.getInputStream()) {
+					imgData = in.readAllBytes();
+				}
+				new ImageDAO().save("lecture", String.valueOf(lecture.getLectureId()), imgData, imgPart.getContentType());
+				lecture.setImg("/image?type=lecture&id=" + lecture.getLectureId());
+				manager.updateLecture(lecture);
+			}
+
 			for (int i = 0; i < scheduleCount; i++) { // 각 일정 항목의 값들을 받아오기 String
 				
 //				log.debug("dayOfWeek : {}", dayOfWeek);

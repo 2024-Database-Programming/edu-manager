@@ -197,6 +197,9 @@ public class RequestMapping {
         mappings.put("/study/listAssignment", new ViewStudyAssignmentsController());
 
         mappings.put("/confirmId", new ForwardController("/member/confirmId.jsp"));
+
+        // DB(BLOB)에 저장된 이미지 서빙: /image?type=member|lecture|study&id=...
+        mappings.put("/image", new ViewImageController());
     }
 
     public Controller findController(String uri) {

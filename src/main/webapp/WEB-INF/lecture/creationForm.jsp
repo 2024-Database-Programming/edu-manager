@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/study_make.css" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/study_make.css?v=20260613-ds4" />
 <title>EduManager</title>
 <script src="${pageContext.request.contextPath}/js/study_make.js"></script>
 <!-- 수정해야하는 부분 -->
@@ -29,7 +29,7 @@
 	<div class="page">
 		<jsp:include page="../navigation/navigation.jsp" />
 		<div id="makeStudy_container">
-			<form id="makeStudy_form" method="post"
+			<form id="makeStudy_form" method="post" enctype="multipart/form-data"
 				action="${pageContext.request.contextPath}/lecture/create">
 				<!-- 나중에 다른 uri로 바꿔 줄것임. -->
 				<div class="subTitle">강의 만들기</div>
@@ -39,8 +39,10 @@
 						type="text" name="name" required />
 				</section>
 
-				<!-- 강의 이미지 (임시 값 추가) -->
-				<input type="hidden" name="img" />
+				<!-- 강의 사진 (DB BLOB 저장) -->
+				<section class="study">
+					<span>강의 사진</span><br /> <input type="file" name="img" accept="image/*" />
+				</section>
 
 				<!-- 강의 Id-->
 				<input type="hidden" name="lectureId" />
@@ -54,7 +56,7 @@
 							value="${teacherName}" readonly />
 					</section>
 					<section class="study" style="width: 20%;">
-						<span>강의실</span><br /> <input type="text" name="lectureRoom" />
+						<span>강의실</span><span class="required">*</span><br /> <input type="number" name="lectureRoom" min="1" required />
 					</section>
 					<section class="study" style="width: 20%;">
 						<span>모집인원</span><span class="required">*</span> <br /> <input
