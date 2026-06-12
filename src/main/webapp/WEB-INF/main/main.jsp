@@ -158,7 +158,7 @@ for (Assignment studyAssignment : studyAssignmentEntries) {
 <title>EduManager</title>
 </head>
 <body>
-	<div class="page">
+	<div class="page calendar-page">
 		<jsp:include page="../navigation/navigation.jsp" />
 		<section class="calendar-head">
 			<div>
