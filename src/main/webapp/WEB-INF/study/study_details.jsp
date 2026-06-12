@@ -35,14 +35,14 @@
             
          
          <c:if test="${isLeader}">
-            <a class="complete-button" href="<c:url value="/study/update">
+            <a class="complete-button" href="<c:url value='/study/update'>
             <c:param name="studyId" value="${studyInfo.studyGroupId}" />
                         </c:url>">스터디 정보 수정하기</a>
          </c:if>
 
 				<a class="complete-button"
 				style="margin-top:20px"
-					href="<c:url value="/study/over-view">
+					href="<c:url value='/study/over-view'>
 					<c:param name="groupId" value="${studyInfo.studyGroupId}" />
 									</c:url>">스터디 후기 작성하기</a>
 
@@ -135,7 +135,7 @@
 							</c:forEach>
 						</ul>
 							
-								<a class="plus_button" href="<c:url value="/study/addSchedule">
+								<a class="plus_button" href="<c:url value='/study/addSchedule'>
 									<c:param name="groupId" value="${studyInfo.studyGroupId}" />
 									<c:param name="selectedDate" value="${selectedDate}" />
 								</c:url>"> + </a>
@@ -150,7 +150,7 @@
 									<li class="notice-item">${notice.title}</li>
 								</c:forEach>
 							</ul>	
-								<a class="plus_button" href="<c:url value="/study/addNotice">
+								<a class="plus_button" href="<c:url value='/study/addNotice'>
 									<c:param name="groupId" value="${studyInfo.studyGroupId}" />
 									<c:param name="selectedDate" value="${selectedDate}" />
 								</c:url>"> + </a>
@@ -166,7 +166,7 @@
 								</c:forEach>
 							</ul>
 							
-								<a class="plus_button" href="<c:url value="/study/addAssignment">
+								<a class="plus_button" href="<c:url value='/study/addAssignment'>
 										<c:param name="groupId" value="${studyInfo.studyGroupId}" />
 										<c:param name="selectedDate" value="${selectedDate}" />
 									</c:url>"> + </a>

@@ -34,14 +34,14 @@
 			<h2 class="study-title">강의 상세보기</h2>
 			<c:if test="${isTeacher}">
 				<a class="complete-button"
-					href="<c:url value="/lecture/update">
+					href="<c:url value='/lecture/update'>
 				<c:param name="lectureId" value="${lectureInfo.lectureId}" />
 								</c:url>">강의
 					정보 수정하기</a>
 			</c:if>
 <c:if test="${!isTeacher}">
 				<a class="complete-button"
-					href="<c:url value="/lecture/over-view">
+					href="<c:url value='/lecture/over-view'>
 				<c:param name="lectureId" value="${lectureInfo.lectureId}" />
 								</c:url>">강의 후기 작성하기</a>
 			</c:if>
@@ -137,7 +137,7 @@
 							</ul>
 							<c:if test="${isTeacher}">
 								<a class="plus_button"
-									href="<c:url value="/lecture/addSchedule">
+									href="<c:url value='/lecture/addSchedule'>
 									<c:param name="lectureId" value="${lectureInfo.lectureId}" />
 									<c:param name="selectedDate" value="${selectedDate}" />
 								</c:url>">
@@ -156,7 +156,7 @@
 							</ul>
 							<c:if test="${isTeacher}">
 								<a class="plus_button"
-									href="<c:url value="/lecture/addNotice">
+									href="<c:url value='/lecture/addNotice'>
 									<c:param name="lectureId" value="${lectureInfo.lectureId}" />
 									<c:param name="selectedDate" value="${selectedDate}" />
 								</c:url>">
@@ -174,7 +174,7 @@
 							</ul>
 							<c:if test="${isTeacher}">
 								<a class="plus_button"
-									href="<c:url value="/lecture/addAssignment">
+									href="<c:url value='/lecture/addAssignment'>
 										<c:param name="lectureId" value="${lectureInfo.lectureId}" />
 										<c:param name="selectedDate" value="${selectedDate}" />
 									</c:url>">
