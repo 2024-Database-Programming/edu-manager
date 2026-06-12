@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.Controller;
 import controller.member.MemberSessionUtils;
-import model.domain.lecture.LectureReview;
 import model.domain.studyGroup.StudyGroup;
 import model.domain.studyGroup.StudyGroupReview;
+import model.service.StudyManager;
 import model.service.StudyGroupManager;
 
 public class ViewStudyGroupController implements Controller {
@@ -33,8 +33,14 @@ public class ViewStudyGroupController implements Controller {
         // LectureManager를 통해 강의 정보 조회
         StudyGroupManager manager = StudyGroupManager.getInstance();
         StudyGroup group = manager.findStudyGroupById(groupId);
+        if (group == null) {
+            return "redirect:/registration";
+        }
 
         List<StudyGroupReview> groupReviewList = manager.getReviewsByGroupId(groupId);
+        int memberCount = StudyManager.getInstance().findStudyMembers(groupId.intValue()).size() + 1;
+        long availableSeats = group.getCapacity() - memberCount;
+        boolean isLeader = stuId.equals(group.getLeaderId());
         
 
         // 강의 상세 정보 출력 (디버깅용)
@@ -54,6 +60,11 @@ public class ViewStudyGroupController implements Controller {
         request.setAttribute("dayOfWeek", group.getDayOfWeek());
         request.setAttribute("place", group.getPlace());
         request.setAttribute("reviewList", groupReviewList);
+        request.setAttribute("memberCount", memberCount);
+        request.setAttribute("capacity", group.getCapacity());
+        request.setAttribute("availableSeats", availableSeats);
+        request.setAttribute("isFull", availableSeats <= 0);
+        request.setAttribute("isLeader", isLeader);
         
         boolean isLiked = studyGroupManager.isLikedByUser(stuId, groupId); // 인스턴스를 통해 호출
         System.out.println("좋아요 여부: "+ isLiked );
