@@ -65,7 +65,7 @@ public class MemberManager {
 		Member member = memberDAO.findMember(id);
 
 		if (member == null) {
-			throw new MemberNotFoundException(id + "는 존재하지 않는 아이디입니다.");
+			throw new MemberNotFoundException("존재하지 않는 아이디입니다.");
 		}
 		return member;
 	}
@@ -74,7 +74,7 @@ public class MemberManager {
 		String name = memberDAO.findName(id);
 
 		if (name == null) {
-			throw new MemberNotFoundException(id + "는 존재하지 않는 아이디입니다.");
+			throw new MemberNotFoundException("존재하지 않는 아이디입니다.");
 		}
 		return name;
 	}

@@ -67,7 +67,7 @@ public class TeacherManager {
 		Teacher teacher = teacherDAO.findTeacher(id);
 
 		if (teacher == null) {
-			throw new MemberNotFoundException(id + "는 존재하지 않는 아이디입니다.");
+			throw new MemberNotFoundException("존재하지 않는 아이디입니다.");
 		}
 		return teacher;
 	}
