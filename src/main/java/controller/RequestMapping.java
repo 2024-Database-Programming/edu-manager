@@ -23,6 +23,7 @@ import controller.lecture.ToggleLectureLikeController;
 import controller.main.MainController;
 import controller.member.DeleteMemberController;
 import controller.member.InterestCategoryController;
+import controller.member.ListMemberController;
 import controller.member.LoginController;
 import controller.member.LogoutController;
 import controller.member.RegisterMemberController;
@@ -32,6 +33,7 @@ import controller.member.RegisterStudent3Controller;
 import controller.member.RegisterStudentController;
 import controller.member.RegisterTeacherController;
 import controller.member.UpdateMemberController;
+import controller.member.ViewUserController;
 import controller.studyGroup.AcceptedRequestController;
 import controller.studyGroup.CreateStudyReviewController;
 import controller.studyGroup.DeleteRequestController;
@@ -99,6 +101,8 @@ public class RequestMapping {
         mappings.put("/mypage/edit", new EditMyInfoController());
 
         // 사용자 수정
+        mappings.put("/member/list", new ListMemberController());
+        mappings.put("/member/view", new ViewUserController());
         mappings.put("/member/update", new UpdateMemberController());
         mappings.put("/member/delete", new DeleteMemberController());
 

@@ -19,15 +19,19 @@ public class ViewUserController implements Controller {
 
 		MemberManager manager = MemberManager.getInstance();
 		String userId = request.getParameter("id");
+		if (userId == null || userId.isBlank()) {
+			userId = MemberSessionUtils.getLoginMemberId(request.getSession());
+		}
 
 		Member member = null;
 		try {
-			member = manager.findMember("id"); // 사용자 정보 검색
+			member = manager.findMember(userId); // 사용자 정보 검색
 		} catch (MemberNotFoundException e) {
 			return "redirect:/member/list";
 		}
 
 		request.setAttribute("member", member); // 사용자 정보 저장
+		request.setAttribute("curUserId", MemberSessionUtils.getLoginMemberId(request.getSession()));
 		return "/member/view.jsp"; // 사용자 보기 화면으로 이동
 	}
 }
