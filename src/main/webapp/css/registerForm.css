@@ -183,3 +183,23 @@ font[color="red"],
 	width: 22px;
 	background-color: var(--brand);
 }
+
+/* 아이디 중복확인 인라인 메시지 (팝업 대신 필드 아래 작은 글씨) */
+.dupmsg-line {
+	flex: 0 0 100%;
+	min-height: 16px;
+	margin-top: 6px;
+}
+
+.dupmsg {
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.dupmsg.ok {
+	color: var(--success);
+}
+
+.dupmsg.bad {
+	color: var(--danger);
+}

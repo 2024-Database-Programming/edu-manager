@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-<link rel=stylesheet href="<c:url value='/css/registerForm.css' />?v=20260613-ds4"
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds7">
+<link rel=stylesheet href="<c:url value='/css/registerForm.css' />?v=20260613-ds7"
 	type="text/css">
 <title>EduManager registerForm</title>
 </head>
@@ -27,13 +27,17 @@
  	}
  	
  	function confirmId() {
- 		if(document.form.id.value == ""){
- 			alert("ID를 입력하세요");
- 			return;
- 		}
- 		url = "<c:url value='/confirmId' />?id=" + document.form.id.value;
- 		open(url, "confirm", "toolbar=no, location=no, status=no, menubar =no, scrollbars=no, resizable=no, width=300, height=200");
- 	}
+		var id = document.form.id.value.trim();
+		var box = document.getElementById('idCheckResult');
+		if (id === "") {
+			box.innerHTML = '<span class="dupmsg bad">아이디를 입력하세요.</span>';
+			return;
+		}
+		fetch("<c:url value='/confirmId' />?id=" + encodeURIComponent(id))
+			.then(function (r) { return r.text(); })
+			.then(function (html) { box.innerHTML = html; })
+			.catch(function () { box.innerHTML = '<span class="dupmsg bad">확인 중 오류가 발생했습니다.</span>'; });
+	}
  	
  </script>
 <body>
@@ -54,6 +58,7 @@
 						<label for="id">아이디</label> <input type="text" name="id" id="id"
 							placeholder="id" required>
 						<button type="button" id="checkDuplicate" onClick="confirmId(this.form)">중복 확인</button>
+						<span id="idCheckResult" class="dupmsg-line"></span>
 					</div>
 					<label for="password">비밀번호</label> <input type="password"
 						name="pwd" id="password"
