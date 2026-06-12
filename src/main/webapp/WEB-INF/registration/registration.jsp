@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" href="<c:url value='/css/registration.css' />"
+<link rel="stylesheet" href="<c:url value='/css/registration.css' />?v=20260612-compact"
    type="text/css">
 <title>EduManager</title>
 </head>
@@ -13,9 +13,12 @@
       <!-- 네비게이션 포함 -->
       <jsp:include page="../navigation/navigation.jsp" />
 
-      <!-- 제목 -->
-      <div class="subTitle">강의/스터디 신청하기</div>
-      <div>
+      <section class="browse-head">
+         <div class="browse-copy">
+            <span class="page-eyebrow">COURSE & STUDY</span>
+            <h1>강의/스터디 신청</h1>
+            <p>관심 있는 강의와 스터디를 빠르게 찾아보세요.</p>
+         </div>
          <div class="search">
             <form action="<c:url value='/registration/search' />"
                method="post" id="searchForm">
@@ -33,7 +36,7 @@
             </form>
 
          </div>
-      </div>
+      </section>
 
       <div id="tabBtn-container">
          <div class="tab-container">
@@ -84,13 +87,18 @@
          <div id="Tab1" class="tab on">
             <div class="class">
                <c:forEach var="group" items="${lectureList}">
-                  <div class="groupGallery">
+                  <div class="groupGallery" style="--category-color: ${group.categoryColor};">
                      <a
                         href="<c:url value='/lecture/over-view'><c:param name='lectureId' value='${group.lectureId}'/></c:url>">
-                        <img id=img src="<c:url value='${group.img}' />" alt="Group Image">
+                        <img class="groupGalleryImage" src="<c:url value='${group.img}' />" alt="${group.name}"
+                           onload="if (this.src.indexOf('eduLogo.png') !== -1 || this.src.indexOf('white.png') !== -1) { this.closest('.groupGallery').classList.add('has-fallback-cover'); this.remove(); }"
+                           onerror="this.closest('.groupGallery').classList.add('has-fallback-cover'); this.remove();">
+                        <div class="default-cover" aria-hidden="true">
+                           <span class="cover-kicker">EduManager</span>
+                           <span class="cover-title">강의</span>
+                        </div>
                         <span class="groupGalleryTitle">${group.name}</span>
-                        <div
-                           style="display: flex; justify-content: space-between; width: 100%;">
+                        <div class="gallery-meta">
                            <span class="groupGalleryCategory"
                               style="background-color: ${group.categoryColor};">${group.categoryName}</span>
                            <span class="groupGalleryTeacherName">${group.teacherName}</span>
@@ -106,13 +114,21 @@
             style="${isTeacher ? 'display:none;' : ''}">
             <div class="class">
                <c:forEach var="studyGroup" items="${studyGroupList}">
-                  <div class="groupGallery">
+                  <div class="groupGallery" style="--category-color: ${studyGroup.categoryColor};">
                      <a
                         href="<c:url value='/study/over-view'><c:param name='groupId' value='${studyGroup.studyGroupId}'/></c:url>">
-                        <img src="<c:url value='${studyGroup.img}' />"> 
+                        <img class="groupGalleryImage" src="<c:url value='${studyGroup.img}' />" alt="${studyGroup.name}"
+                           onload="if (this.src.indexOf('eduLogo.png') !== -1 || this.src.indexOf('white.png') !== -1) { this.closest('.groupGallery').classList.add('has-fallback-cover'); this.remove(); }"
+                           onerror="this.closest('.groupGallery').classList.add('has-fallback-cover'); this.remove();">
+                        <div class="default-cover" aria-hidden="true">
+                           <span class="cover-kicker">EduManager</span>
+                           <span class="cover-title">스터디</span>
+                        </div>
                         <span class="groupGalleryTitle">${studyGroup.name}</span>
-                        <span class="groupGalleryCategory"
+                        <div class="gallery-meta">
+                           <span class="groupGalleryCategory"
                               style="background-color: ${studyGroup.categoryColor};">${studyGroup.categoryName}</span>
+                        </div>
                      </a>
                   </div>
                </c:forEach>

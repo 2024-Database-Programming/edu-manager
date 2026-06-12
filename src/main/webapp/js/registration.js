@@ -6,17 +6,22 @@ function openTab(tabName) {
     document.querySelector('.tabs[onclick="openTab(\'' + tabName + '\')"]').classList.add('on');
 
     const tabs = document.querySelectorAll('.tabs');
+    const createStudyButton = document.getElementById('makeStudyBtn-container');
     tabs.forEach(tab => tab.classList.remove('on'));
 
     if (tabName === 'Tab1') {
       tabs[0].classList.add('on');
       document.getElementById('registration_hr1').style.display = 'block'; 
       document.getElementById('registration_hr2').style.display = 'none'; 
-      document.getElementById('makeStudyBtn-container').style.display='none'
+      if (createStudyButton) {
+        createStudyButton.style.display='none'
+      }
     } else if (tabName === 'Tab2') {
       tabs[1].classList.add('on');
       document.getElementById('registration_hr2').style.display = 'block'; 
       document.getElementById('registration_hr1').style.display = 'none'; 
-      document.getElementById('makeStudyBtn-container').style.display='block'
+      if (createStudyButton) {
+        createStudyButton.style.display='flex'
+      }
     }
 }

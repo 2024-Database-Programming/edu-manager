@@ -37,11 +37,11 @@
   <body>
     <div class="page" >
     	  <header>
-	    	  <nav>
-		          <a href="<c:url value='/member/login'/>" id="logo-link">
-		   		 	<img src="<c:url value='/images/eduLogo.png' />" alt="Edu Logo" />
-			  	  </a>
-		  	  </nav>
+				<nav>
+					<a href="<c:url value='/member/login'/>" id="logo-link">
+						<img src="<c:url value='/images/edumanager-logo.png' />" alt="Edu Logo" />
+					</a>
+				</nav>
 	  	  </header>
           <div id="form-container">
               <div id="sign-up-container">

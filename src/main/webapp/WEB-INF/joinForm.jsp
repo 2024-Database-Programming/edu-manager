@@ -11,7 +11,7 @@
   <body>
     <div class="page">
         <header>
-            <img src="../../images/eduLogo.png">
+            <img src="../../images/edumanager-logo.png">
              <nav>
                 <ul>
                     <li class="menu"><a href="main.jsp">홈</a></li>

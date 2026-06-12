@@ -5,13 +5,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel=stylesheet href="<c:url value='/css/navigation.css' />" type="text/css">
+<link rel=stylesheet href="<c:url value='/css/navigation.css' />?v=20260612-compact" type="text/css">
 <title>Insert title here</title>
 </head>
 <body>
 	<header>
 	  <a href="<c:url value='/main/main'/>" id="logo-link">
-   		 <img src="<c:url value='/images/eduLogo.png' />" alt="Edu Logo" style="height:50px"/>
+		<img src="<c:url value='/images/edumanager-logo.png' />" alt="EduManager Logo"/>
 	  </a>
       <nav>
           <ul>

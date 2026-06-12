@@ -1,9 +1,12 @@
-body, html {
-	height: 100%;
+body,
+html {
 	width: 100%;
+	min-height: 100%;
 	margin: 0;
 	padding: 0;
-	font-family: 'Pretendard';
+	font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+	background: #f6f7f9;
+	color: #111827;
 }
 
 ul {
@@ -16,188 +19,255 @@ a {
 }
 
 .page {
-	width: 1300px;
+	width: min(1680px, calc(100% - 48px));
+	min-width: 0;
 	margin: 0 auto;
+	padding-bottom: 64px;
 }
 
-/* .todayDate {
-    color: red !important; 강제 적용
-    font-weight: bold;
-}
- */
-.tab-container {
-	display: flex;
-	justify-content: center;
-	gap: 20px;
-	margin-top: 50px;
-	font-size: 18px;
+.calendar-head {
+	margin: 0 0 16px;
+	padding: 16px 20px;
+	background: #ffffff;
+	border: 1px solid #e3e8ef;
+	border-radius: 16px;
+	box-shadow: 0 12px 26px rgba(15, 23, 42, 0.05);
 }
 
-table {
-	margin-top: 30px;
-	border-collapse: collapse;
-	/* To remove gaps between table borders */
-	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-	/* Shadow effect */
+.page-eyebrow {
+	display: none;
+	margin-bottom: 0;
+	color: #8b5e3c;
+	font-size: 11px;
+	font-weight: 900;
+	letter-spacing: 0;
 }
 
-th, td {
-	border: 1px solid #DADADA;
-	border-collapse: collapse;
+.calendar-head h1 {
+	margin: 0 0 5px;
+	color: #111827;
+	font-size: 22px;
+	font-weight: 900;
+	line-height: 1.25;
+	letter-spacing: 0;
 }
 
-th {
-	font-weight: bold;
-	height: 50px;
-}
-
-td {
-	text-align: left;
-	vertical-align: text-top;
-	width: 95px;
-	height: 105px;
-	padding: 10px
-}
-
-.sunday {
-	color: red;
-}
-
-.todayDate {
-	font-weight: bolder;
-	color: red;
-}
-
-.year {
-	font-size: 25px;
-	font-weight: bold;
-	float: right;
-	padding-top: 10px;
-	margin-right: 40px;
-}
-
-.month {
-	font-size: 33px;
-	font-weight: bold;
-	margin: 20%;
-}
-
-#previousMonth {
-	color: #D1D3D9;
-}
-
-#nextMonth {
-	color: #D1D3D9;
-}
-
-#calendar {
-	float: right;
-	margin-top: 40px;
-}
-
-#calendarHeader {
-	margin-top: 100px;
-}
-
-#previousMonthIcon {
-	width: 12px;
-	margin-right: 20px;
-	cursor: pointer;
-}
-
-#nextMonthIcon {
-	width: 12px;
-	margin-left: 20px;
-	cursor: pointer;
-}
-
-#schedule {
-	width: 350px;
-	height: 645px;
-	margin-top: 130px;
-	margin-bottom: 10px;
-	margin-right: 60px;
-	border: none;
-	border-radius: 30px;
-	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-	/* Shadow effect */
+.calendar-head p {
+	margin: 0;
+	color: #667085;
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 1.5;
 }
 
 #body {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 300px;
+	gap: 18px;
+	align-items: start;
 }
 
-.ScheduleText {
-	font-size: 25px;
-	font-weight: 600;
-	margin-bottom: 15px;
+#calendar {
+	grid-column: 1;
+	grid-row: 1;
+	min-width: 0;
+	margin: 0;
 }
 
 #schedule {
-	display: flex;
-	flex-flow: column;
-	/* 요소들을 수직으로 배치 */
-	justify-content: space-between;
-	/* 요소들 사이의 간격 조정 */
-	padding: 20px;
-	/* 화면 전체 높이 기준으로 중앙 배치 */
+	grid-column: 2;
+	grid-row: 1;
+	width: auto;
+	min-height: 0;
+	margin: 0;
+	padding: 22px;
+	display: block;
+	box-sizing: border-box;
+	background: #ffffff;
+	border: 1px solid #e3e8ef;
+	border-radius: 16px;
+	box-shadow: 0 12px 26px rgba(15, 23, 42, 0.05);
 }
 
-#todaySchedule {
-	/* 기본 스타일 적용 */
+#calendarHeader {
+	margin: 0 0 12px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.calendar-month {
+	display: flex;
+	align-items: baseline;
+	gap: 8px;
+	color: #111827;
+	font-weight: 900;
+}
+
+.year {
+	float: none;
+	margin: 0;
+	padding: 0;
+	font-size: 18px;
+	font-weight: 900;
+}
+
+.month {
+	margin: 0;
+	font-size: 28px;
+	font-weight: 900;
+}
+
+.calendar-controls {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+#previousMonthIcon,
+#nextMonthIcon {
+	width: 36px;
+	height: 36px;
+	padding: 10px;
+	box-sizing: border-box;
+	border: 1px solid #dbe2ea;
+	border-radius: 999px;
+	background: #ffffff;
+	cursor: pointer;
+	transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+#previousMonthIcon:hover,
+#nextMonthIcon:hover {
+	background: #f1f4f8;
+	border-color: #cdd6e3;
+}
+
+table {
+	width: 100%;
+	margin: 0;
+	table-layout: fixed;
+	border-collapse: separate;
+	border-spacing: 0;
+	overflow: hidden;
+	background: #ffffff;
+	border: 1px solid #e3e8ef;
+	border-radius: 16px;
+	box-shadow: 0 12px 26px rgba(15, 23, 42, 0.05);
+}
+
+th,
+td {
+	border: 0;
+	border-left: 1px solid #e3e8ef;
+	border-top: 1px solid #e3e8ef;
+	border-collapse: collapse;
+}
+
+th:first-child,
+td:first-child {
+	border-left: 0;
+}
+
+thead tr:first-child th {
+	border-top: 0;
+}
+
+th {
+	height: 40px;
+	background: #f9fafc;
+	color: #667085;
+	font-size: 13px;
+	font-weight: 900;
+}
+
+td {
+	height: 98px;
+	padding: 10px;
+	box-sizing: border-box;
 	text-align: left;
-	/* 필요시 조정 가능 */
+	vertical-align: top;
+	color: #111827;
+	font-size: 15px;
+	font-weight: 800;
+	cursor: pointer;
+	transition: background-color 0.16s ease;
+}
+
+td:hover {
+	background: #fbfcfe;
+}
+
+.empty-date {
+	background: #fbfcfe;
+	cursor: default;
+}
+
+.sunday {
+	color: #e03131;
+}
+
+.todayDate {
+	width: 28px;
+	height: 28px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 999px;
+	background: #111827;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: 900;
+}
+
+.ScheduleText {
+	margin: 0 0 12px;
+	color: #111827;
+	font-size: 16px;
+	font-weight: 900;
+	line-height: 1.3;
 }
 
 #assignment {
-	margin: auto 0;
-	/* 수직 중앙 정렬 */
+	margin-top: 26px;
 }
 
-.assignment-list {
-	list-style: none;
-	/* 불릿 제거 */
-	margin: 0;
-	/* ul 요소의 기본 margin 제거 */
-	padding: 0;
-	max-height: 270px; /* Set maximum height to 30% of the parent container */
-	overflow-y: auto;
-}
-
-.assignment-list li {
-	width: 90%;
-	height: 40px;
-	/* li 요소의 기본 margin 제거 */
-	padding: 10px;
-	/* li 요소의 기본 padding 제거 */
-	margin-bottom: 10px;
-	font-size: 18px;
-}
-
+.assignment-list,
 .todaySchedule-list {
-	list-style: none;
-	/* 불릿 제거 */
+	max-height: 230px;
 	margin: 0;
-	/* ul 요소의 기본 margin 제거 */
 	padding: 0;
-	max-height: 260px; /* Set maximum height to 30% of the parent container */
+	display: grid;
+	gap: 8px;
 	overflow-y: auto;
 }
 
+.assignment-list li,
 .todaySchedule-list li {
-	width: 90%;
-	height: 40px;
-	/* li 요소의 기본 margin 제거 */
-	padding: 10px;
-	/* li 요소의 기본 padding 제거 */
-	margin-bottom: 10px;
-	font-size: 18px;
+	width: auto;
+	min-height: 38px;
+	height: auto;
+	margin: 0;
+	padding: 10px 12px;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	border-radius: 12px;
+	background: #f8fafc;
+	color: #475467;
+	font-size: 13px;
+	font-weight: 800;
+	line-height: 1.45;
+}
+
+.empty-list-item {
+	border: 1px dashed #d7dee8;
+	background: #fbfcfe !important;
+	color: #667085 !important;
 }
 
 .calendar-events {
-	max-height: 58px;
+	max-height: 56px;
 	margin-top: 6px;
 	display: grid;
 	gap: 4px;
@@ -207,10 +277,10 @@ td {
 .calendar-event {
 	min-width: 0;
 	padding: 3px 6px;
-	border-radius: 6px;
+	border-radius: 7px;
 	overflow: hidden;
 	font-size: 11px;
-	font-weight: 700;
+	font-weight: 800;
 	line-height: 1.25;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -246,91 +316,46 @@ td {
 	color: #be185d;
 }
 
-.empty-list-item {
-	border: 1px dashed #DADADA;
-	color: #777;
-}
-
-
-
 .dotred {
 	height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
-    background-color: red;
+	width: 100px;
+	border-radius: 50%;
+	display: inline-block;
 }
 
-.dotorange {
-	height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
-    background-color: orange;
+@media (max-width: 1020px) {
+	#body {
+		grid-template-columns: 1fr;
+	}
+
+	#schedule {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	#calendar {
+		grid-column: 1;
+		grid-row: 2;
+	}
 }
 
-.dotyellow {
-	height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
-    background-color: yellow;
-}
+@media (max-width: 760px) {
+	.page {
+		width: min(100% - 28px, 1680px);
+	}
 
-.dotgreen {
-	height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
-    background-color: green;
-}
+	.calendar-head {
+		padding: 18px;
+	}
 
-.dotblue {
-	height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
-    background-color: blue;
-}
+	#calendarHeader {
+		align-items: flex-start;
+		gap: 12px;
+		flex-direction: column;
+	}
 
-.dotindigo {
-	height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
-    background-color: indigo;
-}
-
-.dotviolet {
-	height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
-    background-color: violet;
-}
-.list1 {
-	height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
-	background-color: #FFFAC8;
-	border-radius: 10px;
-}
-
-.list2 {
-	height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 5px;
-	background-color: #CBDEFF;
-	border-radius: 10px;
+	td {
+		height: 86px;
+		padding: 8px;
+	}
 }

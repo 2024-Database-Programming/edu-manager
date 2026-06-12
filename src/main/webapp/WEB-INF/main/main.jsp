@@ -121,7 +121,7 @@ for (Assignment studyAssignment : studyAssignmentEntries) {
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel=stylesheet href="<c:url value='/css/main.css' />"
+<link rel=stylesheet href="<c:url value='/css/main.css' />?v=20260612-compact"
 	type="text/css">
 <script>
 	// 이전/다음 달 이동 함수
@@ -160,10 +160,17 @@ for (Assignment studyAssignment : studyAssignmentEntries) {
 <body>
 	<div class="page">
 		<jsp:include page="../navigation/navigation.jsp" />
+		<section class="calendar-head">
+			<div>
+				<span class="page-eyebrow">SCHEDULE</span>
+				<h1>일정 캘린더</h1>
+				<p>강의와 스터디 일정, 공지, 과제를 한 달 단위로 확인하세요.</p>
+			</div>
+		</section>
 		<div id="body">
 			<div id="schedule">
 				<div id="todaySchedule">
-					<div class="ScheduleText today">Today Schedule</div>
+					<div class="ScheduleText today">오늘 일정</div>
 					<ul class="todaySchedule-list">
 						<%
 						boolean hasTodaySchedule = false;
@@ -200,7 +207,7 @@ for (Assignment studyAssignment : studyAssignmentEntries) {
 					</ul>
 				</div>
 				<div id="assignment">
-					<div class="ScheduleText assignment">Assignment</div>
+					<div class="ScheduleText assignment">과제</div>
 
 					<ul class="assignment-list">
 						<%
@@ -240,11 +247,16 @@ for (Assignment studyAssignment : studyAssignmentEntries) {
 			<div id="calendar">
 				<div id="calendarHeader">
 					<!-- 현재 연도와 월을 숨겨서 JavaScript에서 사용 -->
-					<img src="<c:url value='/images/previousMonth.svg' />"
-						id="previousMonthIcon" onclick="changeMonth(-1)" /> <span
-						class="month"><%=currentMonth%>월</span> <img
-						src="<c:url value='/images/nextMonth.svg' />" id="nextMonthIcon"
-						onclick="changeMonth(1)" /> <span class="year"><%=currentYear%>년</span>
+					<div class="calendar-month">
+						<span class="year"><%=currentYear%>년</span>
+						<span class="month"><%=currentMonth%>월</span>
+					</div>
+					<div class="calendar-controls">
+						<img src="<c:url value='/images/previousMonth.svg' />"
+							id="previousMonthIcon" onclick="changeMonth(-1)" />
+						<img src="<c:url value='/images/nextMonth.svg' />" id="nextMonthIcon"
+							onclick="changeMonth(1)" />
+					</div>
 				</div>
 				<table>
 					<thead>

@@ -40,7 +40,7 @@
 		<header>
 			<nav>
 				<a href="<c:url value='/member/login'/>" id="logo-link"> <img
-					src="<c:url value='/images/eduLogo.png' />" alt="Edu Logo" />
+					src="<c:url value='/images/edumanager-logo.png' />" alt="Edu Logo" />
 				</a>
 			</nav>
 		</header>
