@@ -28,6 +28,9 @@
 						<img src="<c:url value='/images/overViewTime.svg' />"
 							class="infoIcon" />매주 ${dayOfWeek}요일
 					</div>
+					<div class="overViewInfoText">
+						모집 ${memberCount}/${capacity}
+					</div>
 				</div>
 			</div>
 			<div class="section2">
@@ -61,11 +64,17 @@
 								<input type="hidden" name="groupId" value="${groupId}" />
 
 							<c:choose>
+								<c:when test="${isLeader}">
+									<input type="button" class="statusAccepted" value="내 스터디" disabled/>
+								</c:when>
 								<c:when test="${requestStatus == '진행중'}">
 									<input type="button" class="statusInProgress" value="가입 요청중" disabled/>
 								</c:when>
-								<c:when test="${requestStatus == '수락'}">
+								<c:when test="${requestStatus == '수락' || isInclude}">
 									<input type="button" class="statusAccepted" value="가입 완료" disabled/>
+								</c:when>
+								<c:when test="${isFull}">
+									<input type="button" class="statusAccepted" value="정원 마감" disabled/>
 								</c:when>
 								<c:otherwise>
 									<input type="button" class="applyButton" value="가입 요청하기"

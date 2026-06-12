@@ -135,10 +135,12 @@
 							</c:forEach>
 						</ul>
 							
-								<a class="plus_button" href="<c:url value='/study/addSchedule'>
-									<c:param name="groupId" value="${studyInfo.studyGroupId}" />
-									<c:param name="selectedDate" value="${selectedDate}" />
-								</c:url>"> + </a>
+								<c:if test="${isLeader}">
+									<a class="plus_button" href="<c:url value='/study/addSchedule'>
+										<c:param name="groupId" value="${studyInfo.studyGroupId}" />
+										<c:param name="selectedDate" value="${selectedDate}" />
+									</c:url>"> + </a>
+								</c:if>
 
 						</div>
 					</div>
@@ -150,10 +152,12 @@
 									<li class="notice-item">${notice.title}</li>
 								</c:forEach>
 							</ul>	
-								<a class="plus_button" href="<c:url value='/study/addNotice'>
-									<c:param name="groupId" value="${studyInfo.studyGroupId}" />
-									<c:param name="selectedDate" value="${selectedDate}" />
-								</c:url>"> + </a>
+								<c:if test="${isLeader}">
+									<a class="plus_button" href="<c:url value='/study/addNotice'>
+										<c:param name="groupId" value="${studyInfo.studyGroupId}" />
+										<c:param name="selectedDate" value="${selectedDate}" />
+									</c:url>"> + </a>
+								</c:if>
 
 						</div>
 					</div>
@@ -166,10 +170,12 @@
 								</c:forEach>
 							</ul>
 							
-								<a class="plus_button" href="<c:url value='/study/addAssignment'>
-										<c:param name="groupId" value="${studyInfo.studyGroupId}" />
-										<c:param name="selectedDate" value="${selectedDate}" />
-									</c:url>"> + </a>
+								<c:if test="${isLeader}">
+									<a class="plus_button" href="<c:url value='/study/addAssignment'>
+											<c:param name="groupId" value="${studyInfo.studyGroupId}" />
+											<c:param name="selectedDate" value="${selectedDate}" />
+										</c:url>"> + </a>
+								</c:if>
 						</div>
 					</div>
 				</div>
