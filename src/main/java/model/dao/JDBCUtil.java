@@ -6,10 +6,10 @@ package model.dao;
 import java.sql.*;
 
 public class JDBCUtil {
-	private static ConnectionManager connMan = new ConnectionManager();
+	private ConnectionManager connMan = new ConnectionManager();
 	private String sql = null; // 실행할 query
 	private Object[] parameters = null;; // PreparedStatement 의 매개변수 값을 저장하는 배열
-	private static Connection conn = null;
+	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private CallableStatement cstmt = null;
 	private ResultSet rs = null;
@@ -90,9 +90,11 @@ public class JDBCUtil {
 			rs = pstmt.executeQuery();
 			return rs;
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			// 예외를 삼키고 null을 반환하면 호출부에서 rs.next() 시 엉뚱한 NPE가 난다.
+			// 실제 원인(SQL 오류 등)이 보이도록 그대로 전파한다.
+			// unchecked 로 던져 호출부 시그니처 변경 없이 기존 try/catch(Exception)에서 처리되게 한다.
+			throw new RuntimeException("executeQuery 실패: " + sql, ex);
 		}
-		return null;
 	}
 
 	// JDBCUtil의 쿼리와 매개변수를 이용해 executeUpdate를 수행하는 메소드
@@ -204,7 +206,7 @@ public class JDBCUtil {
 
 	public void commit() {
 		try {
-			conn.commit();
+			if (conn != null) conn.commit();   // conn 이 null 이면(이미 닫힘) NPE로 원인 예외를 가리지 않도록
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -212,7 +214,7 @@ public class JDBCUtil {
 
 	public void rollback() {
 		try {
-			conn.rollback();
+			if (conn != null) conn.rollback();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
