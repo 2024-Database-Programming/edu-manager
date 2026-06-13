@@ -6,8 +6,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/study_make.css?v=20260613-ds4" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds9">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/study_make.css?v=20260613-ds9" />
 <title>EduManager</title>
 <script src="${pageContext.request.contextPath}/js/updateLecture.js"></script>
 <script>
@@ -33,7 +33,7 @@
 				<input type="hidden" name="img" value="${study.img}" />
 
 					<section class="study">
-						<span>스터디 사진 변경 (선택)</span><br /> <input type="file" name="imgFile" accept="image/*" />
+						<span>스터디 사진 변경 (선택)</span><br /> <label class="filebox"><span class="filebox-btn">📷 사진 선택</span><span class="filebox-name">선택된 파일 없음</span><input type="file" name="imgFile" accept="image/*" onchange="this.parentNode.querySelector('.filebox-name').textContent=this.files.length?this.files[0].name:'선택된 파일 없음'"></label>
 					</section>
 
 				<!-- 스터디 Id-->

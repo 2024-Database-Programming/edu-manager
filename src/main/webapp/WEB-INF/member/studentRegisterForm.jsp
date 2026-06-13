@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds7">
-<link rel=stylesheet href="<c:url value='/css/registerForm.css' />?v=20260613-ds7"
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds9">
+<link rel=stylesheet href="<c:url value='/css/registerForm.css' />?v=20260613-ds9"
 	type="text/css">
 <title>EduManager registerForm</title>
 </head>
@@ -71,7 +71,7 @@
                       <input type="tel" name="phone" id="phone" placeholder="010-1234-5678" pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" required>
                      
                       					<label for="profileImg">프로필 사진</label>
-					<input type="file" name="profileImg" id="profileImg" accept="image/*" />
+					<label class="filebox"><span class="filebox-btn">📷 사진 선택</span><span class="filebox-name">선택된 파일 없음</span><input type="file" name="profileImg" id="profileImg" accept="image/*" onchange="this.parentNode.querySelector('.filebox-name').textContent=this.files.length?this.files[0].name:'선택된 파일 없음'"></label>
 					<div id="form-controls">
                           <button type="submit" id="nextBt">다음</button>
                       </div>

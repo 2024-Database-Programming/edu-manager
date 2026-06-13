@@ -6,8 +6,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-    <link rel="stylesheet" href="<c:url value='/css/editInfo.css' />?v=20260613-ds4" type="text/css">
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds9">
+    <link rel="stylesheet" href="<c:url value='/css/editInfo.css' />?v=20260613-ds9" type="text/css">
     <title>회원 정보 수정</title>
 </head>
 <body>
@@ -20,7 +20,7 @@
 
 						<div id="profile_img_container">
     						<img id="profile_img" src="<c:url value='${member.img}' />" >
-						    <input type="file" id="profile_img_upload" name="profileImg" accept="image/*">
+						    <label class="filebox"><span class="filebox-btn">📷 사진 선택</span><span class="filebox-name">선택된 파일 없음</span><input type="file" id="profile_img_upload" name="profileImg" accept="image/*" onchange="this.parentNode.querySelector('.filebox-name').textContent=this.files.length?this.files[0].name:'선택된 파일 없음'"></label>
 						</div>
                     <!-- 아이디 -->
                     <div>
