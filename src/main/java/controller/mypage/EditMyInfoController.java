@@ -43,8 +43,8 @@ public class EditMyInfoController implements Controller {
 
             Member member = memberDAO.findMember(memberId);
             if (member == null) {
-                request.setAttribute("error", "사용자 정보를 찾을 수 없습니다.");
-                return "/main/main.jsp";
+                request.getSession().setAttribute("flashError", "사용자 정보를 찾을 수 없습니다.");
+                return "redirect:/mypage/myInfo";
             }
 
             // 사진이 업로드된 경우: DB(IMAGE 테이블)에 BLOB로 저장하고 img를 서빙 URL로 설정
@@ -86,8 +86,8 @@ public class EditMyInfoController implements Controller {
             return "redirect:/mypage/myInfo";
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "내 정보를 수정하는 도중 오류가 발생했습니다.");
-            return "/main/main.jsp";
+            request.getSession().setAttribute("flashError", "내 정보를 수정하는 도중 오류가 발생했습니다.");
+            return "redirect:/mypage/myInfo";
         }
     }
 }

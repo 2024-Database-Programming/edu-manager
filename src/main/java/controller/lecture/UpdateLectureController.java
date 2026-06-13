@@ -143,12 +143,9 @@ public class UpdateLectureController implements Controller {
 
 			return "redirect:/mylecture/view?lectureId=" + Long.parseLong(request.getParameter("lectureId"));
 		} catch (Exception e) { // 예외 발생 시 입력 form으로 forwarding
-			request.setAttribute("creationFailed", true);
-			request.setAttribute("exception", e);
-			System.out.print(e);
-
-			request.setAttribute("updateLecture", updateLecture);
-			return "redirect:/member/login/form";
+			e.printStackTrace();
+			request.getSession().setAttribute("flashError", "강의 수정 중 오류가 발생했습니다.");
+			return "redirect:/lecture/over-view?lectureId=" + updateLectureId;
 		}
 	}
 }

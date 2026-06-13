@@ -98,12 +98,9 @@ public class CreateStudyController implements Controller {
 
 			return "redirect:/study/list";
 		} catch (Exception e) { // 예외 발생 시 입력 form으로 forwarding
-			request.setAttribute("creationFailed", true);
-			request.setAttribute("exception", e);
-			System.out.print(e);
-
-			request.setAttribute("study", study);
-			return "redirect:/member/login/form";
+			e.printStackTrace();
+			request.getSession().setAttribute("flashError", "스터디 생성 중 오류가 발생했습니다.");
+			return "redirect:/study/create";
 		}
 	}
 }

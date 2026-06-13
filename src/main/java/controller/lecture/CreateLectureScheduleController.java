@@ -61,11 +61,9 @@ public class CreateLectureScheduleController implements Controller {
 		       + "&selectedDate=" + LocalDate.parse(request.getParameter("startDate"));
 			
 		} catch (Exception e) { // 예외 발생 시 입력 form으로 forwarding
-			request.setAttribute("creationFailed", true);
-			request.setAttribute("exception", e);
-			System.out.print(e);
-
-			return "redirect:/member/login/form";
+			e.printStackTrace();
+			request.getSession().setAttribute("flashError", "일정 추가 중 오류가 발생했습니다.");
+			return "redirect:/lecture/over-view?lectureId=" + lectureId;
 		}
 	}
 }

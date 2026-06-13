@@ -29,13 +29,13 @@ public class EditController implements Controller {
                 request.setAttribute("member", member);
                 return "/mypage/editMyInfo.jsp"; // 내 정보 페이지로 이동
             } else {
-                request.setAttribute("error", "사용자 정보를 찾을 수 없습니다.");
-                return "/main/main.jsp"; // 에러 발생 시 메인 페이지로 이동
+                request.getSession().setAttribute("flashError", "사용자 정보를 찾을 수 없습니다.");
+                return "redirect:/mypage";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", "내 정보를 불러오는 도중 오류가 발생했습니다.");
-            return "/main/main.jsp"; // 에러 발생 시 메인 페이지로 이동
+            request.getSession().setAttribute("flashError", "내 정보를 불러오는 도중 오류가 발생했습니다.");
+            return "redirect:/mypage";
         }
     }
 }

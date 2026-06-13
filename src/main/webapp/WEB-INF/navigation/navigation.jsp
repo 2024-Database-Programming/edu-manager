@@ -23,5 +23,15 @@
           </ul>
       </nav>
 	</header>
+	<%-- 작업 실패 시 1회성 알림(flash): 컨트롤러가 session "flashError"에 담으면 여기서 1번 표시 후 제거 --%>
+	<%
+	    Object __flash = session.getAttribute("flashError");
+	    if (__flash != null) { session.removeAttribute("flashError"); }
+	%>
+	<% if (__flash != null) { %>
+		<div style="max-width:1200px;margin:14px auto 0;padding:12px 16px;border-radius:10px;background:#fef2f2;border:1px solid #f6cccc;color:#dc2626;font-weight:600;text-align:center;">
+			<%= __flash %>
+		</div>
+	<% } %>
 </body>
 </html>
