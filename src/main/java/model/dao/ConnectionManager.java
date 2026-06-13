@@ -20,6 +20,12 @@ public class ConnectionManager {
     
 	
     public ConnectionManager() {
+		// 풀(ds)은 앱 전체에서 하나만 유지(static). 이미 만들어져 있으면 재생성하지 않고 공유한다.
+		// (매번 new 로 풀을 새로 만들면 이전 풀이 누수되고, close 시 전체가 끊긴다.)
+		if (ds != null) {
+			return;
+		}
+
 		InputStream input = null;
     	Properties prop = new Properties();
 

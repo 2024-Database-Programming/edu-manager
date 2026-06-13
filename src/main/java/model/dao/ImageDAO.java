@@ -46,8 +46,9 @@ public class ImageDAO {
 			try { conn.rollback(); } catch (Exception ignore) {}
 			ex.printStackTrace();
 		} finally {
+			// conn.close()는 커넥션을 풀에 '반납'할 뿐이다.
+			// cm.close()는 앱 전체가 공유하는 static 풀 자체를 닫아버리므로 절대 호출하면 안 된다.
 			try { if (conn != null) conn.close(); } catch (Exception ignore) {}
-			cm.close();
 		}
 	}
 
@@ -75,8 +76,9 @@ public class ImageDAO {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
+			// conn.close()는 커넥션을 풀에 '반납'할 뿐이다.
+			// cm.close()는 앱 전체가 공유하는 static 풀 자체를 닫아버리므로 절대 호출하면 안 된다.
 			try { if (conn != null) conn.close(); } catch (Exception ignore) {}
-			cm.close();
 		}
 		return null;
 	}

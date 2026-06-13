@@ -52,11 +52,16 @@
 		<div id="form-container">
 			<div id="sign-up-container">
 				<h3>강사 회원가입</h3>
+				<c:if test="${registerFailed}">
+					<div class="error" style="margin:0 0 14px;padding:10px 14px;border-radius:10px;background:#fef2f2;border:1px solid #f6cccc;color:#dc2626;font-weight:600;">
+						<c:out value="${exception.getMessage()}" />
+					</div>
+				</c:if>
 				<form name="form" method="POST" onSubmit="return check()" enctype="multipart/form-data"
 					action="<c:url value='/teacher/register' />">
 					<div class="input-group">
 						<label for="id">아이디</label> <input type="text" name="id" id="id"
-							placeholder="id" required>
+							placeholder="id" value="<c:out value='${teacher.id}'/>" required>
 						<button type="button" id="checkDuplicate" onClick="confirmId(this.form)">중복 확인</button>
 						<span id="idCheckResult" class="dupmsg-line"></span>
 					</div>
@@ -69,12 +74,12 @@
 						placeholder="비밀번호를 다시 입력하세요" required />
 						<label
 						for="name">이름</label> <input type="text" name="name" id="name"
-						placeholder="Name" required> 
+						placeholder="Name" value="<c:out value='${teacher.name}'/>" required>
 						<label for="email">이메일</label> <input
-						type="email" name="email" id="email" placeholder="Email" required>
+						type="email" name="email" id="email" placeholder="Email" value="<c:out value='${teacher.email}'/>" required>
 					<label for="email">전화번호</label> <input type="tel" name="phone"
 						id="phone" placeholder="010-1234-5678"
-						pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" required>
+						pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" value="<c:out value='${teacher.phone}'/>" required>
 
 										<label for="profileImg">프로필 사진</label>
 					<label class="filebox"><span class="filebox-btn">📷 사진 선택</span><span class="filebox-name">선택된 파일 없음</span><input type="file" name="profileImg" id="profileImg" accept="image/*" onchange="this.parentNode.querySelector('.filebox-name').textContent=this.files.length?this.files[0].name:'선택된 파일 없음'"></label>
