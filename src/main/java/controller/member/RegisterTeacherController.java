@@ -32,6 +32,14 @@ public class RegisterTeacherController implements Controller {
 		Member member = new Member(request.getParameter("id"), request.getParameter("pwd"),
 				request.getParameter("name"), request.getParameter("email"), request.getParameter("phone"));
 
+		byte[] imgBytes = null;
+		String imgType = null;
+		javax.servlet.http.Part profilePart = request.getPart("profileImg");
+		if (profilePart != null && profilePart.getSize() > 0) {
+			imgType = profilePart.getContentType();
+			try (java.io.InputStream in = profilePart.getInputStream()) { imgBytes = in.readAllBytes(); }
+		}
+
 		log.debug("Create User : {}", teacher);
 		boolean memberCreated = false;
 		boolean teacherCreated = false;
@@ -42,6 +50,11 @@ public class RegisterTeacherController implements Controller {
 
 			tmanager.create(teacher); // teacher DB에 생성
 			teacherCreated = true;
+			if (imgBytes != null) {
+				new model.dao.ImageDAO().save("member", member.getId(), imgBytes, imgType);
+				member.setImg("/image?type=member&id=" + member.getId());
+				new model.dao.member.MemberDAO().update(member);
+			}
 			return "redirect:/member/login/form"; // 성공 시 로그인 페이지로 redirect
 
 		} catch (ExistingMemberException e) { // 예외 발생 시 회원가입 form으로 forwarding

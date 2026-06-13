@@ -20,7 +20,7 @@
 	<div class="page">
 		<jsp:include page="../navigation/navigation.jsp" />
 		<div id="makeStudy_container">
-			<form id="makeStudy_form" method="post"
+			<form id="makeStudy_form" method="post" enctype="multipart/form-data"
 				action="${pageContext.request.contextPath}/study/update">
 				<div class="subTitle">스터디 그룹 정보 수정하기</div>
 				<hr style="margin: 20px 0px">
@@ -31,6 +31,10 @@
 
 				<!-- 스터디 이미지 (임시 값 추가) -->
 				<input type="hidden" name="img" value="${study.img}" />
+
+					<section class="study">
+						<span>스터디 사진 변경 (선택)</span><br /> <input type="file" name="imgFile" accept="image/*" />
+					</section>
 
 				<!-- 스터디 Id-->
 				<input type="hidden" name="studyId" value="${study.studyGroupId}" />

@@ -52,7 +52,7 @@
 		<div id="form-container">
 			<div id="sign-up-container">
 				<h3>강사 회원가입</h3>
-				<form name="form" method="POST" onSubmit="return check()"
+				<form name="form" method="POST" onSubmit="return check()" enctype="multipart/form-data"
 					action="<c:url value='/teacher/register' />">
 					<div class="input-group">
 						<label for="id">아이디</label> <input type="text" name="id" id="id"
@@ -76,6 +76,8 @@
 						id="phone" placeholder="010-1234-5678"
 						pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" required>
 
+										<label for="profileImg">프로필 사진</label>
+					<input type="file" name="profileImg" id="profileImg" accept="image/*" />
 					<div id="form-controls">
 						<button type="submit" id="nextBt">완료</button>
 					</div>

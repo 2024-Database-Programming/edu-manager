@@ -77,6 +77,13 @@ public class UpdateStudyController implements Controller {
 			}
 
 			log.debug("Update Study : {}", updateStudy);
+			javax.servlet.http.Part imgPart = request.getPart("imgFile");
+			if (imgPart != null && imgPart.getSize() > 0) {
+				try (java.io.InputStream in = imgPart.getInputStream()) {
+					new model.dao.ImageDAO().save("study", String.valueOf(updateStudy.getStudyGroupId()), in.readAllBytes(), imgPart.getContentType());
+				}
+				updateStudy.setImg("/image?type=study&id=" + updateStudy.getStudyGroupId());
+			}
 			manager.updateStudy(updateStudy);
 
 			// 3. 현재 데이터베이스에 있는 스케줄의 요일을 비교

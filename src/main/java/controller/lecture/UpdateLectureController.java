@@ -77,6 +77,13 @@ public class UpdateLectureController implements Controller {
 		);
 
 		log.debug("Update Lecture : {}", updateLecture);
+		javax.servlet.http.Part imgPart = request.getPart("imgFile");
+		if (imgPart != null && imgPart.getSize() > 0) {
+			try (java.io.InputStream in = imgPart.getInputStream()) {
+				new model.dao.ImageDAO().save("lecture", String.valueOf(updateLecture.getLectureId()), in.readAllBytes(), imgPart.getContentType());
+			}
+			updateLecture.setImg("/image?type=lecture&id=" + updateLecture.getLectureId());
+		}
 		manager.updateLecture(updateLecture);
 
 		// 강의 일정 리스트도 updateLecutreId이용해서 update

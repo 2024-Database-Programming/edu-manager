@@ -28,6 +28,14 @@ public class RegisterStudent1Controller implements Controller {
 		session.setAttribute("registerEmail", email);
 		session.setAttribute("registerPhone", phone);
 
+		javax.servlet.http.Part profilePart = request.getPart("profileImg");
+		if (profilePart != null && profilePart.getSize() > 0) {
+			session.setAttribute("registerImgType", profilePart.getContentType());
+			try (java.io.InputStream in = profilePart.getInputStream()) {
+				session.setAttribute("registerImg", in.readAllBytes());
+			}
+		}
+
 		log.debug("RegisterStudent1Controller - User Input: id={}, pwd={}, name={}, email={}, phone={}", id, name,
 				email, phone);
 

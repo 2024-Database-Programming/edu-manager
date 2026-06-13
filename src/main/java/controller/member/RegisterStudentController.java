@@ -67,6 +67,14 @@ public class RegisterStudentController implements Controller {
             }
             
             // 세션 무효화
+            byte[] regImg = (byte[]) session.getAttribute("registerImg");
+            String regImgType = (String) session.getAttribute("registerImgType");
+            if (regImg != null) {
+                new model.dao.ImageDAO().save("member", id, regImg, regImgType);
+                member.setImg("/image?type=member&id=" + id);
+                new model.dao.member.MemberDAO().update(member);
+            }
+
             session.invalidate();
             log.debug("Session invalidated.");
 

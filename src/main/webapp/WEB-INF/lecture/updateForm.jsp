@@ -18,7 +18,7 @@
 	<div class="page">
 		<jsp:include page="../navigation/navigation.jsp" />
 		<div id="makeStudy_container">
-			<form id="makeStudy_form" method="post"
+			<form id="makeStudy_form" method="post" enctype="multipart/form-data"
 				action="${pageContext.request.contextPath}/lecture/update">
 				<!-- 나중에 다른 uri로 바꿔 줄것임. -->
 				<div class="subTitle">강의 정보 수정하기</div>
@@ -30,6 +30,10 @@
 
 				<!-- 강의 이미지 (임시 값 추가) -->
 				<input type="hidden" name="img" value="${lecture.img}" />
+
+					<section class="study">
+						<span>강의 사진 변경 (선택)</span><br /> <input type="file" name="imgFile" accept="image/*" />
+					</section>
 
 				<!-- 강의 Id-->
 				<input type="hidden" name="lectureId" value="${lecture.lectureId}" />
