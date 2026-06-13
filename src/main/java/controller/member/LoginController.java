@@ -30,13 +30,9 @@ public class LoginController implements Controller {
 
 			return "redirect:/mypage";
 		} catch (Exception e) {
-			/*
-			 * UserNotFoundException이나 PasswordMismatchException 발생 시 다시 login form을 사용자에게
-			 * 전송하고 오류 메세지도 출력
-			 */
-			request.setAttribute("loginFailed", true);
-			request.setAttribute("exception", e);
-			return "/member/loginForm.jsp";
+			// PRG: 실패 메시지를 세션에 담고 redirect → 새로고침 시 재전송/재노출 방지
+			request.getSession().setAttribute("loginError", e.getMessage());
+			return "redirect:/member/login/form";
 		}
 	}
 }

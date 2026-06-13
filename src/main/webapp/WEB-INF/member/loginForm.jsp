@@ -60,9 +60,15 @@
               <div id="sign-up-container">
                   <h3>로그인 </h3>
                   <!-- 로그인이 실패한 경우 exception 객체에 저장된 오류 메시지를 출력 -->
-			      <c:if test="${loginFailed}">
-				  	<div id="loginError" class="error"><c:out value="${exception.getMessage()}" /></div>
-				  </c:if>
+			      <%-- PRG: 세션에 담긴 로그인 오류를 한 번만 표시하고 즉시 제거 --%>
+			      <%
+			        Object __le = session.getAttribute("loginError");
+			        String loginErrorMsg = (__le != null) ? __le.toString() : null;
+			        if (loginErrorMsg != null) { session.removeAttribute("loginError"); }
+			      %>
+			      <% if (loginErrorMsg != null) { %>
+				  	<div id="loginError" class="error"><%= loginErrorMsg %></div>
+				  <% } %>
                   <form name="form" method="POST" action="<c:url value='/member/login' />">
                       <div class="input-group">
                        <label for="email">아이디</label>
