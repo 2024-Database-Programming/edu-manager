@@ -62,7 +62,14 @@ public class UpdateMemberController implements Controller {
 		}
 
 		Member existingMember = manager.findMember(updateId);
-		Member updateMember = new Member(updateId, request.getParameter("pwd"),
+		if (existingMember == null) {
+			request.getSession().setAttribute("flashError", "수정할 회원 정보를 찾을 수 없습니다.");
+			return "redirect:/member/list";
+		}
+		// 비밀번호를 비워서 제출하면 기존 비밀번호 유지(빈 값으로 덮어쓰지 않음)
+		String newPwd = request.getParameter("pwd");
+		String pwdToUse = (newPwd != null && !newPwd.isBlank()) ? newPwd : existingMember.getPwd();
+		Member updateMember = new Member(updateId, pwdToUse,
 				existingMember.getName(), request.getParameter("email"), request.getParameter("phone"),
 				existingMember.getImg());
 

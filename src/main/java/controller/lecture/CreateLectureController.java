@@ -34,7 +34,12 @@ public class CreateLectureController implements Controller {
 		}
 
 		String teacherId = MemberSessionUtils.getLoginMemberId(request.getSession());
-		System.out.print("내 아이디 : 선생일 때:" + teacherId);
+
+		// 강사만 강의를 만들 수 있음(권한 체크) — 학생/일반 회원은 차단
+		if (!new model.dao.member.TeacherDAO().existingTeacher(teacherId)) {
+			request.getSession().setAttribute("flashError", "강사만 강의를 만들 수 있습니다.");
+			return "redirect:/registration";
+		}
 
 		// GET요청
 		if (request.getMethod().equals("GET")) {
@@ -119,9 +124,8 @@ public class CreateLectureController implements Controller {
 		 return "redirect:/lecture/list";
 		} catch (Exception e) { // 예외 발생 시 입력 form으로 forwarding
 			
-			request.getSession().setAttribute("creationFailed", true);
-			request.setAttribute("exception", e);
-			System.out.print(e);
+			request.getSession().setAttribute("flashError", "강의 생성에 실패했습니다. 일정이 겹치거나 입력값을 확인해 주세요.");
+			e.printStackTrace();
 			/*
 			 * MemberManager memberManager = MemberManager.getInstance(); String teacherName
 			 * = memberManager.findName(teacherId);

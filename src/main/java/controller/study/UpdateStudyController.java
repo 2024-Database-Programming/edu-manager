@@ -71,8 +71,7 @@ public class UpdateStudyController implements Controller {
 			List<Schedule> scheduleList = manager.findScheduleById(updateStudyId, "regular");
 			String[] dayOfWeek = request.getParameterValues("dayOfWeek");
 			if (dayOfWeek == null || dayOfWeek.length == 0) {
-				request.setAttribute("creationFailed", true);
-				request.setAttribute("updateStudy", updateStudy);
+				request.getSession().setAttribute("flashError", "정기 모임 요일을 1개 이상 선택해 주세요.");
 				return "redirect:/study/update?studyId=" + updateStudyId;
 			}
 

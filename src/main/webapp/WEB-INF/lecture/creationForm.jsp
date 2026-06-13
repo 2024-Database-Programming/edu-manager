@@ -15,9 +15,7 @@
     Boolean creationFailed = (Boolean) session.getAttribute("creationFailed");
     if (creationFailed != null && creationFailed) {
 %>
-    <script type="text/javascript">
-        alert("다른 강의 일정이 존재합니다.");
-    </script>
+    <%-- 강의 생성 실패 메시지는 navigation.jsp의 flash 배너로 표시됨 --%>
 <% 
         // 세션에서 값 삭제 (한 번만 표시하기 위해)
         session.removeAttribute("creationFailed");

@@ -133,7 +133,7 @@ public class TeacherDAO {
 	 * 전체 사용자 정보를 검색한 후 현재 페이지와 페이지당 출력할 사용자 수를 이용하여 해당하는 사용자 정보만을 List에 저장하여 반환.
 	 */
 	public List<Teacher> findTeacherList(int currentPage, int countPerPage) throws SQLException {
-		String sql = "SELECT id, name, email, phone" + "FROM TEACHER " + "ORDER BY id";
+		String sql = "SELECT id, name, email, phone " + "FROM TEACHER " + "ORDER BY id";
 		jdbcUtil.setSqlAndParameters(sql, null, // JDBCUtil에 query문 설정
 				ResultSet.TYPE_SCROLL_INSENSITIVE, // cursor scroll 가능
 				ResultSet.CONCUR_READ_ONLY);
