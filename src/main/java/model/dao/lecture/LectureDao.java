@@ -168,12 +168,6 @@ public class LectureDao {
                 lecture.setLevel(rs.getInt("lecturelevel"));
 
                 // 로그 찍기: Lecture 객체의 각 필드 값 출력
-                System.out.println("Lecture ID: " + lecture.getLectureId());
-                System.out.println("Lecture Name: " + lecture.getName());
-                System.out.println("Lecture Img: " + lecture.getImg());
-                System.out.println("Lecture Category: " + lecture.getCategory());
-                System.out.println("Lecture Capacity: " + lecture.getCapacity());
-                System.out.println("Lecture Level: " + lecture.getLevel());
 
                 lectureList.add(lecture); // 리스트에 추가
             }
@@ -273,15 +267,6 @@ public class LectureDao {
                 lecture.setCategoryName(rs.getString("categoryName"));
                 
                 // 로그 찍기: Lecture 객체의 각 필드 값 출력
-                System.out.println("Lecture ID: " + lecture.getLectureId());
-                System.out.println("Lecture Name: " + lecture.getName());
-                System.out.println("Lecture Img: " + lecture.getImg());
-                System.out.println("Lecture Category: " + lecture.getCategory());
-                System.out.println("Lecture Capacity: " + lecture.getCapacity());
-                System.out.println("Lecture Level: " + lecture.getLevel());
-                System.out.println("Lecture teacherName: " + lecture.getTeacherName());
-                System.out.println("Lecture CategoryColor: " + lecture.getCategoryColor());
-                System.out.println("Lecture CategoryName: " + lecture.getCategoryName());
                 
 
                 lectureList.add(lecture); // 리스트에 추가

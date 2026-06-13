@@ -44,7 +44,6 @@ public class MainController implements Controller {
 		int selectedDay = (selectedDayParam != null && !selectedDayParam.isEmpty()) ? Integer.parseInt(selectedDayParam)
 				: currentDate.getDayOfMonth();
 
-		System.out.println("DEBUG: Year = " + year + ", Month = " + month + ", Selected Day = " + selectedDay);
 
 		String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
 

@@ -34,7 +34,6 @@ public class CreateStudyReviewController implements Controller {
             return "redirect:/study/over-view?groupId=" + groupId;
         }
         
-        System.out.println("memberId: " + memberId + " groupId: " + groupId + " reviewText: " + reviewText);
 
        
         String memberName = memberManager.findName(memberId);
@@ -49,8 +48,6 @@ public class CreateStudyReviewController implements Controller {
         );
 
         // 생성된 LectureReview 객체 출력
-        System.out.println("Created LectureReview: ");
-        System.out.println("Review Text: " + studyGroupReview.getReviewText());
 
         // 리뷰 생성 서비스 호출
         studyGroupManager.createStudyReview(studyGroupReview );

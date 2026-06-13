@@ -187,9 +187,7 @@ public class LectureAssignmentDao {
 		try {
 			int rs = jdbcUtil.executeUpdate(); // 질의 실행 (INSERT문은 executeUpdate로 실행)
 			if (rs > 0) {
-				System.out.println("과제가 성공적으로 생성되었습니다.");
 			} else {
-				System.out.println("과제 생성에 실패했습니다.");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -211,9 +209,7 @@ public class LectureAssignmentDao {
 		try {
 			int rs = jdbcUtil.executeUpdate(); // DELETE 문은 executeUpdate로 실행
 			if (rs > 0) {
-				System.out.println("과제가 성공적으로 삭제되었습니다.");
 			} else {
-				System.out.println("과제 삭제에 실패했습니다. 해당 ID의 과제가 존재하지 않습니다.");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -237,9 +233,7 @@ public class LectureAssignmentDao {
 		try {
 			int rs = jdbcUtil.executeUpdate(); // UPDATE 문은 executeUpdate로 실행
 			if (rs > 0) {
-				System.out.println("과제가 성공적으로 업데이트되었습니다.");
 			} else {
-				System.out.println("과제 업데이트에 실패했습니다. 해당 ID의 과제가 존재하지 않습니다.");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

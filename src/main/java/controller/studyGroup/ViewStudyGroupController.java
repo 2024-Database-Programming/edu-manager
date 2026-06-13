@@ -44,11 +44,6 @@ public class ViewStudyGroupController implements Controller {
         
 
         // 강의 상세 정보 출력 (디버깅용)
-        System.out.println("그룹 ID: " + groupId+
-                           ", 그룹 이름: " + group.getName() +
-                           ", 카테고리: " + group.getCategory() +
-                           ", 설명: " + group.getDescription() 
-                           );
 
         // 로그인한 사용자 ID를 request에 저장
         request.setAttribute("userId", MemberSessionUtils.getLoginMemberId(request.getSession()));
@@ -67,16 +62,13 @@ public class ViewStudyGroupController implements Controller {
         request.setAttribute("isLeader", isLeader);
         
         boolean isLiked = studyGroupManager.isLikedByUser(stuId, groupId); // 인스턴스를 통해 호출
-        System.out.println("좋아요 여부: "+ isLiked );
         request.setAttribute("isLiked", isLiked);
         
         boolean isInclude = studyGroupManager.isMemberOfStudyGroup(stuId, groupId); // 인스턴스를 통해 호출
-        System.out.println("소속 여부: "+ isInclude);
         request.setAttribute("isInclude", isInclude);
         
         
         String requestStatus = studyGroupManager.getStatusByMemberIdAndGroupId(stuId, groupId);
-        System.out.println("요청 상태: "+ requestStatus);
         request.setAttribute("requestStatus", requestStatus);
    
         // 강의 상세 페이지로 이동

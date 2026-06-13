@@ -32,11 +32,7 @@ public class ViewMyLectureListController  implements Controller {
       List<Lecture> lectureList = lectureManager.MyLectureList(memberId);;
 
 
-      System.out.println("강의 목록:");
       for (Lecture lecture : lectureList) {
-          System.out.println("강의 ID: " + lecture.getLectureId() +
-                             ", 강의 이름: " + lecture.getName() +
-                             ", 카테고리: " + lecture.getCategory());
       }
      
       request.setAttribute("lectureList", lectureList);
@@ -46,11 +42,7 @@ public class ViewMyLectureListController  implements Controller {
           List<Lecture> lectureList = lectureManager.getMyLectureListByTeacher(memberId);;
 
 
-          System.out.println("강의 목록:");
           for (Lecture lecture : lectureList) {
-              System.out.println("강의 ID: " + lecture.getLectureId() +
-                                 ", 강의 이름: " + lecture.getName() +
-                                 ", 카테고리: " + lecture.getCategory());
           }
          
           request.setAttribute("lectureList", lectureList);

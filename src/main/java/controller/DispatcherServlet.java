@@ -49,7 +49,6 @@ public class DispatcherServlet extends HttpServlet {
             }
             else {
             	// forwarding 수행
-                System.out.println("forwarding use");
             	String targetUri = "/WEB-INF" + uri;
             	RequestDispatcher rd = request.getRequestDispatcher(targetUri);
                 rd.forward(request, response);		// forward to the view page

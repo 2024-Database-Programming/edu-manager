@@ -30,7 +30,6 @@ public class UpdateStudyController implements Controller {
 		StudyManager manager = StudyManager.getInstance();
 
 		String leaderId = MemberSessionUtils.getLoginMemberId(request.getSession());
-		System.out.print("내 아이디 : 스터디 리더:" + leaderId);
 
 		Long updateStudyId = Long.parseLong(request.getParameter("studyId"));
 		log.debug("UpdateForm Request : {}", updateStudyId);

@@ -31,7 +31,6 @@ public class CreateStudyController implements Controller {
 		}
 
 		String leaderId = MemberSessionUtils.getLoginMemberId(request.getSession());
-		System.out.print("내 아이디 : 스터디 리더:" + leaderId);
 
 		// GET요청
 		if (request.getMethod().equals("GET")) {

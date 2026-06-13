@@ -23,7 +23,6 @@ public class ViewLectureController implements Controller {
         }
 
         Long lectureId = Long.parseLong(request.getParameter("lectureId"));
-        System.out.println("그룹 ID: "+ lectureId );
         String stuId = MemberSessionUtils.getLoginMemberId(request.getSession());
 
        
@@ -43,11 +42,9 @@ public class ViewLectureController implements Controller {
         
        
         boolean isLiked = lectureManager.isLikedByUser(stuId, lectureId); // 인스턴스를 통해 호출
-        System.out.println("좋아요 여부: "+ isLiked );
         request.setAttribute("isLiked", isLiked);
         
         boolean isInclude = lectureManager.isEnrolledInLecture(stuId, lectureId); // 인스턴스를 통해 호출
-        System.out.println("수강 여부: "+ isInclude );
         request.setAttribute("isInclude", isInclude);
         
         //강의 스케줄 중복 조회

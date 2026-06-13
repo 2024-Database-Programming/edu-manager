@@ -31,7 +31,6 @@ public class UpdateLectureController implements Controller {
 		LectureManager manager = LectureManager.getInstance();
 
 		String teacherId = MemberSessionUtils.getLoginMemberId(request.getSession());
-		System.out.print("내 아이디 : 선생:" + teacherId);
 
 		Long updateLectureId = Long.parseLong(request.getParameter("lectureId"));
 		log.debug("UpdateForm Request : {}", updateLectureId);

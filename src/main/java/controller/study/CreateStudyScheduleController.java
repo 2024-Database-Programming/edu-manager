@@ -33,7 +33,6 @@ public class CreateStudyScheduleController implements Controller {
 			if (!AuthorizationUtils.canManageStudy(studyGroupManager, memberId, groupId)) {
 				return "redirect:/study/over-view?groupId=" + groupId;
 			}
-			System.out.print("내 아이디 : 스터디 리더:" + memberId);
 
 		// GET요청
 		if (request.getMethod().equals("GET")) {

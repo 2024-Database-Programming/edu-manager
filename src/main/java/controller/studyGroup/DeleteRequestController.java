@@ -27,7 +27,6 @@ public class DeleteRequestController implements Controller {
         Long applicationId = Long.parseLong(request.getParameter("studyGroupApplicationId"));
         Long groupId = Long.parseLong(request.getParameter("groupId"));
         String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
-        System.out.print(applicationId);
 
         StudyGroupApplication application = studyGroupManager.findApplicationById(applicationId);
         StudyGroup studyGroup = studyGroupManager.findStudyGroupById(groupId);

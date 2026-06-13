@@ -35,7 +35,6 @@ public class ViewStudyRequestListController implements Controller {
 
         // 로그인한 사용자 ID를 request에 저장     
         request.setAttribute("requestList", groupRequestList);
-        System.out.println(groupRequestList.size());
         // 강의 상세 페이지로 이동
         return "/study/study_request.jsp";
     }

@@ -84,8 +84,6 @@ public class ConnectionManager {
 	public void printDataSourceStats() {
 		try {
 			BasicDataSource bds = (BasicDataSource) ds;
-			System.out.println("NumActive: " + bds.getNumActive());
-			System.out.println("NumIdle: " + bds.getNumIdle());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}   

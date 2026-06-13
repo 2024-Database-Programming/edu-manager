@@ -100,7 +100,6 @@ public StudyGroup findGroupInfo(long groupId) {
             group.setDayOfWeek(rs.getString("dayOfWeek"));
             
         } else {
-            System.out.println("스터디그룹 정보를 찾을 수 없습니다.  " + groupId);
         }
         return group;
     } catch (SQLException ex) {
@@ -231,9 +230,6 @@ public StudyGroup findGroupInfo(long groupId) {
                studyGroup.setCategoryName(rs.getString("categoryName"));
 
                // 디버깅 출력
-               System.out.println("Lecture Name: " + studyGroup.getName());
-               System.out.println("Lecture Category: " + studyGroup.getCategory());
-               System.out.println("Lecture Capacity: " + studyGroup.getCapacity());
 
                studyGroupList.add(studyGroup); // 리스트에 추가
            }
@@ -605,12 +601,10 @@ public StudyGroup findGroupInfo(long groupId) {
 
             if (rs != null && rs.next()) {
                 int count = rs.getInt(1);  // COUNT(*) 결과
-                System.out.println("Is member of study group: " + count);  // 로그 출력
 
                 return count > 0;  // count가 0보다 크면 멤버
             }
 
-            System.out.println("No matching records found.");  // 로그 출력
             return false;  // 결과가 없으면 false
         } finally {
             jdbcUtil.close();

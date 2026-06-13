@@ -15,7 +15,6 @@ public class LoginController implements Controller {
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
 
-		System.out.println(id + pwd);
 		try {
 			// 모델에 로그인 처리를 위임
 			MemberManager manager = MemberManager.getInstance();

@@ -29,18 +29,10 @@ public class ViewLikeListController implements Controller {
       List<StudyGroup> studyGroupList = studyGroupManager. StudyGroupLikeList(stuId);
 
 
-      System.out.println("강의 목록:");
       for (Lecture lecture : lectureList) {
-          System.out.println("강의 ID: " + lecture.getLectureId() +
-                             ", 강의 이름: " + lecture.getName() +
-                             ", 카테고리: " + lecture.getCategory());
       }
       
-      System.out.println("강의 목록:");
       for (StudyGroup studyGroup : studyGroupList) {
-          System.out.println("강의 ID: " + studyGroup.getStudyGroupId() +
-                             ", 강의 이름: " + studyGroup.getName() +
-                             ", 카테고리: " + studyGroup.getCategory());
       }
       
 

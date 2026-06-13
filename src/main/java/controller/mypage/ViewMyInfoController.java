@@ -13,7 +13,6 @@ public class ViewMyInfoController implements Controller {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
     	String memberId = (String) request.getSession().getAttribute("id");
-    	System.out.println("Session memberId: " + memberId); // 확인용 로그
     	if (memberId == null) {
     	    return "redirect:/member/login/form";
     	}

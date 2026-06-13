@@ -34,7 +34,6 @@ public class CreateLectureAssignmentController implements Controller {
 			if (!AuthorizationUtils.canManageLecture(manager, memberId, lectureId)) {
 				return "redirect:/lecture/over-view?lectureId=" + lectureId;
 			}
-			System.out.print("내 아이디 : 스터디 리더:" + memberId);
 
 		// GET요청
 		if (request.getMethod().equals("GET")) {

@@ -30,7 +30,6 @@ public class InterestCategoryDAO {
                 category.put("name", rs.getString("name")); // 이름
                 categories.add(category);
             }
-            System.out.println("Categories retrieved: " + categories); // 디버깅 출력
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

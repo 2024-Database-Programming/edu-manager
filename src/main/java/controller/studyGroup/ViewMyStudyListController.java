@@ -27,18 +27,10 @@ public class ViewMyStudyListController implements Controller{
       List<StudyGroup> studyGroupListByMember = studyGroupManager.StudyGroupListByMember(stuId);
 
   
-      System.out.println("팀장 스터디그룹 목록:");
       for (StudyGroup studyGroup : studyGroupListByLeader) {
-          System.out.println("강의 ID: " + studyGroup.getStudyGroupId() +
-                             ", 강의 이름: " + studyGroup.getName() +
-                             ", 카테고리: " + studyGroup.getCategory());
       }
       
-      System.out.println("팀원 스터디그룹 목록:");
       for (StudyGroup studyGroup : studyGroupListByMember) {
-          System.out.println("강의 ID: " + studyGroup.getStudyGroupId() +
-                             ", 강의 이름: " + studyGroup.getName() +
-                             ", 카테고리: " + studyGroup.getCategory());
       }
       
       // 스터디 목록을 request 객체에 저장

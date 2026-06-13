@@ -15,7 +15,6 @@ public class ViewMyPageController implements Controller {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 세션에서 로그인한 사용자 ID 가져오기
         String memberId = (String) request.getSession().getAttribute("id");
-        System.out.println("Session memberId: " + memberId); // 확인용 로그
         if (memberId == null) {
             return "redirect:/member/login/form"; // 로그인하지 않았다면 로그인 폼으로 이동
         }

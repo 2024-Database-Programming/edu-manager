@@ -34,7 +34,6 @@ public class CreateLectureReviewController implements Controller {
             return "redirect:/lecture/over-view?lectureId=" + lectureId;
         }
         
-        System.out.println("memberId: " + memberId + " lectureId: " + lectureId + " reviewText: " + reviewText);
 
        
         String memberName = memberManager.findName(memberId);
@@ -50,8 +49,6 @@ public class CreateLectureReviewController implements Controller {
         );
 
         // 생성된 LectureReview 객체 출력
-        System.out.println("Created LectureReview: ");
-        System.out.println("Review Text: " + lectureReview.getReviewText());
 
         // 리뷰 생성 서비스 호출
         lectureManager.createLectureReview(lectureReview);

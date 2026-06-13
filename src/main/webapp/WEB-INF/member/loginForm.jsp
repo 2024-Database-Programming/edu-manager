@@ -23,15 +23,10 @@
 	}
 
 	function userCreate(targetUri) {
+		form.reset();              // 폼 초기화
 		form.action = targetUri;
-		form.method="GET";		// register form 요청
+		form.method = "GET";       // register form 요청
 		form.submit();
-	}
-	function userCreate(targetUri) {
-	    form.reset();  // 폼 초기화
-	    form.action = targetUri;
-	    form.method = "GET";  // register form 요청
-	    form.submit();
 	}
 
 	// 로그인 오류 메시지: 입력 시작하면 즉시, 그리고 4초 뒤 자동으로 사라짐
@@ -78,10 +73,10 @@
                       </div>
                       <div id="form-controls">
                       	
-                          <button type="button" id="nextBt" onClick="login()">로그인</button>
+                          <button type="button" id="loginBtn" onClick="login()">로그인</button>
                        
                       	  <!-- get으로 요청 -->
-                          <button type="button" id="nextBt" onClick="userCreate('<c:url value='/member/register/form'/>')">회원가입</button>
+                          <button type="button" id="signupBtn" onClick="userCreate('<c:url value='/member/register/form'/>')">회원가입</button>
                       	
                       </div>
                   </form>

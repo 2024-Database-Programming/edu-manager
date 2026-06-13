@@ -25,12 +25,10 @@ public class LectureReviewDao {
 
             if (rs != null && rs.next()) {
                 int count = rs.getInt(1);
-                System.out.println("Is enrolled in lecture: " + count);  // 로그 출력
 
                 return count > 0;
             }
 
-            System.out.println("No matching enrollment records found.");  // 로그 출력
             return false;
         } finally {
             jdbcUtil.close();

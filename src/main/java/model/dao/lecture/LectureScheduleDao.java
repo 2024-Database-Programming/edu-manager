@@ -134,10 +134,8 @@ public class LectureScheduleDao {
 				generatedKey = rs.getInt(1); // 생성된 PK 값
 			}
 			if (result > 0) {
-				System.out.println("스케줄이 성공적으로 생성되었습니다.");
 				return generatedKey;
 			} else {
-				System.out.println("스케줄 생성에 실패했습니다.");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -162,9 +160,7 @@ public class LectureScheduleDao {
 		try {
 			int rs = jdbcUtil.executeUpdate();
 			if (rs > 0) {
-				System.out.println("스케줄이 성공적으로 업데이트되었습니다.");
 			} else {
-				System.out.println("스케줄 업데이트에 실패했습니다.");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -332,9 +328,7 @@ public class LectureScheduleDao {
 		try {
 			int rs = jdbcUtil.executeUpdate();
 			if (rs > 0) {
-				System.out.println("스케줄이 성공적으로 삭제되었습니다.");
 			} else {
-				System.out.println("스케줄 삭제에 실패했습니다. 해당 ID의 스케줄이 존재하지 않습니다.");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
