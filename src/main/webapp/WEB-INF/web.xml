@@ -48,4 +48,22 @@
         <file-size-threshold>0</file-size-threshold> <!-- 임시 파일 크기 임계값 -->
     </multipart-config>
 </servlet>
+
+	<!-- 커스텀 에러 페이지: 톰캣 기본 화면(스택트레이스 노출) 대신 네이비 테마 페이지로 -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/error.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/error.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/error.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/WEB-INF/error.jsp</location>
+	</error-page>
 </web-app>
