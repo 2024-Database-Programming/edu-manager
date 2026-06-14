@@ -1,3 +1,6 @@
 /.metadata/
 /target/
 /.settings/org.eclipse.wst.ws.service.policy.prefs
+
+# macOS
+.DS_Store
