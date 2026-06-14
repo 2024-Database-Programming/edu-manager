@@ -253,7 +253,7 @@
 	box-sizing: border-box;
 	position: relative;
 	background:
-		linear-gradient(135deg, var(--brand) 0%, #3b49ad 100%);
+		linear-gradient(135deg, #4f5dc2 0%, #7886d6 100%);
 	border-bottom: 1px solid var(--line);
 }
 
