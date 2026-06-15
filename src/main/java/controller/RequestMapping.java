@@ -78,7 +78,7 @@ public class RequestMapping {
         mappings.put("/member/logout", new LogoutController());
 
         // 메인 화면
-        mappings.put("/main/main", new MainController());
+        mappings.put("/main", new MainController());
 
         // 회원가입 요청
 		  mappings.put("/member/register/form", new RegisterMemberController());

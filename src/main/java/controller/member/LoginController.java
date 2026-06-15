@@ -27,7 +27,7 @@ public class LoginController implements Controller {
 			request.setAttribute("curUserId", manager.findName(id));
 			session.setAttribute("curUserId", manager.findName(id));
 
-			return "redirect:/main/main"; // 로그인 성공 → 메인(일정 캘린더)으로 이동
+			return "redirect:/main"; // 로그인 성공 → 메인(일정 캘린더)으로 이동
 		} catch (Exception e) {
 			// PRG: 실패 메시지를 세션에 담고 redirect → 새로고침 시 재전송/재노출 방지
 			request.getSession().setAttribute("loginError", e.getMessage());

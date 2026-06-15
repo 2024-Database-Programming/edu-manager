@@ -354,7 +354,7 @@ for (Assignment studyAssignment : studyAssignmentEntries) {
 			</div>
 
 			<form id="calendarForm" method="get"
-				action="<c:url value='/main/main' />">
+				action="<c:url value='/main' />">
 				<input type="hidden" id="year" name="year" value="<%=currentYear%>" />
 				<input type="hidden" id="month" name="month"
 					value="<%=currentMonth%>" /> <input type="hidden" id="selectedDay"
