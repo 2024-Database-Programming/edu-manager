@@ -26,7 +26,7 @@ public class LectureScheduleDao {
 		StringBuffer query = new StringBuffer();
 		query.append("SELECT DISTINCT ls.lecturescheduleid AS scheduleId, ");
 		query.append("ls.startTime, ls.endTime, ls.lectureId, ls.startDate, ");
-		query.append("ls.dayofweek, ls.frequency, ls.type, ls.title, l.name AS lectureName ");
+		query.append("ls.dayofweek, ls.frequency, ls.type, ls.title, ls.description, l.name AS lectureName ");
 		query.append("FROM lectureschedule ls ");
 		query.append("JOIN lecture l ON ls.lectureId = l.lectureId ");
 		query.append("WHERE (l.teacherId = ? ");
@@ -55,6 +55,7 @@ public class LectureScheduleDao {
 				schedule.setStartDate(rs.getDate("startDate").toLocalDate());
 				schedule.setType(rs.getString("type"));
 				schedule.setTitle(rs.getString("title"));
+				schedule.setDescription(rs.getString("description"));
 				schedule.setLectureName(rs.getString("lectureName")); // Lecture Name 추가
 
 				addScheduleOccurrences(schedules, schedule, calendarMonth);
@@ -109,6 +110,7 @@ public class LectureScheduleDao {
 		copy.setStartDate(source.getStartDate());
 		copy.setType(source.getType());
 		copy.setTitle(source.getTitle());
+		copy.setDescription(source.getDescription());
 		copy.setLectureName(source.getLectureName());
 		return copy;
 	}
@@ -116,26 +118,22 @@ public class LectureScheduleDao {
 	// 스케줄 생성
 	public int createSchedule(Schedule schedule) throws SQLException {
 		StringBuffer query = new StringBuffer();
-		int generatedKey = 0;
+		int scheduleId = nextScheduleId();
 
 		query.append(
-				"INSERT INTO lectureschedule (lecturescheduleid, dayofweek, starttime, endtime, frequency, lectureid, startdate, type, title) ");
-		query.append("VALUES (SEQ_LECTURE_SCHEDULE_ID.nextval, ?, ?, ?, ?, ?, ?, ?, ?)");
+				"INSERT INTO lectureschedule (lecturescheduleid, dayofweek, starttime, endtime, frequency, lectureid, startdate, type, title, description) ");
+		query.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		jdbcUtil.setSqlAndParameters(query.toString(),
-				new Object[] { schedule.getDayOfWeek(), schedule.getStartTime(), schedule.getEndTime(),
+				new Object[] { scheduleId, schedule.getDayOfWeek(), schedule.getStartTime(), schedule.getEndTime(),
 						schedule.getFrequency(), schedule.getLectureId(), schedule.getStartDate(), schedule.getType(),
-						schedule.getTitle() });
+						schedule.getTitle(), schedule.getDescription() });
 
 		try {
 			int result = jdbcUtil.executeUpdate();
-			ResultSet rs = jdbcUtil.getGeneratedKeys();
-			if (rs != null && rs.next()) {
-				generatedKey = rs.getInt(1); // 생성된 PK 값
-			}
 			if (result > 0) {
 				jdbcUtil.commit();
-				return generatedKey;
+				return scheduleId;
 			}
 			jdbcUtil.rollback();
 			throw new SQLException("강의 일정 저장 결과가 없습니다.");
@@ -151,15 +149,32 @@ public class LectureScheduleDao {
 
 	}
 
+	private int nextScheduleId() {
+		JDBCUtil sequenceJdbcUtil = new JDBCUtil();
+		sequenceJdbcUtil.setSqlAndParameters("SELECT SEQ_LECTURE_SCHEDULE_ID.nextval AS id FROM dual", new Object[] {});
+		try {
+			ResultSet rs = sequenceJdbcUtil.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("id");
+			}
+			throw new IllegalStateException("강의 일정 식별자를 생성하지 못했습니다.");
+		} catch (Exception ex) {
+			throw new RuntimeException("강의 일정 식별자 생성에 실패했습니다.", ex);
+		} finally {
+			sequenceJdbcUtil.close();
+		}
+	}
+
 	// 스케줄 업데이트
 	public void updateSchedule(Schedule schedule) {
 		StringBuffer query = new StringBuffer();
 		query.append("UPDATE lectureschedule ");
-		query.append("SET dayofweek = ?, starttime = ?, endtime = ?, frequency = ?, title = ?");
+		query.append("SET dayofweek = ?, starttime = ?, endtime = ?, frequency = ?, title = ?, description = ? ");
 		query.append("WHERE lecturescheduleid = ?");
 
 		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { schedule.getDayOfWeek(), schedule.getStartTime(),
-				schedule.getEndTime(), schedule.getFrequency(), schedule.getTitle(), schedule.getScheduleId() });
+				schedule.getEndTime(), schedule.getFrequency(), schedule.getTitle(), schedule.getDescription(),
+				schedule.getScheduleId() });
 
 		try {
 			int rs = jdbcUtil.executeUpdate();
@@ -197,6 +212,7 @@ public class LectureScheduleDao {
 				schedule.setStartDate(rs.getDate("startdate").toLocalDate());
 				schedule.setType(rs.getString("type"));
 				schedule.setTitle(rs.getString("title"));
+				schedule.setDescription(rs.getString("description"));
 			}
 			return schedule;
 		} catch (Exception ex) {
@@ -230,6 +246,7 @@ public class LectureScheduleDao {
 				schedule.setStartDate(rs.getDate("startdate").toLocalDate());
 				schedule.setType(rs.getString("type"));
 				schedule.setTitle(rs.getString("title"));
+				schedule.setDescription(rs.getString("description"));
 				schedules.add(schedule);
 			}
 		} catch (Exception ex) {
@@ -290,6 +307,7 @@ public class LectureScheduleDao {
 				schedule.setStartDate(rs.getDate("startdate").toLocalDate());
 				schedule.setType(rs.getString("type"));
 				schedule.setTitle(rs.getString("title"));
+				schedule.setDescription(rs.getString("description"));
 				schedules.add(schedule);
 			}
 		} catch (Exception ex) {

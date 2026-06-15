@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import controller.AuthorizationUtils;
 import controller.Controller;
+import controller.MultipartUploadUtils;
 import controller.member.MemberSessionUtils;
 import model.domain.Assignment;
 import model.service.LectureManager;
@@ -61,7 +62,8 @@ public class CreateLectureAssignmentController implements Controller {
 			assignment.setLectureId((int) lectureId);
 			assignment.setTextFile("");
 
-			manager.createAssignment(assignment);
+			int assignmentId = manager.createAssignment(assignment);
+			MultipartUploadUtils.saveAttachments(request, "lecture", "assignment", assignmentId);
 
 			return "redirect:/mylecture/view?lectureId=" + lectureId + "&selectedDate=" + startDate;
 		} catch (Exception e) {

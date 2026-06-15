@@ -5,15 +5,15 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>과제 추가하기</title>
+<title>공지 추가하기</title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-<link rel="stylesheet" href="<c:url value='/css/addSchedule.css' />?v=20260615-date1" />
+<link rel="stylesheet" href="<c:url value='/css/addSchedule.css' />?v=20260616-attach1" />
 </head>
 <body>
 	<div class="main-container">
 		<div style="width: 90%; justify-self: center;"><jsp:include
 				page="../navigation/navigation.jsp" /></div>
-		<form action="<c:url value='/lecture/addNotice' />" method="POST">
+		<form action="<c:url value='/lecture/addNotice' />" method="POST" enctype="multipart/form-data">
 			<span class="title">공지 추가하기</span>
 			<div class="form">
 				<!-- 과제 명 -->
@@ -27,6 +27,10 @@
 					<label for="description" class="detail-text">세부 내용</label>
 					<textarea id="description" name="description" placeholder="세부 내용을 입력하세요."
 						class="input-field-1" required></textarea>
+				</div>
+				<div class="file-input">
+					<label for="attachments" class="detail-text">첨부파일 / 이미지</label>
+					<input type="file" id="attachments" name="attachments" class="file-selector" multiple />
 				</div>
 			</div>
 
@@ -42,5 +46,3 @@
 	</div>
 </body>
 </html>
-
-

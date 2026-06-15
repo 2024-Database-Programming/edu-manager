@@ -54,21 +54,23 @@ public class StudyAssignmentDao {
 		return assignments;
 	}
 
-	public void createAssignment(Assignment assignment) {
+	public int createAssignment(Assignment assignment) {
 		StringBuffer query = new StringBuffer();
+		int assignmentId = nextAssignmentId();
 		query.append("INSERT INTO studyassignment ");
 		query.append("(studyassignmentid, studygroupid, title, description, duedate, starttime, duetime, textfile, createat) ");
-		query.append("VALUES (SEQ_STUDY_ASSIGNMENT_ID.nextval, ?, ?, ?, ?, ?, ?, ?, ?)");
+		query.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		jdbcUtil.setSqlAndParameters(query.toString(),
-				new Object[] { assignment.getStudyId(), assignment.getTitle(), assignment.getDescription(),
-						toSqlDate(assignment.getDueDate()), toSqlTime(assignment.getStartTime()),
+				new Object[] { assignmentId, assignment.getStudyId(), assignment.getTitle(),
+						assignment.getDescription(), toSqlDate(assignment.getDueDate()), toSqlTime(assignment.getStartTime()),
 						toSqlTime(assignment.getDueTime()), assignment.getTextFile(),
 						toSqlDate(assignment.getCreateat()) });
 
 		try {
 			jdbcUtil.executeUpdate();
 			jdbcUtil.commit();
+			return assignmentId;
 		} catch (Exception ex) {
 			jdbcUtil.rollback();
 			throw new RuntimeException("스터디 과제 저장에 실패했습니다.", ex);
@@ -239,5 +241,21 @@ public class StudyAssignmentDao {
 
 	private Time toSqlTime(LocalTime time) {
 		return time == null ? null : Time.valueOf(time);
+	}
+
+	private int nextAssignmentId() {
+		JDBCUtil sequenceJdbcUtil = new JDBCUtil();
+		sequenceJdbcUtil.setSqlAndParameters("SELECT SEQ_STUDY_ASSIGNMENT_ID.nextval AS id FROM dual", new Object[] {});
+		try {
+			ResultSet rs = sequenceJdbcUtil.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("id");
+			}
+			throw new IllegalStateException("스터디 과제 식별자를 생성하지 못했습니다.");
+		} catch (Exception ex) {
+			throw new RuntimeException("스터디 과제 식별자 생성에 실패했습니다.", ex);
+		} finally {
+			sequenceJdbcUtil.close();
+		}
 	}
 }

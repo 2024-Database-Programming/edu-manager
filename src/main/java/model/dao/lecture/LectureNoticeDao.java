@@ -56,23 +56,28 @@ public class LectureNoticeDao {
 	}
 
 	// 공지 생성
-	public void createNotice(int lectureId, String title, String description, LocalDate date) {
+	public int createNotice(int lectureId, String title, String description, LocalDate date) {
 		StringBuffer query = new StringBuffer();
+		int noticeId = nextNoticeId();
 		query.append("INSERT INTO lecturenotice (lecturenoticeid, lectureid, title, description, createat) ");
-		query.append("VALUES (SEQ_LECTURE_NOTICE_ID.nextval, ?, ?, ?, ?)");
+		query.append("VALUES (?, ?, ?, ?, ?)");
 
 		// SQL 쿼리와 매개변수 설정
-		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { lectureId, title, description, date });
+		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { noticeId, lectureId, title, description, date });
 
 		try {
 			int rs = jdbcUtil.executeUpdate(); // 질의 실행 (INSERT문은 executeUpdate로 실행)
 			if (rs > 0) {
+				jdbcUtil.commit();
+				return noticeId;
 			} else {
+				jdbcUtil.rollback();
+				throw new RuntimeException("강의 공지 저장 결과가 없습니다.");
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			jdbcUtil.rollback();
+			throw new RuntimeException("강의 공지 저장에 실패했습니다.", ex);
 		} finally {
-			jdbcUtil.commit();
 			jdbcUtil.close(); // 연결 자원 해제
 		}
 	}
@@ -265,6 +270,22 @@ public class LectureNoticeDao {
 		} finally {
 			jdbcUtil.commit();
 			jdbcUtil.close(); // 연결 자원 해제
+		}
+	}
+
+	private int nextNoticeId() {
+		JDBCUtil sequenceJdbcUtil = new JDBCUtil();
+		sequenceJdbcUtil.setSqlAndParameters("SELECT SEQ_LECTURE_NOTICE_ID.nextval AS id FROM dual", new Object[] {});
+		try {
+			ResultSet rs = sequenceJdbcUtil.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("id");
+			}
+			throw new IllegalStateException("강의 공지 식별자를 생성하지 못했습니다.");
+		} catch (Exception ex) {
+			throw new RuntimeException("강의 공지 식별자 생성에 실패했습니다.", ex);
+		} finally {
+			sequenceJdbcUtil.close();
 		}
 	}
 }

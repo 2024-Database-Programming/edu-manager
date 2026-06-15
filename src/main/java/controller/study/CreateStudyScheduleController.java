@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import controller.AuthorizationUtils;
 import controller.Controller;
+import controller.MultipartUploadUtils;
 import controller.member.MemberSessionUtils;
 import model.domain.Schedule;
 import model.domain.studyGroup.StudyGroup;
@@ -51,8 +52,10 @@ public class CreateStudyScheduleController implements Controller {
 			schedule.setStartTime(LocalTime.parse(request.getParameter("startTime")));
 			schedule.setEndTime(LocalTime.parse(request.getParameter("endTime")));
 			schedule.setType(normalizeScheduleCategory(request.getParameter("category")));
+			schedule.setDescription(request.getParameter("description"));
 			
-				int scheduleId = manager.createSchedule(schedule);
+			int scheduleId = manager.createSchedule(schedule);
+			MultipartUploadUtils.saveAttachments(request, "study", "schedule", scheduleId);
 			log.debug("Create Schedule : {}", scheduleId);
 
 //			request.setAttribute("groupId", Long.parseLong(request.getParameter("groupId")));

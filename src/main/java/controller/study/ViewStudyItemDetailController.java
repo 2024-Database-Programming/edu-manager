@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import controller.AuthorizationUtils;
 import controller.Controller;
 import controller.member.MemberSessionUtils;
+import model.dao.AssignmentSubmissionDao;
+import model.dao.AttachmentDao;
 import model.domain.Assignment;
+import model.domain.AssignmentSubmission;
 import model.domain.Notice;
 import model.domain.Schedule;
 import model.domain.studyGroup.StudyGroup;
@@ -34,8 +37,10 @@ public class ViewStudyItemDetailController implements Controller {
 		String meta;
 		String description;
 		String attachment = "";
+		String attachmentType;
+		boolean assignmentItem = "assignment".equals(type);
 
-		if ("assignment".equals(type)) {
+		if (assignmentItem) {
 			Assignment assignment = manager.findAssignmentById(id);
 			if (assignment == null) {
 				return "redirect:/study/list";
@@ -46,6 +51,7 @@ public class ViewStudyItemDetailController implements Controller {
 			meta = assignmentPeriod(assignment);
 			description = safe(assignment.getDescription(), "등록된 상세 설명이 없습니다.");
 			attachment = safe(assignment.getTextFile(), "");
+			attachmentType = "assignment";
 		} else if ("notice".equals(type)) {
 			Notice notice = manager.findNoticeById(id);
 			if (notice == null) {
@@ -56,6 +62,7 @@ public class ViewStudyItemDetailController implements Controller {
 			title = safe(notice.getTitle(), "공지사항");
 			meta = notice.getCreateat() == null ? "" : "등록일 " + notice.getCreateat();
 			description = safe(notice.getDescription(), "등록된 상세 설명이 없습니다.");
+			attachmentType = "notice";
 		} else {
 			Schedule schedule = manager.findScheduleDetailById(id);
 			if (schedule == null) {
@@ -65,13 +72,15 @@ public class ViewStudyItemDetailController implements Controller {
 			label = scheduleLabel(type, schedule);
 			title = scheduleTitle(type, schedule);
 			meta = scheduleMeta(schedule, request.getParameter("selectedDate"));
-			description = scheduleDescription(type);
+			description = safe(schedule.getDescription(), scheduleDescription(type));
+			attachmentType = "schedule";
 		}
 
 		StudyGroup study = manager.findStudyById(groupId);
 		if (!AuthorizationUtils.canViewStudy(accessManager, memberId, groupId)) {
 			return "redirect:/study/over-view?groupId=" + groupId;
 		}
+		boolean canManage = AuthorizationUtils.canManageStudy(memberId, study);
 
 		String selectedDate = request.getParameter("selectedDate");
 		if (selectedDate == null || selectedDate.isBlank()) {
@@ -81,7 +90,7 @@ public class ViewStudyItemDetailController implements Controller {
 				+ "&selectedDate=" + selectedDate;
 		String listUrl = backUrl;
 		String listLabel = "캘린더";
-		if ("assignment".equals(type)) {
+		if (assignmentItem) {
 			listUrl = request.getContextPath() + "/study/listAssignment?groupId=" + groupId;
 			listLabel = "목록";
 		} else if ("notice".equals(type)) {
@@ -96,10 +105,27 @@ public class ViewStudyItemDetailController implements Controller {
 		request.setAttribute("itemMeta", meta);
 		request.setAttribute("itemDescription", description);
 		request.setAttribute("itemAttachment", attachment);
+		request.setAttribute("itemId", id);
+		request.setAttribute("itemAttachments", new AttachmentDao().findByItem("study", attachmentType, id));
+		request.setAttribute("itemKind", attachmentType);
+		request.setAttribute("canManageItem", canManage);
 		request.setAttribute("backUrl", backUrl);
 		request.setAttribute("listUrl", listUrl);
 		request.setAttribute("listLabel", listLabel);
 		request.setAttribute("backLabel", "스터디 화면으로 돌아가기");
+		request.setAttribute("selectedDate", selectedDate);
+		request.setAttribute("deleteUrl", request.getContextPath() + "/study/deleteItem");
+		if (assignmentItem) {
+			AssignmentSubmissionDao submissionDao = new AssignmentSubmissionDao();
+			request.setAttribute("submitUrl", request.getContextPath() + "/study/submitAssignment");
+			if (canManage) {
+				request.setAttribute("assignmentSubmissions", submissionDao.findByAssignment("study", id));
+			} else {
+				AssignmentSubmission mySubmission = submissionDao.findByStudent("study", id, memberId);
+				request.setAttribute("canSubmitAssignment", true);
+				request.setAttribute("mySubmission", mySubmission);
+			}
+		}
 		return "/item/detail.jsp";
 	}
 

@@ -216,14 +216,23 @@ public class LectureManager {
         return assignmentDao.findAssignmentById(assignmentId);
     }
 
+    public void deleteAssignmentById(int assignmentId) {
+        assignmentDao.deleteAssignmentById(assignmentId);
+    }
+
 
 	// 스터디 공지 추가
-	public void createNotice(Notice notice) {
-		noticeDao.createNotice(notice.getLectureId(), notice.getTitle(), notice.getDescription(), notice.getCreateat());
+	public int createNotice(Notice notice) {
+		return noticeDao.createNotice(notice.getLectureId(), notice.getTitle(), notice.getDescription(),
+				notice.getCreateat());
 	}
 
-	public void createAssignment(Assignment ass) {
-		assignmentDao.createAssignment(ass);
+	public void deleteNoticeById(int noticeId) {
+		noticeDao.deleteNoticeById(noticeId);
+	}
+
+	public int createAssignment(Assignment ass) {
+		return assignmentDao.createAssignment(ass);
 	}
 
 	// 스터디 멤버 조회

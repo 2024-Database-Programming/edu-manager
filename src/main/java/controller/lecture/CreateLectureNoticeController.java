@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import controller.AuthorizationUtils;
 import controller.Controller;
+import controller.MultipartUploadUtils;
 import controller.member.MemberSessionUtils;
 import model.domain.Notice;
 import model.domain.Schedule;
@@ -49,7 +50,8 @@ public class CreateLectureNoticeController implements Controller {
 			notice.setCreateat(LocalDate.parse(request.getParameter("startDate")));
 			notice.setLectureId(Integer.parseInt(request.getParameter("lectureId")));
 			
-				manager.createNotice(notice);
+			int noticeId = manager.createNotice(notice);
+			MultipartUploadUtils.saveAttachments(request, "lecture", "notice", noticeId);
 
 			return "redirect:/mylecture/view?lectureId=" + Long.parseLong(request.getParameter("lectureId")) 
 		       + "&selectedDate=" + LocalDate.parse(request.getParameter("startDate"));

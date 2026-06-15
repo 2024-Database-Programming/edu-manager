@@ -12,6 +12,8 @@ import controller.lecture.CreateLectureEnrollmentController;
 import controller.lecture.CreateLectureNoticeController;
 import controller.lecture.CreateLectureReviewController;
 import controller.lecture.CreateLectureScheduleController;
+import controller.lecture.DeleteLectureItemController;
+import controller.lecture.SubmitLectureAssignmentController;
 import controller.lecture.UpdateLectureController;
 import controller.lecture.ViewLectureAssignmentsController;
 import controller.lecture.ViewLectureController;
@@ -55,6 +57,8 @@ import controller.study.CreateStudyAssignmentController;
 import controller.study.CreateStudyController;
 import controller.study.CreateStudyNoticeController;
 import controller.study.CreateStudyScheduleController;
+import controller.study.DeleteStudyItemController;
+import controller.study.SubmitStudyAssignmentController;
 import controller.study.UpdateStudyController;
 import controller.study.ViewMyStudyController;
 import controller.study.ViewStudyItemDetailController;
@@ -132,6 +136,8 @@ public class RequestMapping {
         mappings.put("/study/addSchedule", new CreateStudyScheduleController());
         mappings.put("/study/addNotice", new CreateStudyNoticeController());
         mappings.put("/study/addAssignment", new CreateStudyAssignmentController());
+        mappings.put("/study/submitAssignment", new SubmitStudyAssignmentController());
+        mappings.put("/study/deleteItem", new DeleteStudyItemController());
 
         mappings.put("/study/listNotice", new ForwardController("/study/listNotice.jsp"));
         mappings.put("/study/listAssignment", new ForwardController("/study/listAssignment.jsp"));
@@ -144,6 +150,8 @@ public class RequestMapping {
         mappings.put("/lecture/addSchedule", new CreateLectureScheduleController());
         mappings.put("/lecture/addNotice", new CreateLectureNoticeController());
         mappings.put("/lecture/addAssignment", new CreateLectureAssignmentController());
+        mappings.put("/lecture/submitAssignment", new SubmitLectureAssignmentController());
+        mappings.put("/lecture/deleteItem", new DeleteLectureItemController());
 		
 		
         // 강의 신청 페이지
@@ -204,6 +212,8 @@ public class RequestMapping {
 
         // DB(BLOB)에 저장된 이미지 서빙: /image?type=member|lecture|study&id=...
         mappings.put("/image", new ViewImageController());
+        mappings.put("/attachment/download", new ViewAttachmentController());
+        mappings.put("/submission/download", new ViewSubmissionFileController());
     }
 
     public Controller findController(String uri) {

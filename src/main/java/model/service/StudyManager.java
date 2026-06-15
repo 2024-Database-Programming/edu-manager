@@ -112,6 +112,10 @@ public class StudyManager {
     public Notice findNoticeById(int noticeId) {
         return noticeDao.findNoticeById(noticeId);
     }
+
+    public void deleteNoticeById(int noticeId) {
+        noticeDao.deleteNoticeById(noticeId);
+    }
     
     public List<Notice> searchNotices(int studygroupid, String searchParam) {
         return noticeDao.searchNotices(studygroupid, searchParam);
@@ -122,12 +126,13 @@ public class StudyManager {
     }
 
     //스터디 공지 추가
-    public void createNotice(Notice notice) {
-    	noticeDao.createNotice(notice.getStudyId(), notice.getTitle(), notice.getDescription(), notice.getCreateat());
-    }
-    public void createAssignment(Assignment ass) {
-    	assignmentDao.createAssignment(ass);
-    }
+	public int createNotice(Notice notice) {
+		return noticeDao.createNotice(notice.getStudyId(), notice.getTitle(), notice.getDescription(),
+				notice.getCreateat());
+	}
+	public int createAssignment(Assignment ass) {
+		return assignmentDao.createAssignment(ass);
+	}
     //스터디 멤버 조회
     public List<String> findStudyMembers(int studyGruopId) throws SQLException {
     	return studyDao.findStudyMembers(studyGruopId);
@@ -143,6 +148,10 @@ public class StudyManager {
 
     public Assignment findAssignmentById(int assignmentId) {
         return assignmentDao.findAssignmentById(assignmentId);
+    }
+
+    public void deleteAssignmentById(int assignmentId) {
+        assignmentDao.deleteAssignmentById(assignmentId);
     }
     
     public boolean isStudyConflict(String stuId, String newDayOfWeek) throws SQLException {

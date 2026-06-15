@@ -7,13 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>일정 추가하기</title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-<link rel="stylesheet" href="<c:url value='/css/addSchedule.css' />?v=20260615-category1" />
+<link rel="stylesheet" href="<c:url value='/css/addSchedule.css' />?v=20260616-attach1" />
 </head>
 <body>
 	<div class="main-container">
 		<div style="width: 90%; justify-self: center;"><jsp:include
 				page="../navigation/navigation.jsp" /></div>
-		<form action="<c:url value='/lecture/addSchedule' />" method="POST">
+		<form action="<c:url value='/lecture/addSchedule' />" method="POST" enctype="multipart/form-data">
 			<span class="title">일정 추가하기</span>
 			<div class="form">
 				<!-- 일정 명 -->
@@ -47,6 +47,15 @@
 					<label for="end-time" class="time-label">종료</label> <input
 						type="time" id="end-time" name="endTime" class="time-selector"
 						required />
+				</div>
+				<div class="detail-input">
+					<label for="description" class="detail-text">상세 내용</label>
+					<textarea id="description" name="description" placeholder="장소, 준비물, 시험 범위 등을 입력하세요."
+						class="input-field-1"></textarea>
+				</div>
+				<div class="file-input">
+					<label for="attachments" class="detail-text">첨부파일 / 이미지</label>
+					<input type="file" id="attachments" name="attachments" class="file-selector" multiple />
 				</div>
 			</div>
 			<!-- 제출 버튼 -->

@@ -14,6 +14,7 @@ public class Schedule {
 	private LocalDate startDate;
 	private String type;// special:특수 , regular: 정규
 	private String title;
+	private String description;
 
 	private String lectureName;
 
@@ -30,7 +31,8 @@ public class Schedule {
 	}
 
 	public Schedule(int scheduleId, String dayOfWeek, LocalTime startTime, LocalTime endTime, String frequency,
-			long studyGroupId, long lectureId, LocalDate startDate, String type, String title, String lectureName) {
+			long studyGroupId, long lectureId, LocalDate startDate, String type, String title, String description,
+			String lectureName) {
 		super();
 		this.scheduleId = scheduleId;
 		this.dayOfWeek = dayOfWeek;
@@ -42,6 +44,7 @@ public class Schedule {
 		this.startDate = startDate;
 		this.title = title;
 		this.type = type;
+		this.description = description;
 		this.lectureName = lectureName;
 	}
 
@@ -133,7 +136,8 @@ public class Schedule {
 	public String toString() {
 		return "Schedule [scheduleId=" + scheduleId + ", dayOfWeek=" + dayOfWeek + ", startTime=" + startTime
 				+ ", endTime=" + endTime + ", frequency=" + frequency + ", studyGroupId=" + studyGroupId
-				+ ", lectureId=" + lectureId + ", startDate=" + startDate + ", type=" + type + ", title=" + title + "]";
+				+ ", lectureId=" + lectureId + ", startDate=" + startDate + ", type=" + type + ", title=" + title
+				+ ", description=" + description + "]";
 	}
 
 	public String getTitle() {
@@ -142,6 +146,14 @@ public class Schedule {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }
