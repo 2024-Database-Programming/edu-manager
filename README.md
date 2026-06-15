@@ -1,171 +1,183 @@
+# EDUMANAGER
+
+> ### "흩어진 강의와 스터디, 한 곳에서 관리하다"
+>
+> 강사는 강의를 열어 일정·공지·과제를 관리하고,
+> 학생은 강의를 신청하고 스터디 그룹을 만들어 함께 공부하는 교육 관리 플랫폼
+
+- **서비스명**: EduManager
+- **개발 기간**: 2024.0X ~ 2024.1X
+- **개발 인원**: O명
+- **프로젝트**: 데이터베이스 프로그래밍 팀 프로젝트
+- **서비스 목적**: 강의 모집부터 수강 신청, 스터디 운영, 일정·공지·과제 관리까지 — 교육 활동의 전 과정을 하나의 웹 서비스로 제공
+
 <div align="center">
-
-<img src="src/main/webapp/images/edumanager-logo.png" alt="EduManager" width="220" />
-
-# EduManager
-
-**강의와 스터디를 한 곳에서 — 강사·학생을 위한 교육 관리 플랫폼**
-
-강사는 강의를 개설하고 일정·공지·과제를 관리하며, 학생은 강의를 신청하고 스터디 그룹을 만들어 함께 공부합니다.
-
-<br/>
-
-![Java](https://img.shields.io/badge/Java-17-007396?logo=openjdk&logoColor=white)
-![JSP](https://img.shields.io/badge/JSP-2.3-F7DF1E?logo=html5&logoColor=black)
-![Servlet](https://img.shields.io/badge/Servlet-4.0-4B8BBE)
-![Oracle](https://img.shields.io/badge/Oracle-DB-F80000?logo=oracle&logoColor=white)
-![Maven](https://img.shields.io/badge/Maven-WAR-C71A36?logo=apachemaven&logoColor=white)
-![Tomcat](https://img.shields.io/badge/Tomcat-9-F8DC75?logo=apachetomcat&logoColor=black)
-
+  <img src="src/main/webapp/images/edumanager-logo.png" alt="EduManager" width="240" />
 </div>
 
-<br/>
+# 목차
 
-## 📖 목차
+- [기획 배경](#기획-배경)
+- [서비스 소개](#서비스-소개)
+- [주요 화면 및 기능 소개](#주요-화면-및-기능-소개)
+- [프로젝트 핵심 기술](#프로젝트-핵심-기술)
+- [시스템 아키텍처](#시스템-아키텍처)
+- [ERD](#erd)
+- [프로젝트 구조](#프로젝트-구조)
+- [기술 스택](#기술-스택)
 
-1. [프로젝트 소개](#-프로젝트-소개)
-2. [팀원](#-팀원)
-3. [주요 기능](#-주요-기능)
-4. [기술 스택](#-기술-스택)
-5. [시스템 아키텍처](#-시스템-아키텍처)
-6. [디렉터리 구조](#-디렉터리-구조)
-7. [ERD](#-erd)
-8. [실행 방법](#-실행-방법)
-9. [트러블 슈팅](#-트러블-슈팅)
-10. [개발 컨벤션](#-개발-컨벤션)
+# 기획 배경
 
-<br/>
+강의와 스터디를 운영할 때 필요한 정보는 보통 카카오톡 공지, 엑셀 수강생 명단, 구두 전달처럼 여러 곳에 흩어져 있습니다. 강사는 일정·공지·과제·수강생을 따로따로 관리해야 하고, 학생은 지금 어떤 강의와 스터디가 열려 있는지 한눈에 파악하기 어렵습니다.
 
-## 🎓 프로젝트 소개
+EduManager는 이 **분산된 교육 활동을 하나의 흐름으로 묶기 위해** 기획되었습니다. `강의 모집 → 수강 신청 → 일정·공지·과제 관리 → 스터디 모임`으로 이어지는 과정을 한 플랫폼 안에서 처리하고, 강사와 학생이 각자의 역할에 맞는 화면에서 필요한 작업만 빠르게 끝낼 수 있도록 설계했습니다.
 
-> **데이터베이스 프로그래밍** 교과목 팀 프로젝트
+또한 **데이터베이스 프로그래밍** 교과 프로젝트인 만큼, 스프링·마이바티스 같은 프레임워크에 기대지 않고 **관계형 DB 설계와 순수 JDBC로 직접 구현**하여 웹 백엔드의 동작 원리를 밑바닥부터 다루는 데 초점을 맞췄습니다.
 
-**EduManager**는 강의·스터디 운영에 필요한 흐름을 하나의 서비스로 묶은 웹 애플리케이션입니다.
-흩어져 있던 "강의 모집 → 수강 신청 → 일정/공지/과제 관리 → 스터디 모임"을 한 플랫폼에서 처리하도록 설계했습니다.
+# 서비스 소개
 
-- **강사**는 강의를 개설하고 정기 일정·공지·과제를 등록합니다.
-- **학생**은 관심 강의를 찾아 수강 신청하고, 직접 스터디 그룹을 만들어 팀원을 모집합니다.
-- 모든 일정은 **메인 캘린더**에서 통합으로 확인합니다.
+EduManager는 **역할(학생 · 강사) 기반**의 교육 관리 웹 서비스입니다.
 
-스프링/마이바티스 같은 프레임워크 없이 **Servlet·JSP·JDBC만으로 MVC 구조를 직접 구현**하여, 프런트 컨트롤러·커넥션 풀·트랜잭션·파일(BLOB) 저장 등 웹 백엔드의 동작 원리를 밑바닥부터 다룬 것이 특징입니다.
+- **강사**는 강의를 개설하고 정기 수업 일정, 공지, 과제를 등록하며 수강생을 관리합니다.
+- **학생**은 관심 강의를 검색해 수강 신청하고, 마음에 드는 강의를 찜하거나 리뷰를 남기며, 직접 스터디 그룹을 만들어 팀원을 모집합니다.
+- 수업·스터디·과제·공지 일정은 **메인 캘린더**에서 통합으로 확인합니다.
 
-<br/>
+단순한 정보 게시판이 아니라, 사용자가 **직접 만들고(강의·스터디) · 참여하고(수강·가입) · 함께 운영하는(공지·과제·일정)** 흐름을 중심으로 구성된 점이 특징입니다.
 
-## 👥 팀원
+# 주요 화면 및 기능 소개
 
-| <div align="center">이름</div> | <div align="center">담당</div> | <div align="center">GitHub</div> |
-| :---: | :--- | :---: |
-| 팀원 1 | 회원·인증, 마이페이지 | [@username](https://github.com/) |
-| 팀원 2 | 강의(개설·일정·공지·과제) | [@username](https://github.com/) |
-| 팀원 3 | 스터디 그룹·가입 신청 | [@username](https://github.com/) |
-| 팀원 4 | 메인 캘린더·공통/디자인 | [@username](https://github.com/) |
+> 각 기능 화면 캡처를 `docs/` 폴더에 추가하고 아래 표의 셀을 `<img src="./docs/...">` 로 교체하면 이미지로 표시됩니다.
 
-> 팀원 정보는 실제 정보로 채워 주세요.
+## 회원 · 인증
 
-<br/>
+<table>
+  <tr>
+    <th width="280">로그인</th>
+    <th width="280">회원가입 (학생 / 강사)</th>
+    <th width="280">프로필 사진 업로드</th>
+  </tr>
+  <tr>
+    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
+    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
+    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
+  </tr>
+</table>
 
-## ✨ 주요 기능
-
-### 👤 회원 · 인증
-- 학생 / 강사 **역할 기반 회원가입** (단계별 입력)
-- 로그인 / 로그아웃, 세션 기반 인증 및 권한별 접근 제어
-- **프로필 사진 업로드** (Oracle BLOB 저장 → `/image` 로 스트리밍 서빙)
+- 학생 / 강사 **역할 기반 회원가입** (단계별 입력)과 로그인·로그아웃
+- 세션 기반 인증 및 권한별 접근 제어 (예: 강의 개설은 강사만)
+- **프로필 사진 업로드** — Oracle BLOB에 저장하고 `/image` 로 스트리밍 서빙
 - 아이디 **중복 확인**(AJAX 인라인 검사), 내 정보 수정, 회원 탈퇴
 
-### 📚 강의 (강사 / 학생)
-- 강사: 강의 **개설·수정**, 정기 수업 일정·**공지·과제** 등록, 강의 대표 사진
+## 강의
+
+<table>
+  <tr>
+    <th width="280">강의 개설 (강사)</th>
+    <th width="280">강의 목록 · 상세</th>
+    <th width="280">공지 · 과제 · 수강신청</th>
+  </tr>
+  <tr>
+    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
+    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
+    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
+  </tr>
+</table>
+
+- 강사: 강의 **개설·수정**, 정기 수업 일정과 **공지·과제** 등록, 강의 대표 사진 업로드
 - 학생: 강의 목록·상세 조회, **수강 신청**, **찜(좋아요)**, **리뷰** 작성
-- 강사 권한 검증 (강의 개설은 강사만 가능)
+- 일정 충돌 검사 등 강의 운영에 필요한 검증 포함
 
-### 👥 스터디 그룹
-- 스터디 **개설·수정**, 모집 인원·정기 모임 요일 설정
+## 스터디 그룹
+
+<table>
+  <tr>
+    <th width="280">스터디 개설</th>
+    <th width="280">가입 신청</th>
+    <th width="280">수락 / 거절 관리</th>
+  </tr>
+  <tr>
+    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
+    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
+    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
+  </tr>
+</table>
+
+- 스터디 **개설·수정**, 모집 인원과 정기 모임 요일 설정
 - **가입 신청 → 리더의 수락 / 거절** 흐름
-- 스터디 공지·과제·일정, 찜, 리뷰
+- 스터디 공지·과제·일정, 찜, 리뷰 기능 제공
 
-### 🗓 메인 · 마이페이지
-- **통합 일정 캘린더** — 수업·스터디·과제·공지를 한 화면에서
+## 메인 캘린더 · 마이페이지
+
+<table>
+  <tr>
+    <th width="420">통합 일정 캘린더</th>
+    <th width="420">마이페이지</th>
+  </tr>
+  <tr>
+    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
+    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
+  </tr>
+</table>
+
+- **통합 일정 캘린더** — 수업·스터디·과제·공지를 한 화면에서 확인
 - 마이페이지: 내 정보 · 내 강의 · 내 스터디 · 찜 목록
 
-> 🖼 **화면 미리보기**: 실제 캡처 이미지를 `docs/` 에 추가해 이 자리에 넣어 주세요.
+# 프로젝트 핵심 기술
 
-<br/>
+## 프레임워크 없는 MVC — 프런트 컨트롤러 직접 구현
 
-## 🛠 기술 스택
+- 모든 요청을 **`DispatcherServlet`(Front Controller)** 한 곳으로 받고, `RequestMapping`이 URL → `Controller`로 분기합니다.
+- 각 `Controller`는 공통 인터페이스(`execute`)를 구현해 처리 결과로 **forward(JSP)** 또는 **redirect** 경로를 반환하고, 디스패처가 이동을 담당합니다.
+- 매핑이 없는 요청은 **404**로 처리해, 라우팅 책임을 한 곳에 모았습니다.
 
-| 구분 | 기술 |
-| :--- | :--- |
-| **Language** | Java 17 |
-| **View** | JSP 2.3, JSTL 1.2 |
-| **Web** | Servlet 4.0 (Custom MVC · Front Controller) |
-| **DB** | Oracle Database, JDBC, Apache Commons **DBCP2** (커넥션 풀) |
-| **File** | Multipart (`@MultipartConfig`), Commons FileUpload / IO, **BLOB** |
-| **Etc.** | Jackson(JSON), Logback(로깅), JUnit |
-| **Build / Run** | Maven (WAR), Apache Tomcat 9 |
+## 커넥션 풀 기반 DB 접근 (DBCP2)
 
-> 프레임워크(Spring/MyBatis) 미사용 — 순수 Servlet·JSP·JDBC 기반.
+- 매 요청마다 커넥션을 새로 만들지 않고 **Apache Commons DBCP2 커넥션 풀**에서 빌려 쓰고 반납합니다.
+- `ConnectionManager`(풀 래퍼) → `JDBCUtil`(쿼리 실행/트랜잭션) → `DAO` 로 이어지는 데이터 접근 계층을 직접 설계했습니다.
+- 트랜잭션 커밋/롤백과 자원 반납을 명시적으로 다루며 순수 JDBC의 동작을 학습했습니다.
 
-<br/>
+## 이미지 BLOB 저장 · 스트리밍 서빙
 
-## 🏗 시스템 아키텍처
+- 프로필·강의·스터디 이미지를 파일 시스템이 아닌 **Oracle `BLOB`** 으로 DB에 저장합니다.
+- 기존 테이블을 건드리지 않도록 별도 `IMAGE` 테이블에 `(OWNER_TYPE, OWNER_ID)` 키로 보관하고, `setBinaryStream` / `getBlob` 으로 처리합니다.
+- 저장된 이미지는 `ViewImageController`가 `/image?type=&id=` 로 **스트리밍 서빙**합니다.
+
+## 실패 UX — PRG + 세션 Flash 메시지
+
+- 작업 실패 시 `request`가 아닌 **세션**에 메시지를 담고 **redirect**하는 **PRG(Post-Redirect-Get)** 패턴을 적용했습니다.
+- 공통 네비게이션이 세션의 `flashError`를 읽어 **한 번만 표시한 뒤 즉시 제거**합니다.
+- 덕분에 "새로고침 시 폼 재전송 / 알림이 안 사라짐" 같은 문제 없이 실패 사유를 일관되게 전달합니다.
+
+## 안전한 에러 처리 — 커스텀 404 / 500
+
+- 없는 주소·서버 오류를 톰캣 기본 화면 대신 **네이비 테마 커스텀 에러 페이지**로 응답합니다.
+- 예외 스택트레이스(내부 클래스·프레임워크 정보)가 사용자에게 노출되지 않도록 차단했습니다.
+
+# 시스템 아키텍처
 
 프런트 컨트롤러 패턴 기반의 **계층형 MVC** 구조입니다.
 
-```mermaid
-flowchart LR
-    Client([브라우저])
-    Client -->|HTTP 요청| Filter["Filter<br/>Encoding · Resource"]
-    Filter --> DS["DispatcherServlet<br/>(Front Controller)"]
-    DS -->|servletPath 매핑| RM[RequestMapping]
-    RM --> C["Controller.execute()"]
-    C --> SVC["Manager (Service)"]
-    SVC --> DAO[DAO]
-    DAO --> JU[JDBCUtil]
-    JU --> CM["ConnectionManager<br/>(DBCP2 Pool)"]
-    CM --> DB[("Oracle DB")]
-    C -->|forward| JSP["JSP View (JSTL)"]
-    C -->|redirect| Client
-    JSP --> Client
+```text
+User Browser
+  └─ Filter (Encoding · Resource)
+      └─ DispatcherServlet  (Front Controller)
+          └─ RequestMapping  (URL → Controller 매핑)
+              └─ Controller   (요청 처리, forward / redirect 결정)
+                  └─ Manager  (Service · 비즈니스 로직, 싱글톤)
+                      └─ DAO → JDBCUtil → ConnectionManager (DBCP2 Pool)
+                          └─ Oracle DB
+          └─ View : JSP + JSTL   (forward 시 렌더링)
 ```
 
 **요청 처리 흐름**
-1. 모든 요청은 `Filter`(인코딩·정적 리소스)를 거쳐 `DispatcherServlet` 으로 진입
-2. `RequestMapping` 이 URL → `Controller` 매핑 (없으면 **404**)
-3. `Controller` 가 `Manager`(서비스) → `DAO` → `JDBCUtil` → 커넥션 풀 순으로 DB 처리
+
+1. 모든 요청은 `Filter`(인코딩·정적 리소스)를 거쳐 `DispatcherServlet`으로 진입
+2. `RequestMapping`이 URL에 맞는 `Controller`를 찾음 (없으면 404)
+3. `Controller` → `Manager` → `DAO` → 커넥션 풀 순으로 DB 작업 수행
 4. 결과에 따라 JSP **forward** 또는 **redirect** 반환
-5. 작업 실패 시 세션 `flashError` 에 메시지를 담아 **PRG(Post-Redirect-Get)** 로 사용자에게 1회성 알림
+5. 실패 시 세션 `flashError` + PRG로 사용자에게 1회성 알림
 
-<br/>
-
-## 🗂 디렉터리 구조
-
-```
-EduManager
-├── db/                                # DB 스키마 (IMAGE 등)
-├── pom.xml                            # Maven 의존성 / 빌드
-└── src/main
-    ├── java
-    │   ├── controller                 # 프런트 컨트롤러 + 도메인별 Controller
-    │   │   ├── DispatcherServlet.java #  └ 진입점(Front Controller)
-    │   │   ├── RequestMapping.java    #  └ URL ↔ Controller 매핑
-    │   │   └── lecture / study / studyGroup / member / mypage / main
-    │   ├── filter                     # EncodingFilter, ResourceFilter
-    │   └── model
-    │       ├── domain                 # 도메인 객체(Member, Lecture, StudyGroup …)
-    │       ├── service                # Manager(비즈니스 로직, 싱글톤)
-    │       └── dao                    # DAO + JDBCUtil + ConnectionManager
-    ├── resources                      # context.properties(DB 접속) 등
-    └── webapp
-        ├── css / js / images          # 정적 리소스 (네이비 디자인 시스템)
-        └── WEB-INF
-            ├── web.xml                # 서블릿/필터/에러 페이지 매핑
-            ├── error.jsp              # 커스텀 404/500 페이지
-            ├── navigation/            # 공통 네비게이션(+ flash 배너)
-            └── lecture / study / member / mypage / main / registration  # 화면(JSP)
-```
-
-<br/>
-
-## 🧩 ERD
+# ERD
 
 핵심 엔티티 관계 (간략화)
 
@@ -187,67 +199,64 @@ erDiagram
     STUDYGROUP ||--o{ SCHEDULE : "모임일정"
 ```
 
-> 프로필·강의·스터디 **이미지**는 별도 `IMAGE` 테이블에 `(OWNER_TYPE, OWNER_ID)` 키 + `IMG_DATA BLOB` 으로 저장합니다.
+> 프로필·강의·스터디 **이미지**는 별도 `IMAGE` 테이블에 `(OWNER_TYPE, OWNER_ID)` 키 + `IMG_DATA BLOB`으로 저장합니다.
 
-<br/>
+# 프로젝트 구조
 
-## 🚀 실행 방법
-
-### 1. 요구 사항
-- JDK 17
-- Apache Tomcat 9 (Servlet 4.0)
-- Oracle Database 접근 권한
-
-### 2. DB 설정
-`src/main/resources/context.properties` 에 접속 정보를 입력합니다.
-```properties
-db.driver=oracle.jdbc.driver.OracleDriver
-db.url=jdbc:oracle:thin:@<host>:<port>/<service>
-db.username=<사용자>
-db.password=<비밀번호>
-```
-스키마 생성 후, 이미지 테이블은 `db/IMAGE.sql` 을 실행합니다.
-
-### 3. 빌드 & 실행
-```bash
-mvn clean package        # target/EduManager.war 생성
-```
-생성된 WAR 를 Tomcat 에 배포하거나, Eclipse(WTP) 에서 `Run on Server` 로 구동합니다.
-
-### 4. 접속
-```
-http://localhost:8081/edu-manager
+```text
+EduManager/
+├── db/                                # DB 스키마 (IMAGE 등)
+├── pom.xml                            # Maven 의존성 / 빌드 설정
+└── src/main
+    ├── java
+    │   ├── controller                 # 프런트 컨트롤러 + 도메인별 Controller
+    │   │   ├── DispatcherServlet.java #   └ 진입점 (Front Controller)
+    │   │   ├── RequestMapping.java    #   └ URL ↔ Controller 매핑
+    │   │   └── lecture / study / studyGroup / member / mypage / main
+    │   ├── filter                     # EncodingFilter, ResourceFilter
+    │   └── model
+    │       ├── domain                 # 도메인 객체 (Member, Lecture, StudyGroup …)
+    │       ├── service                # Manager (비즈니스 로직, 싱글톤)
+    │       └── dao                    # DAO + JDBCUtil + ConnectionManager
+    ├── resources                      # context.properties (DB 접속 정보)
+    └── webapp
+        ├── css / js / images          # 정적 리소스 (네이비 디자인 시스템)
+        └── WEB-INF
+            ├── web.xml                # 서블릿 · 필터 · 에러 페이지 매핑
+            ├── error.jsp              # 커스텀 404 / 500 페이지
+            ├── navigation/            # 공통 네비게이션 (+ flash 배너)
+            └── lecture / study / member / mypage / main / registration
 ```
 
-<br/>
+# 기술 스택
 
-## 🧯 트러블 슈팅
+### Language · View
 
-> 순수 JDBC 구조라 직접 마주치고 해결한 대표 사례들
+<div>
+  <img src="https://img.shields.io/badge/Java_17-007396?style=for-the-badge&logo=openjdk&logoColor=white"/>
+  <img src="https://img.shields.io/badge/JSP-007396?style=for-the-badge&logo=oracle&logoColor=white"/>
+  <img src="https://img.shields.io/badge/JSTL-4B8BBE?style=for-the-badge"/>
+</div>
 
-| 문제 | 원인 | 해결 |
-| :--- | :--- | :--- |
-| **사진 저장 후 전체 DB 다운** (`Data source is closed`) | DAO가 요청마다 **static 공유 커넥션 풀**을 `close()` | 풀은 닫지 않고 커넥션만 반납, 풀 단일 인스턴스 유지 |
-| **실패 알림이 안 뜨거나 안 사라짐** | `redirect` 시 `request` 속성 소실 / 메시지 미제거 | **PRG + 세션 flash**: 세션에 담아 1회 표시 후 즉시 제거 |
-| **생성·수정 실패 시 로그인 화면으로 튕김** | catch 에서 `redirect:/login` 으로 처리 | 원래 페이지로 복귀 + flash 로 사유 표시 |
-| **없는 주소가 500 + 스택트레이스 노출** | 매핑 없을 때 NPE → 500 | 매핑 없으면 **404**, 커스텀 에러 페이지로 스택트레이스 차단 |
-| **쿼리 오류가 엉뚱한 NPE로 둔갑** | `executeQuery` 가 예외를 삼키고 `null` 반환 | 예외를 전파해 실제 원인이 드러나도록 개선 |
+### Web · DB
 
-<br/>
+<div>
+  <img src="https://img.shields.io/badge/Servlet_4.0-2E6DB4?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Custom_MVC-555555?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/JDBC-F80000?style=for-the-badge&logo=oracle&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Oracle_DB-F80000?style=for-the-badge&logo=oracle&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Commons_DBCP2-D22128?style=for-the-badge&logo=apache&logoColor=white"/>
+</div>
 
-## 📝 개발 컨벤션
+### Build · Etc.
 
-**브랜치**: `develop` (직접 작업)
-
-**커밋 메시지**
-```
-[BE] fix: 로그인 실패 메시지 PRG 적용
-[FE] style: 강의 카드 커버 색상 조정
-chore: 죽은 파일 정리
-```
-- `[BE]` / `[FE]` 로 영역 표시, `feat / fix / refactor / style / chore` 타입 사용
-
-**패키지 규칙**: `controller`(요청 처리) · `service`(비즈니스) · `dao`(DB 접근) · `domain`(객체) 계층 분리
+<div>
+  <img src="https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Tomcat_9-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=black"/>
+  <img src="https://img.shields.io/badge/Logback-24292E?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Jackson-1572B6?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/JUnit-25A162?style=for-the-badge&logo=junit5&logoColor=white"/>
+</div>
 
 <br/>
 
