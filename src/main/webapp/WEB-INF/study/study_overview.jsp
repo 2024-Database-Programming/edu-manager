@@ -1,5 +1,11 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	java.util.Map<String, String> dayMap = new java.util.HashMap<>();
+	dayMap.put("MONDAY", "월"); dayMap.put("TUESDAY", "화"); dayMap.put("WEDNESDAY", "수");
+	dayMap.put("THURSDAY", "목"); dayMap.put("FRIDAY", "금"); dayMap.put("SATURDAY", "토"); dayMap.put("SUNDAY", "일");
+	pageContext.setAttribute("dayMap", dayMap);
+%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -27,7 +33,7 @@
 					</div>
 					<div class="overViewInfoText" id="studyGroupTime">
 						<img src="<c:url value='/images/overViewTime.svg' />"
-							class="infoIcon" />매주 ${dayOfWeek}요일
+							class="infoIcon" />매주 ${dayMap[dayOfWeek] != null ? dayMap[dayOfWeek] : dayOfWeek}요일
 					</div>
 					<div class="overViewInfoText">
 						모집 ${memberCount}/${capacity}
