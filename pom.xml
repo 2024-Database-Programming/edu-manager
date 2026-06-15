@@ -11,8 +11,7 @@
 	<packaging>war</packaging>
 
 	<name>EduManager Maven Webapp</name>
-	<!-- FIXME change it to the project's website -->
-	<url>http://www.example.com</url>
+	<url>https://github.com/2024-Database-Programming/edu-manager</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
