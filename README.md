@@ -120,9 +120,16 @@ EduManager는 **역할(학생 · 강사) 기반**의 교육 관리 웹 서비스
 
 ## 스터디 그룹
 
-<div align="center">
-  <img src="./docs/study-create.png" alt="스터디 개설" width="620"/>
-</div>
+<table>
+  <tr>
+    <th width="50%">스터디 개설</th>
+    <th width="50%">스터디 상세 · 가입</th>
+  </tr>
+  <tr>
+    <td><img src="./docs/study-create.png" alt="스터디 개설" width="100%"/></td>
+    <td><img src="./docs/study-detail.png" alt="스터디 상세" width="100%"/></td>
+  </tr>
+</table>
 
 - 스터디 **개설·수정**, 모집 인원과 정기 모임 요일 설정
 - **가입 신청 → 리더의 수락 / 거절** 흐름
