@@ -31,6 +31,10 @@ public class ViewLectureController implements Controller {
         
         // LectureManager를 통해 강의 정보 조회
         Lecture lecture = lectureManager.findLectureById(lectureId);
+        if (lecture == null) { // 삭제됐거나 없는 강의 id → NPE로 500 나지 않게 안내 후 목록으로
+            request.getSession().setAttribute("flashError", "존재하지 않는 강의입니다.");
+            return "redirect:/registration";
+        }
         int enrolledCount = lectureManager.findLectureMembers(lectureId.intValue()).size();
         long availableSeats = lecture.getCapacity() - enrolledCount;
           
