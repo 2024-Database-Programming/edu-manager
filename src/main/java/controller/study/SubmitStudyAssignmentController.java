@@ -40,25 +40,30 @@ public class SubmitStudyAssignmentController implements Controller {
 			return "redirect:/study/itemDetail?type=assignment&id=" + assignmentId + "&selectedDate=" + selectedDate;
 		}
 
-		String description = trim(request.getParameter("submissionDescription"));
-		UploadedFile file = MultipartUploadUtils.readOptionalFile(request, "submissionFile");
-		if ((description == null || description.isBlank()) && file == null) {
-			request.getSession().setAttribute("flashError", "제출 내용 또는 파일을 하나 이상 입력해 주세요.");
-			return "redirect:/study/itemDetail?type=assignment&id=" + assignmentId + "&selectedDate=" + selectedDate;
-		}
+		try {
+			String description = trim(request.getParameter("submissionDescription"));
+			UploadedFile file = MultipartUploadUtils.readOptionalFile(request, "submissionFile");
+			if ((description == null || description.isBlank()) && file == null) {
+				throw new IllegalArgumentException("제출 내용 또는 파일을 하나 이상 입력해 주세요.");
+			}
 
-		AssignmentSubmission submission = new AssignmentSubmission();
-		submission.setOwnerType("study");
-		submission.setAssignmentId(assignmentId);
-		submission.setStudentId(memberId);
-		submission.setDescription(description);
-		if (file != null) {
-			submission.setFileName(file.fileName);
-			submission.setContentType(file.contentType);
-			submission.setData(file.data);
+			AssignmentSubmission submission = new AssignmentSubmission();
+			submission.setOwnerType("study");
+			submission.setAssignmentId(assignmentId);
+			submission.setStudentId(memberId);
+			submission.setDescription(description);
+			if (file != null) {
+				submission.setFileName(file.fileName);
+				submission.setContentType(file.contentType);
+				submission.setData(file.data);
+			}
+			new AssignmentSubmissionDao().saveOrReplace(submission);
+			request.getSession().setAttribute("flashMessage", "과제가 제출되었습니다.");
+		} catch (IllegalArgumentException ex) {
+			request.getSession().setAttribute("flashError", ex.getMessage());
+		} catch (Exception ex) {
+			request.getSession().setAttribute("flashError", "과제 제출에 실패했습니다. 파일 크기와 입력 내용을 확인해 주세요.");
 		}
-		new AssignmentSubmissionDao().saveOrReplace(submission);
-		request.getSession().setAttribute("flashMessage", "과제가 제출되었습니다.");
 		return "redirect:/study/itemDetail?type=assignment&id=" + assignmentId + "&selectedDate=" + selectedDate;
 	}
 

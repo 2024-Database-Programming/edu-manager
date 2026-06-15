@@ -155,6 +155,7 @@
 				</c:if>
 				<div class="item-actions">
 					<c:if test="${canManageItem}">
+						<a class="list-button secondary" href="${editUrl}">수정</a>
 						<form class="delete-form" action="${deleteUrl}" method="POST"
 							onsubmit="return confirm('이 항목을 삭제할까요?');">
 							<input type="hidden" name="type" value="${itemKind}" />

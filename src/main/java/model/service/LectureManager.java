@@ -220,6 +220,10 @@ public class LectureManager {
         assignmentDao.deleteAssignmentById(assignmentId);
     }
 
+    public void updateAssignment(Assignment assignment) {
+        assignmentDao.updateAssignment(assignment);
+    }
+
 
 	// 스터디 공지 추가
 	public int createNotice(Notice notice) {
@@ -229,6 +233,10 @@ public class LectureManager {
 
 	public void deleteNoticeById(int noticeId) {
 		noticeDao.deleteNoticeById(noticeId);
+	}
+
+	public void updateNoticeById(int noticeId, String title, String description) {
+		noticeDao.updateNotice(noticeId, title, description);
 	}
 
 	public int createAssignment(Assignment ass) {

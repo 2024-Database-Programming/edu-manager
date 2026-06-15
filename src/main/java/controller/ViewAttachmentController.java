@@ -19,9 +19,14 @@ public class ViewAttachmentController implements Controller {
 		}
 
 		int id = Integer.parseInt(request.getParameter("id"));
+		String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
 		Attachment attachment = new AttachmentDao().findById(id);
 		if (attachment == null || attachment.getData() == null || attachment.getData().length == 0) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		}
+		if (!ItemAccessUtils.canAccessAttachment(attachment, memberId)) {
+			response.sendError(HttpServletResponse.SC_FORBIDDEN);
 			return null;
 		}
 

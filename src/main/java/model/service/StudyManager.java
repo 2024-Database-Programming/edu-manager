@@ -116,6 +116,10 @@ public class StudyManager {
     public void deleteNoticeById(int noticeId) {
         noticeDao.deleteNoticeById(noticeId);
     }
+
+    public void updateNoticeById(int noticeId, String title, String description) {
+        noticeDao.updateNotice(noticeId, title, description);
+    }
     
     public List<Notice> searchNotices(int studygroupid, String searchParam) {
         return noticeDao.searchNotices(studygroupid, searchParam);
@@ -152,6 +156,10 @@ public class StudyManager {
 
     public void deleteAssignmentById(int assignmentId) {
         assignmentDao.deleteAssignmentById(assignmentId);
+    }
+
+    public void updateAssignment(Assignment assignment) {
+        assignmentDao.updateAssignment(assignment);
     }
     
     public boolean isStudyConflict(String stuId, String newDayOfWeek) throws SQLException {

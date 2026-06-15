@@ -195,6 +195,28 @@ public class StudyAssignmentDao {
 		}
 	}
 
+	public void updateAssignment(Assignment assignment) {
+		StringBuffer query = new StringBuffer();
+		query.append("UPDATE studyassignment ");
+		query.append("SET title = ?, description = ?, createat = ?, starttime = ?, duedate = ?, duetime = ?, textfile = ? ");
+		query.append("WHERE studyassignmentid = ?");
+
+		jdbcUtil.setSqlAndParameters(query.toString(),
+				new Object[] { assignment.getTitle(), assignment.getDescription(), toSqlDate(assignment.getCreateat()),
+						toSqlTime(assignment.getStartTime()), toSqlDate(assignment.getDueDate()),
+						toSqlTime(assignment.getDueTime()), assignment.getTextFile(), assignment.getId() });
+
+		try {
+			jdbcUtil.executeUpdate();
+			jdbcUtil.commit();
+		} catch (Exception ex) {
+			jdbcUtil.rollback();
+			throw new RuntimeException("스터디 과제 수정에 실패했습니다.", ex);
+		} finally {
+			jdbcUtil.close();
+		}
+	}
+
 	private Assignment mapAssignment(ResultSet rs, String idColumn, String ownerColumn) throws SQLException {
 		Assignment assignment = new Assignment();
 		assignment.setId(rs.getInt(idColumn));

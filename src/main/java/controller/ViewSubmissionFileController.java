@@ -19,9 +19,14 @@ public class ViewSubmissionFileController implements Controller {
 		}
 
 		int id = Integer.parseInt(request.getParameter("id"));
+		String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
 		AssignmentSubmission submission = new AssignmentSubmissionDao().findFileById(id);
 		if (submission == null || submission.getData() == null || submission.getData().length == 0) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return null;
+		}
+		if (!ItemAccessUtils.canAccessSubmission(submission, memberId)) {
+			response.sendError(HttpServletResponse.SC_FORBIDDEN);
 			return null;
 		}
 

@@ -13,6 +13,7 @@ import controller.lecture.CreateLectureNoticeController;
 import controller.lecture.CreateLectureReviewController;
 import controller.lecture.CreateLectureScheduleController;
 import controller.lecture.DeleteLectureItemController;
+import controller.lecture.EditLectureItemController;
 import controller.lecture.SubmitLectureAssignmentController;
 import controller.lecture.UpdateLectureController;
 import controller.lecture.ViewLectureAssignmentsController;
@@ -58,6 +59,7 @@ import controller.study.CreateStudyController;
 import controller.study.CreateStudyNoticeController;
 import controller.study.CreateStudyScheduleController;
 import controller.study.DeleteStudyItemController;
+import controller.study.EditStudyItemController;
 import controller.study.SubmitStudyAssignmentController;
 import controller.study.UpdateStudyController;
 import controller.study.ViewMyStudyController;
@@ -138,6 +140,7 @@ public class RequestMapping {
         mappings.put("/study/addAssignment", new CreateStudyAssignmentController());
         mappings.put("/study/submitAssignment", new SubmitStudyAssignmentController());
         mappings.put("/study/deleteItem", new DeleteStudyItemController());
+        mappings.put("/study/editItem", new EditStudyItemController());
 
         mappings.put("/study/listNotice", new ForwardController("/study/listNotice.jsp"));
         mappings.put("/study/listAssignment", new ForwardController("/study/listAssignment.jsp"));
@@ -152,6 +155,7 @@ public class RequestMapping {
         mappings.put("/lecture/addAssignment", new CreateLectureAssignmentController());
         mappings.put("/lecture/submitAssignment", new SubmitLectureAssignmentController());
         mappings.put("/lecture/deleteItem", new DeleteLectureItemController());
+        mappings.put("/lecture/editItem", new EditLectureItemController());
 		
 		
         // 강의 신청 페이지

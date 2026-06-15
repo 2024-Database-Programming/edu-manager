@@ -113,6 +113,8 @@ public class ViewLectureItemDetailController implements Controller {
 		request.setAttribute("backLabel", "강의 화면으로 돌아가기");
 		request.setAttribute("selectedDate", selectedDate);
 		request.setAttribute("deleteUrl", request.getContextPath() + "/lecture/deleteItem");
+		request.setAttribute("editUrl", request.getContextPath() + "/lecture/editItem?type=" + attachmentType
+				+ "&id=" + id + "&selectedDate=" + selectedDate);
 		if (assignmentItem) {
 			AssignmentSubmissionDao submissionDao = new AssignmentSubmissionDao();
 			request.setAttribute("submitUrl", request.getContextPath() + "/lecture/submitAssignment");
@@ -128,10 +130,10 @@ public class ViewLectureItemDetailController implements Controller {
 	}
 
 	private String scheduleLabel(String type, Schedule schedule) {
-		if ("exam".equals(type) || containsExamKeyword(schedule.getTitle())) {
+		if ("exam".equals(type) || "exam".equals(schedule.getType()) || containsExamKeyword(schedule.getTitle())) {
 			return "시험";
 		}
-		if ("event".equals(type)) {
+		if ("event".equals(type) || "event".equals(schedule.getType())) {
 			return "일정";
 		}
 		return "수업";
@@ -147,7 +149,7 @@ public class ViewLectureItemDetailController implements Controller {
 		if ("exam".equals(type) || "exam".equals(schedule.getType())) {
 			return "시험";
 		}
-		if ("event".equals(type)) {
+		if ("event".equals(type) || "event".equals(schedule.getType())) {
 			return "일정";
 		}
 		return "단기 수업";

@@ -169,12 +169,13 @@ public class LectureScheduleDao {
 	public void updateSchedule(Schedule schedule) {
 		StringBuffer query = new StringBuffer();
 		query.append("UPDATE lectureschedule ");
-		query.append("SET dayofweek = ?, starttime = ?, endtime = ?, frequency = ?, title = ?, description = ? ");
+		query.append("SET dayofweek = ?, starttime = ?, endtime = ?, frequency = ?, title = ?, description = ?, ");
+		query.append("startdate = ?, type = ? ");
 		query.append("WHERE lecturescheduleid = ?");
 
 		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { schedule.getDayOfWeek(), schedule.getStartTime(),
 				schedule.getEndTime(), schedule.getFrequency(), schedule.getTitle(), schedule.getDescription(),
-				schedule.getScheduleId() });
+				schedule.getStartDate(), schedule.getType(), schedule.getScheduleId() });
 
 		try {
 			int rs = jdbcUtil.executeUpdate();
