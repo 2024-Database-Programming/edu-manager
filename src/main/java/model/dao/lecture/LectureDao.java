@@ -12,6 +12,7 @@ import model.dao.JDBCUtil;
 import model.domain.Notice;
 import model.domain.lecture.Lecture;
 import model.domain.lecture.LectureEnrollment;
+import model.domain.member.Member;
 import model.domain.studyGroup.StudyGroupApplication;
 
 public class LectureDao {
@@ -21,7 +22,7 @@ public class LectureDao {
         jdbcUtil = new JDBCUtil(); // JDBCUtil 객체 생성
     }
 
-    public Lecture createLecture(Lecture lecture) { // 강의 추가
+    public Lecture createLecture(Lecture lecture) throws SQLException { // 강의 추가
         StringBuffer query = new StringBuffer();
         int result = 0;
         query.append("INSERT INTO Lecture (lectureId, name, img, category, capacity, lectureLevel, createdAt, teacherId, lectureRoom, description) ");
@@ -41,18 +42,21 @@ public class LectureDao {
                    long generatedKey = rs.getLong(1);   // 생성된 PK 값
                    lecture.setLectureId(generatedKey);    // id필드에 저장  
                 }
+                jdbcUtil.commit();
                 return lecture;
             }
-            
-            
+
+            jdbcUtil.rollback();
+            throw new SQLException("강의 저장 결과가 없습니다.");
+        } catch (SQLException ex) {
+            jdbcUtil.rollback();
+            throw ex;
         } catch (Exception ex) {
             jdbcUtil.rollback();
-            ex.printStackTrace();
+            throw new SQLException("강의 저장 중 오류가 발생했습니다.", ex);
         } finally {
-            jdbcUtil.commit();
             jdbcUtil.close(); // ResultSet, PreparedStatement, Connection 등 해제
         }
-        return null;
     }
 
    
@@ -231,12 +235,6 @@ public class LectureDao {
         query.append("FROM Lecture L ");
         query.append("JOIN Teacher T ON L.teacherId = T.Id "); // Teacher 테이블과 조인
         query.append("JOIN InterestCategory ic ON L.category = ic.Id "); 
-        query.append("WHERE NOT EXISTS (");
-        query.append("    SELECT 1 ");
-        query.append("    FROM LectureEnrollment ");
-        query.append("    WHERE LectureEnrollment.lectureId = L.lectureId ");
-        query.append("    AND LectureEnrollment.stuid = ? ");
-        query.append(") ");
         query.append("ORDER BY ");
         query.append("    CASE ");
         query.append("        WHEN L.category IN (");
@@ -247,7 +245,7 @@ public class LectureDao {
         query.append("        ELSE 2 ");
         query.append("    END");
 
-        jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { stuid, stuid }); // stuid 파라미터 전달
+        jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { stuid }); // stuid 파라미터 전달
         List<Lecture> lectureList = new ArrayList<>(); // 결과를 담을 리스트
 
         try {
@@ -287,12 +285,7 @@ public class LectureDao {
         query.append("FROM Lecture L ");
         query.append("JOIN Teacher T ON L.teacherId = T.Id "); // Teacher 테이블과 조인
         query.append("JOIN InterestCategory ic ON L.category = ic.Id "); 
-        query.append("WHERE NOT EXISTS (");
-        query.append("    SELECT 1 ");
-        query.append("    FROM LectureEnrollment ");
-        query.append("    WHERE LectureEnrollment.lectureId = L.lectureId ");
-        query.append("    AND LectureEnrollment.stuid = ? ");
-        query.append(")");
+        query.append("WHERE 1 = 1 ");
 
 
         
@@ -301,7 +294,6 @@ public class LectureDao {
         }
 
         List<Object> params = new ArrayList<>();
-        params.add(stuid);
         
         if (searchParam != null && !searchParam.trim().isEmpty()) {
             params.add("%" + searchParam + "%"); // S.name LIKE '%검색어%'
@@ -559,13 +551,40 @@ public class LectureDao {
         return members;
     }
 
+    public List<Member> findLectureMemberDetails(int lectureId) throws SQLException {
+       List<Member> members = new ArrayList<>();
+
+        String sql = "SELECT s.id, s.name, s.email, s.phone, m.img " +
+                     "FROM Student s " +
+                     "JOIN Member m ON s.id = m.id " +
+                     "JOIN LectureEnrollment le ON s.id = le.stuId " +
+                     "WHERE le.lectureId = ? " +
+                     "ORDER BY s.name";
+
+        jdbcUtil.setSqlAndParameters(sql, new Object[]{lectureId});
+        ResultSet rs = jdbcUtil.executeQuery();
+
+        while (rs.next()) {
+           members.add(new Member(
+                   rs.getString("id"),
+                   null,
+                   rs.getString("name"),
+                   rs.getString("email"),
+                   rs.getString("phone"),
+                   rs.getString("img")));
+        }
+
+        jdbcUtil.close();
+        return members;
+    }
+
    public List<LocalDate> findMonthSchedule(int lectureId, int month, int year) {
         List<LocalDate> eventDates = new ArrayList<>();
         
         String sql = 
                 "SELECT DISTINCT TRUNC(startDate) AS eventDate " +
                 "FROM lectureSchedule " +
-                "WHERE type = 'special' " +
+                "WHERE (type <> 'regular' OR type IS NULL) " +
                 "AND EXTRACT(MONTH FROM startDate) = ? " +
                 "AND EXTRACT(YEAR FROM startDate) = ? " +
                 "AND lectureId = ? " +
@@ -586,9 +605,18 @@ public class LectureDao {
                 "AND EXTRACT(YEAR FROM dueDate) = ? " +
                 "AND lectureId = ? " +
 
+                "UNION " +
+
+                "SELECT DISTINCT TRUNC(createAt) AS eventDate " +
+                "FROM lectureAssignment " +
+                "WHERE createAt IS NOT NULL " +
+                "AND EXTRACT(MONTH FROM createAt) = ? " +
+                "AND EXTRACT(YEAR FROM createAt) = ? " +
+                "AND lectureId = ? " +
+
                 "ORDER BY eventDate";
         
-        jdbcUtil.setSqlAndParameters(sql, new Object[]{month, year, lectureId,month, year, lectureId,month, year, lectureId}); // memberId를 두 번 파라미터로 설정
+        jdbcUtil.setSqlAndParameters(sql, new Object[]{month, year, lectureId, month, year, lectureId, month, year, lectureId, month, year, lectureId}); // memberId를 두 번 파라미터로 설정
         
         try {
            ResultSet rs = jdbcUtil.executeQuery();
@@ -613,4 +641,3 @@ public class LectureDao {
    }
     
 }
-

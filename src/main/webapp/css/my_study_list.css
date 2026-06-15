@@ -17,6 +17,7 @@ a:active {
 
 .subTitle {
 	margin: 8px 0 18px;
+	padding-left: 22px;
 	color: var(--ink);
 	font-size: 22px;
 	font-weight: 800;

@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds9">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/study_make.css?v=20260613-ds9" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/study_make.css?v=20260615-layout1" />
 <title>EduManager</title>
 <script src="${pageContext.request.contextPath}/js/study_make.js"></script>
 <!-- 수정해야하는 부분 -->
@@ -34,7 +34,7 @@
 				<hr style="margin: 20px 0px">
 				<section class="study">
 					<span>강의명</span><span class="required">*</span><br /> <input
-						type="text" name="name" required />
+						type="text" name="name" maxlength="100" required />
 				</section>
 
 				<!-- 강의 사진 (DB BLOB 저장) -->
@@ -46,22 +46,22 @@
 				<input type="hidden" name="lectureId" />
 
 				<section class="study">
-					<span>강의 소개</span><br /> <input type="text" name="description" />
+					<span>강의 소개</span><br /> <input type="text" name="description" maxlength="1000" />
 				</section>
-				<div style="display: flex;">
-					<section class="study" style="width: 20%;">
+				<div class="study-field-grid study-field-grid--four">
+					<section class="study">
 						<span>강사명</span><br /> <input type="text" name="teacherName"
 							value="${teacherName}" readonly />
 					</section>
-					<section class="study" style="width: 20%;">
+					<section class="study">
 						<span>강의실</span><span class="required">*</span><br /> <input type="number" name="lectureRoom" min="1" required />
 					</section>
-					<section class="study" style="width: 20%;">
+					<section class="study">
 						<span>모집인원</span><span class="required">*</span> <br /> <input
 							type="number" name="capacity" required min="1" max="99" />
 					</section>
 
-					<section class="study" style="width: 20%;">
+					<section class="study">
 						<span>난이도</span><br /> <select class="small" name="level"
 							style="width: 100%;">
 							<option value="1">초급</option>

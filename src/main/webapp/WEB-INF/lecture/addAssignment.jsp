@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>과제 추가하기</title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-<link rel="stylesheet" href="<c:url value='/css/addSchedule.css' />?v=20260613-ds4" />
+<link rel="stylesheet" href="<c:url value='/css/addSchedule.css' />?v=20260615-assignment-time1" />
 </head>
 <body>
 	<div class="main-container">
@@ -22,11 +22,25 @@
 						type="text" name="title" placeholder="과제명을 입력해주세요" class="input"
 						required />
 				</div>
-				<!-- 끝나는 시간 -->
-				<div class="time-input">
-					<label for="dueDate" class="time-label">마감일</label> <input
-						type="date" id="dueDate" name="dueDate" value="${startDate}" class="time-selector"
-						required readonly/>
+				<div class="date-time-grid">
+					<div class="time-input">
+						<label for="startDate" class="time-label">시작일</label>
+						<input type="date" id="startDate" name="startDate" value="${startDate}"
+							class="time-selector" required />
+					</div>
+					<div class="time-input">
+						<label for="startTime" class="time-label">시작시간</label>
+						<input type="time" id="startTime" name="startTime" class="time-selector" required />
+					</div>
+					<div class="time-input">
+						<label for="dueDate" class="time-label">마감일</label>
+						<input type="date" id="dueDate" name="dueDate" value="${startDate}"
+							class="time-selector" required />
+					</div>
+					<div class="time-input">
+						<label for="dueTime" class="time-label">마감시간</label>
+						<input type="time" id="dueTime" name="dueTime" class="time-selector" required />
+					</div>
 				</div>
 				<!-- 세부 내용 -->
 				<div class="detail-input">
@@ -39,8 +53,6 @@
 			<!-- 제출 버튼 -->
 			<input type="hidden" name="lectureId" id="lectureId"
 					value="${lectureId}">
-					<input type=hidden name="startDate" id="startDate"
-					value="${startDate}">
 			<div class="button-container">
 				<button type="submit" class="complete-button">완료</button>
 			</div>

@@ -14,7 +14,7 @@
 <body>
 	<header>
 		<nav>
-			<a href="<c:url value='/member/login'/>" id="logo-link"> <img
+			<a href="<c:url value='/member/login/form'/>" id="logo-link"> <img
 				src="<c:url value='/images/edumanager-logo.png' />" alt="Edu Logo" />
 			</a>
 		</nav>

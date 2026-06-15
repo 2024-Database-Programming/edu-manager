@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds9">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/study_make.css?v=20260613-ds9" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/study_make.css?v=20260615-layout1" />
 <title>EduManager</title>
 <script src="${pageContext.request.contextPath}/js/updateLecture.js"></script>
 <script>
@@ -42,22 +42,22 @@
 					<span>강의 소개</span><br /> <input type="text" name="description"
 						value="${lecture.description}" />
 				</section>
-				<div style="display: flex;">
-					<section class="study" style="width: 20%;">
+				<div class="study-field-grid study-field-grid--four">
+					<section class="study">
 						<span>강사명</span><br /> <input type="text" name="teacherName"
 							value="${lecture.teacherName}" readonly />
 					</section>
-					<section class="study" style="width: 20%;">
+					<section class="study">
 						<span>강의실</span><br /> <input type="text" name="lectureRoom"
 							value="${lecture.lectureRoom}" />
 					</section>
-					<section class="study" style="width: 20%;">
+					<section class="study">
 						<span>모집인원</span><span class="required">*</span> <br /> <input
 							type="number" name="capacity" required min="1" max="99"
 							value="${lecture.capacity}" />
 					</section>
 
-					<section class="study" style="width: 20%;">
+					<section class="study">
 						<span>난이도</span><br /> <select class="small" name="level"
 							style="width: 100%;">
 							<option value="1" ${lecture.level == 1 ? 'selected' : ''}>초급</option>

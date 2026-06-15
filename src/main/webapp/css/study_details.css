@@ -141,7 +141,9 @@ button {
 }
 
 /* 멤버 카드 */
-.team-members-box {
+.team-members-box,
+.pinned-notice-box,
+.pinned-assignment-box {
 	width: 100%;
 	height: auto;
 	max-height: 260px;
@@ -156,6 +158,11 @@ button {
 	overflow-x: hidden;
 }
 
+.pinned-notice-box,
+.pinned-assignment-box {
+	max-height: 220px;
+}
+
 .team-header {
 	display: flex;
 	align-items: center;
@@ -164,6 +171,12 @@ button {
 	margin: 10px 0 8px;
 	padding-bottom: 10px;
 	border-bottom: 1px solid var(--line);
+}
+
+.pinned-notice-box .team-header,
+.pinned-assignment-box .team-header {
+	justify-content: space-between;
+	gap: 10px;
 }
 
 .team-count {
@@ -196,12 +209,36 @@ button {
 	border-bottom: 0;
 }
 
+.empty-detail-item {
+	margin: 0;
+	padding: 8px 2px;
+	color: var(--muted);
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.5;
+}
+
 .member-name {
 	color: var(--ink-2);
 	font-family: 'Pretendard', inherit;
 	font-size: 14px;
 	font-weight: 600;
 	line-height: 1.4;
+}
+
+.member-link {
+	display: inline-flex;
+	align-items: center;
+	width: 100%;
+	color: inherit;
+	text-decoration: none;
+	border-radius: var(--r-sm);
+}
+
+.member-link:hover .member-name {
+	color: var(--brand);
+	text-decoration: underline;
+	text-underline-offset: 3px;
 }
 
 /* ===== 우측 메인 ===== */
@@ -213,6 +250,14 @@ button {
 	align-items: stretch;
 	gap: 16px;
 	border: none;
+}
+
+.detail-topbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 18px;
+	min-height: 44px;
 }
 
 .title {
@@ -227,7 +272,8 @@ button {
 }
 
 #calendarHeader {
-	width: 100%;
+	width: auto;
+	flex: 0 0 auto;
 	margin: 0;
 	display: flex;
 	align-items: center;
@@ -314,8 +360,9 @@ button {
 
 .calendarTable td {
 	width: auto;
-	height: 62px;
+	height: 88px;
 	padding: 8px;
+	position: relative;
 	text-align: left;
 	vertical-align: top;
 	color: var(--ink);
@@ -325,6 +372,17 @@ button {
 
 .sunday {
 	color: #e03131;
+}
+
+.calendar-date-number {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 24px;
+	height: 24px;
+	padding: 0 4px;
+	border-radius: var(--r-pill);
+	box-sizing: border-box;
 }
 
 #today {
@@ -341,7 +399,31 @@ button {
 }
 
 .selected {
+	background: var(--surface);
+	box-shadow: none;
 	font-weight: 800;
+	color: var(--brand);
+}
+
+.selected::before {
+	content: "";
+	position: absolute;
+	inset: 2px;
+	z-index: 0;
+	border: 2px solid var(--brand);
+	border-radius: 12px;
+	background: #f3f6ff;
+	box-shadow: 0 6px 16px rgba(30, 42, 124, 0.08);
+	pointer-events: none;
+}
+
+.selected > * {
+	position: relative;
+	z-index: 1;
+}
+
+.selected .calendar-date-number:not(#today) {
+	background: var(--brand-tint);
 	color: var(--brand);
 }
 
@@ -354,7 +436,62 @@ button {
 	background-color: var(--brand);
 }
 
-/* 일정/공지/과제 3열 카드 */
+.calendar-events {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	width: 100%;
+	min-width: 0;
+	margin-top: 5px;
+}
+
+.calendar-chip {
+	display: block;
+	width: 100%;
+	min-width: 0;
+	padding: 3px 6px;
+	box-sizing: border-box;
+	border: 0;
+	border-radius: var(--r-sm);
+	font-family: 'Pretendard', inherit;
+	font-size: 11px;
+	font-weight: 800;
+	line-height: 1.25;
+	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.calendar-chip--class {
+	background: #e7f5ff;
+	color: #0b7285;
+}
+
+.calendar-chip--event {
+	background: #e6fcf5;
+	color: #087f5b;
+}
+
+.calendar-chip--exam {
+	background: #fff0f0;
+	color: #c92a2a;
+}
+
+.calendar-chip--assignment {
+	background: #fff4d6;
+	color: #a16207;
+}
+
+.calendar-chip--more {
+	background: var(--surface-3);
+	color: var(--muted);
+	text-align: center;
+}
+
+/* 선택 날짜 관리 카드 */
 .main-container {
 	width: 100%;
 	height: fit-content;
@@ -363,8 +500,8 @@ button {
 
 .rectangle-1 {
 	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 22px;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 14px;
 	align-content: stretch;
 	height: fit-content;
 	padding: 22px;
@@ -381,9 +518,35 @@ button {
 	list-style: none;
 }
 
+.detail-list-row {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.side-info-item {
+	display: block;
+	width: 100%;
+	min-width: 0;
+	padding: 8px 10px;
+	box-sizing: border-box;
+	border: 0;
+	border-radius: var(--r-sm);
+	background: var(--surface-3);
+	color: var(--ink-2);
+	font-family: 'Pretendard', inherit;
+	text-align: left;
+	line-height: 1.45;
+	overflow-wrap: anywhere;
+	cursor: pointer;
+	text-decoration: none;
+}
+
 .schedule,
 .notice,
-.assignment {
+.assignment,
+.classroom,
+.exam {
 	margin: 0;
 	width: auto;
 	height: fit-content;
@@ -392,7 +555,9 @@ button {
 
 .schedule_title,
 .notice_title,
-.assignment_title {
+.assignment_title,
+.classroom_title,
+.exam_title {
 	display: block;
 	height: auto;
 	margin-bottom: 12px;
@@ -408,7 +573,9 @@ button {
 
 .schedule_content,
 .notice_content,
-.assignment_content {
+.assignment_content,
+.classroom_content,
+.exam_content {
 	display: block;
 	font-size: 14px;
 	font-weight: 400;
@@ -433,6 +600,46 @@ button {
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	white-space: normal;
+}
+
+.detail-item {
+	appearance: none;
+	-webkit-appearance: none;
+	border: 0;
+	display: block;
+	text-align: left;
+	font-family: 'Pretendard', inherit;
+	cursor: pointer;
+	text-decoration: none;
+	transition: background-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+
+.detail-item:hover,
+.detail-item.active {
+	background: var(--brand-tint);
+	box-shadow: inset 0 0 0 1px var(--brand-line);
+	color: var(--brand);
+}
+
+.detail-item:active {
+	transform: translateY(1px);
+}
+
+.item-title {
+	display: block;
+	color: inherit;
+	font-size: 13px;
+	font-weight: 800;
+	line-height: 1.45;
+}
+
+.item-time,
+.item-meta {
+	display: block;
+	margin-top: 4px;
+	color: var(--muted);
+	font-size: 12px;
+	font-weight: 700;
 }
 
 /* 추가(+) 버튼 */
@@ -574,13 +781,31 @@ button {
 	}
 
 	.rectangle-1 {
-		grid-template-columns: 1fr;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 18px;
 	}
 
 	.schedule_title,
 	.notice_title,
-	.assignment_title {
+	.assignment_title,
+	.classroom_title,
+	.exam_title {
 		white-space: normal;
+	}
+
+	.detail-topbar {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	#calendarHeader {
+		width: 100%;
+		justify-content: flex-start;
+	}
+}
+
+@media (max-width: 640px) {
+	.rectangle-1 {
+		grid-template-columns: 1fr;
 	}
 }

@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>공지사항 리스트</title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-<link rel=stylesheet href="<c:url value='/css/listAssignmentAndNotice.css' />?v=20260613-ds4"
+<link rel=stylesheet href="<c:url value='/css/listAssignmentAndNotice.css' />?v=20260616-focus1"
 	type="text/css">
 </head>
 <body>
@@ -28,7 +28,8 @@
 			<tbody>
 				<!-- JSTL 반복문으로 리스트 출력 -->
 				<c:forEach var="assignment" items="${studyGroupAssignmentList}">
-					<tr class="notice-row">
+					<tr class="notice-row clickable-row"
+						onclick="window.location.href='<c:url value='/study/itemDetail'><c:param name='groupId' value='${groupId}' /><c:param name='selectedDate' value='${assignment.dueDate}' /><c:param name='type' value='assignment' /><c:param name='id' value='${assignment.id}' /></c:url>'">
 						<td class="title">${assignment.title}</td>
 						<td class="description">${assignment.description}</td>
 						<td class="createat">

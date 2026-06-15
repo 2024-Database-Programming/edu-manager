@@ -37,6 +37,7 @@ public class CreateLectureScheduleController implements Controller {
 		if (request.getMethod().equals("GET")) {
 			request.setAttribute("lectureId", request.getParameter("lectureId"));
 			request.setAttribute("startDate", LocalDate.parse(request.getParameter("selectedDate")));
+			request.setAttribute("category", normalizeScheduleCategory(request.getParameter("category")));
 			return "/lecture/addSchedule.jsp";
 		};
 
@@ -48,7 +49,7 @@ public class CreateLectureScheduleController implements Controller {
 			schedule.setStartDate(LocalDate.parse(request.getParameter("startDate")));
 			schedule.setStartTime(LocalTime.parse(request.getParameter("startTime")));
 			schedule.setEndTime(LocalTime.parse(request.getParameter("endTime")));
-			schedule.setType("special");
+			schedule.setType(normalizeScheduleCategory(request.getParameter("category")));
 			
 				int scheduleId = manager.createSchedule(schedule);
 			log.debug("Create Schedule : {}", scheduleId);
@@ -64,5 +65,12 @@ public class CreateLectureScheduleController implements Controller {
 			request.getSession().setAttribute("flashError", "일정 추가 중 오류가 발생했습니다.");
 			return "redirect:/lecture/over-view?lectureId=" + lectureId;
 		}
+	}
+
+	private String normalizeScheduleCategory(String category) {
+		if ("class".equals(category) || "exam".equals(category) || "event".equals(category)) {
+			return category;
+		}
+		return "event";
 	}
 }

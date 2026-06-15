@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds9">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/study_make.css?v=20260613-ds9" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/study_make.css?v=20260615-layout1" />
 <title>EduManager</title>
 <script src="${pageContext.request.contextPath}/js/study_make.js"></script>
 <!-- 수정해야하는 부분 -->
@@ -35,11 +35,11 @@
 				<section class="study">
 					<span>스터디 소개</span><br /> <input type="text" name="description" />
 				</section>
-				<div style="display: flex;">
-					<section class="study" style="width: 20%;">
+				<div class="study-field-grid study-field-grid--two">
+					<section class="study">
 						<span>스터디 장소</span><br /> <input type="text" name="place" />
 					</section>
-					<section class="study" style="width: 20%;">
+					<section class="study">
 						<span>모집인원</span><span class="required">*</span> <br /> <input
 							type="number" name="capacity" required min="1" max="99" />
 					</section>

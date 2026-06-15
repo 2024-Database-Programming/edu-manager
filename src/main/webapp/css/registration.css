@@ -30,6 +30,15 @@
 	text-transform: uppercase;
 }
 
+.subTitle {
+	margin: 28px 0 18px;
+	padding-left: 22px;
+	color: var(--ink);
+	font-size: 16px;
+	font-weight: 800;
+	line-height: 1.35;
+}
+
 .browse-copy h1 {
 	margin: 0 0 6px;
 	color: var(--ink);
@@ -92,12 +101,16 @@
 
 #tabBtn-container {
 	width: 100%;
-	margin: 0 0 16px;
+	margin: 8px 0 16px;
 	padding-bottom: 14px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	border-bottom: 1px solid var(--line);
+}
+
+.subTitle + #tabBtn-container {
+	margin-top: 18px;
 }
 
 .tab-container {
@@ -110,14 +123,18 @@
 
 .tabs {
 	height: 38px;
+	min-width: 86px;
 	padding: 0 16px;
 	display: inline-flex;
 	align-items: center;
+	justify-content: center;
 	gap: 8px;
 	border-radius: var(--r-pill);
 	color: var(--muted);
 	font-size: 14px;
 	font-weight: 700;
+	line-height: 1;
+	white-space: nowrap;
 	cursor: pointer;
 	transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }

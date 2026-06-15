@@ -1,6 +1,7 @@
 package controller.study;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import model.domain.Assignment;
 import model.domain.Notice;
 import model.domain.Schedule;
+import model.domain.member.Member;
 import model.domain.studyGroup.StudyGroup;
 import model.service.StudyManager;
 
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 import controller.AuthorizationUtils;
+import controller.CalendarEventJsonUtils;
 import controller.Controller;
 import controller.member.MemberSessionUtils;
 import model.service.StudyGroupManager;
@@ -50,10 +53,7 @@ public class ViewMyStudyController implements Controller {
         }
             log.debug("선택된 날짜: " + selectedDate);
  
-            List<Assignment> assignmentList = manager.findAssignmentsByStudyIdAndDueDate(studyId, selectedDate);
-            log.debug("과제목록: " + assignmentList);
-
-            List<Notice> noticeList = manager.findNoticesByStudyIdAndDueDate(studyId, selectedDate);
+            List<Notice> noticeList = manager.findNoticesBystudygroupid(studyId);
             log.debug("공지목록: " + noticeList);
             
 //            LocalDate today = LocalDate.now();
@@ -64,25 +64,35 @@ public class ViewMyStudyController implements Controller {
             
             List<Schedule> specialSchedules = manager.findSchedulesByFilters(studyId, selectedDate, "special", null);
             log.debug("특수일정: " + specialSchedules);
+            List<Assignment> assignments = manager.findAssignmentsByStudyId(studyId);
+            List<Assignment> selectedAssignments = manager.findAssignmentsByStudyIdAndDueDate(studyId, selectedDate);
+            List<Schedule> calendarSchedules = manager.getScheduleCalendarList(
+                    selectedDate.getYear(), selectedDate.getMonthValue(), memberId);
+            String calendarEventsJson = CalendarEventJsonUtils.build(
+                    calendarSchedules, assignments, studyId, YearMonth.from(selectedDate), true);
             
             // 필요한 비즈니스 로직 수행 (예: DB 조회)
             request.setAttribute("selectedDate", selectedDate);
-            request.setAttribute("assignmentList", assignmentList);
+            request.setAttribute("assignmentList", assignments);
+            request.setAttribute("selectedAssignmentList", selectedAssignments);
             request.setAttribute("noticeList", noticeList);
             request.setAttribute("regularSchedules", regularSchedules);
             request.setAttribute("specialSchedules", specialSchedules);
+            request.setAttribute("calendarEventsJson", calendarEventsJson);
 
             log.debug("studyInfo: " + studyInfo);
 
-            List<String> members = manager.findStudyMembers(studyId);
+            List<Member> members = manager.findStudyMemberDetails(studyId);
             log.debug("members: " + members);
 
     		Boolean isLeader = AuthorizationUtils.canManageStudy(memberId, studyInfo);
+    		List<LocalDate> events = manager.findMonthSchedule(studyId, selectedDate.getMonthValue(), selectedDate.getYear());
             
       //study 기본 정보
             request.setAttribute("studyInfo", studyInfo);
             request.setAttribute("isLeader", isLeader);
             request.setAttribute("members", members);
+            request.setAttribute("events", events);
         // JSP 페이지로 포워딩 (예: 결과 표시)
         return "/study/study_details.jsp"; // 뷰로 이동
 	}

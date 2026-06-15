@@ -1,6 +1,7 @@
 package model.domain;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class Assignment {
@@ -9,6 +10,8 @@ public class Assignment {
 	private String description;
 	private LocalDate dueDate;
 	private LocalDate createat;
+	private LocalTime startTime;
+	private LocalTime dueTime;
 	private String textFile;
 	private int lectureId;
 	private int studyId;
@@ -91,6 +94,22 @@ public class Assignment {
 		this.createat = createat;
 	}
 
+	public LocalTime getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(LocalTime startTime) {
+		this.startTime = startTime;
+	}
+
+	public LocalTime getDueTime() {
+		return dueTime;
+	}
+
+	public void setDueTime(LocalTime dueTime) {
+		this.dueTime = dueTime;
+	}
+
 	public String getTextFile() {
 		return textFile;
 	}
@@ -110,7 +129,8 @@ public class Assignment {
 	@Override
 	public String toString() {
 		return "Assignment [id=" + id + ", title=" + title + ", description=" + description + ", dueDate=" + dueDate
-				+ ", createat=" + createat + ", textFile=" + textFile + ", lectureId=" + lectureId + "]";
+				+ ", createat=" + createat + ", startTime=" + startTime + ", dueTime=" + dueTime + ", textFile="
+				+ textFile + ", lectureId=" + lectureId + "]";
 	}
 
 	public int getStudyId() {

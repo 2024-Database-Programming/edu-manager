@@ -114,7 +114,7 @@ public class LectureScheduleDao {
 	}
 
 	// 스케줄 생성
-	public int createSchedule(Schedule schedule) {
+	public int createSchedule(Schedule schedule) throws SQLException {
 		StringBuffer query = new StringBuffer();
 		int generatedKey = 0;
 
@@ -130,20 +130,24 @@ public class LectureScheduleDao {
 		try {
 			int result = jdbcUtil.executeUpdate();
 			ResultSet rs = jdbcUtil.getGeneratedKeys();
-			if (rs.next()) {
+			if (rs != null && rs.next()) {
 				generatedKey = rs.getInt(1); // 생성된 PK 값
 			}
 			if (result > 0) {
+				jdbcUtil.commit();
 				return generatedKey;
-			} else {
 			}
+			jdbcUtil.rollback();
+			throw new SQLException("강의 일정 저장 결과가 없습니다.");
+		} catch (SQLException ex) {
+			jdbcUtil.rollback();
+			throw ex;
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			jdbcUtil.rollback();
+			throw new SQLException("강의 일정 저장 중 오류가 발생했습니다.", ex);
 		} finally {
-			jdbcUtil.commit();
 			jdbcUtil.close();
 		}
-		return generatedKey;
 
 	}
 
@@ -186,8 +190,8 @@ public class LectureScheduleDao {
 				schedule = new Schedule();
 				schedule.setScheduleId(rs.getInt("lecturescheduleid"));
 				schedule.setDayOfWeek(rs.getString("dayofweek"));
-				schedule.setStartTime(rs.getTime("starttime").toLocalTime());
-				schedule.setEndTime(rs.getTime("endtime").toLocalTime());
+				schedule.setStartTime(rs.getTime("starttime") != null ? rs.getTime("starttime").toLocalTime() : null);
+				schedule.setEndTime(rs.getTime("endtime") != null ? rs.getTime("endtime").toLocalTime() : null);
 				schedule.setFrequency(rs.getString("frequency"));
 				schedule.setLectureId(rs.getInt("lectureid"));
 				schedule.setStartDate(rs.getDate("startdate").toLocalDate());
@@ -244,16 +248,20 @@ public class LectureScheduleDao {
 		query.append("SELECT * ");
 		query.append("FROM lectureschedule ");
 		query.append("WHERE lectureid = ? ");
-		query.append("AND type = ? ");
-
 		List<Object> params = new ArrayList<>();
 		params.add(lectureId);
-		params.add(type);
 
 		// startdate 조건 추가
 		if (type.equals("regular")) {
+			query.append("AND type = ? ");
+			params.add(type);
 			query.append("AND startdate <= ? "); // 필터: startdate가 오늘 이전
+		} else if ("special".equals(type)) {
+			query.append("AND (type <> 'regular' OR type IS NULL) ");
+			query.append("AND TRUNC(startdate) = ? "); // 필터: startdate가 오늘
 		} else {
+			query.append("AND type = ? ");
+			params.add(type);
 			query.append("AND TRUNC(startdate) = ? "); // 필터: startdate가 오늘
 		}
 		params.add(java.sql.Date.valueOf(startDate)); // startDate를 SQL Date로 변환

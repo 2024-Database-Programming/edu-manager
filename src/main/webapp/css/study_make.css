@@ -35,6 +35,7 @@
 .study {
 	margin: 0 0 16px;
 	font-weight: 700;
+	min-width: 0;
 }
 
 .study > span {
@@ -55,6 +56,25 @@
 	width: 100%;
 	height: 46px;
 	padding: 0 14px;
+}
+
+.study-field-grid {
+	display: grid;
+	gap: 16px;
+	margin-bottom: 16px;
+	align-items: end;
+}
+
+.study-field-grid .study {
+	margin-bottom: 0;
+}
+
+.study-field-grid--two {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.study-field-grid--four {
+	grid-template-columns: 1.25fr 1fr 1fr 1fr;
 }
 
 .study input::placeholder {
@@ -206,4 +226,11 @@ select:focus {
 
 #submit:hover {
 	background-color: var(--brand-strong);
+}
+
+@media (max-width: 760px) {
+	.study-field-grid--two,
+	.study-field-grid--four {
+		grid-template-columns: 1fr;
+	}
 }

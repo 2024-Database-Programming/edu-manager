@@ -17,6 +17,7 @@ a {
 
 .subTitle {
 	margin: 8px 0 0;
+	padding-left: 22px;
 	color: var(--ink);
 	font-size: 22px;
 	font-weight: 800;
@@ -140,6 +141,14 @@ a {
 
 .notice-row:hover {
 	background-color: var(--surface-2);
+}
+
+.clickable-row {
+	cursor: pointer;
+}
+
+.clickable-row:hover .title {
+	color: var(--brand);
 }
 
 .notice-row td {

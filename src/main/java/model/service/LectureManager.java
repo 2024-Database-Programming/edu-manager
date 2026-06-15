@@ -17,6 +17,7 @@ import model.domain.Assignment;
 import model.domain.lecture.Lecture;
 import model.domain.lecture.LectureEnrollment;
 import model.domain.lecture.LectureReview;
+import model.domain.member.Member;
 
 import java.util.List;
 import java.time.LocalDate;
@@ -145,6 +146,10 @@ public class LectureManager {
 		return scheduleDao.findSchedulesBylectureId(lectureId);
 	}
 
+	public Schedule findScheduleDetailById(int scheduleId) {
+		return scheduleDao.findScheduleById(scheduleId);
+	}
+
 	public void updateSchedule(Schedule schedule) throws SQLException {
 		scheduleDao.updateSchedule(schedule);
 	}
@@ -194,6 +199,10 @@ public class LectureManager {
     public List<Notice> findNoticesByLectureId(int lectureId) {
         return  noticeDao.findNoticesByLectureId(lectureId);
     }
+
+    public Notice findNoticeById(int noticeId) {
+        return noticeDao.findNoticeById(noticeId);
+    }
     
     public List<Notice> searchNotices(int lectureId, String searchParam) {
         return noticeDao.searchNotices(lectureId, searchParam);
@@ -203,6 +212,10 @@ public class LectureManager {
         return assignmentDao.findAssignmentsByLectureId(lectureId);
     }
 
+    public Assignment findAssignmentById(int assignmentId) {
+        return assignmentDao.findAssignmentById(assignmentId);
+    }
+
 
 	// 스터디 공지 추가
 	public void createNotice(Notice notice) {
@@ -210,13 +223,17 @@ public class LectureManager {
 	}
 
 	public void createAssignment(Assignment ass) {
-		assignmentDao.createAssignment(ass.getLectureId(), ass.getTitle(), ass.getDescription(), ass.getDueDate(), "");
+		assignmentDao.createAssignment(ass);
 	}
 
 	// 스터디 멤버 조회
 	public List<String> findLectureMembers(int lectureId) throws SQLException {
 		return lectureDao.findLectureMembers(lectureId);
 
+	}
+
+	public List<Member> findLectureMemberDetails(int lectureId) throws SQLException {
+		return lectureDao.findLectureMemberDetails(lectureId);
 	}
 
 	// 월 단위 일정 유무 확인.

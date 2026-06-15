@@ -2,6 +2,8 @@ package model.dao.studygroup;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ import javax.swing.JOptionPane;
 import model.dao.JDBCUtil;
 import model.domain.lecture.Lecture;
 import model.domain.lecture.LectureReview;
+import model.domain.member.Member;
 import model.domain.studyGroup.StudyGroup;
 import model.domain.studyGroup.StudyGroupApplication;
 import model.domain.studyGroup.StudyGroupReview;
@@ -195,12 +198,7 @@ public StudyGroup findGroupInfo(long groupId) {
        query.append("ic.name AS categoryName, ic.color ");
        query.append("FROM StudyGroup S ");
        query.append("JOIN InterestCategory ic ON S.category = ic.Id ");
-       query.append("WHERE S.studyGroupId NOT IN ( ");
-       query.append("    SELECT studyGroupId ");
-       query.append("    FROM StudyGroupApplication ");
-       query.append("    WHERE stuId = ? AND status = '수락' ");
-       query.append(") ");
-       query.append("AND S.leaderId != ? ");
+       query.append("WHERE S.leaderId != ? ");
        query.append("ORDER BY ");
        query.append("    CASE ");
        query.append("        WHEN S.category IN (");
@@ -210,7 +208,7 @@ public StudyGroup findGroupInfo(long groupId) {
        query.append("        ) THEN 1 ");
        query.append("        ELSE 2 ");
        query.append("    END");
-       jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { stuId, stuId, stuId });
+       jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { stuId, stuId });
        List<StudyGroup> studyGroupList = new ArrayList<>(); // 변수 선언
        
        try {
@@ -248,19 +246,13 @@ public StudyGroup findGroupInfo(long groupId) {
         query.append("ic.name AS categoryName, ic.color ");
         query.append("FROM StudyGroup S ");
         query.append("JOIN InterestCategory ic ON S.category = ic.Id ");
-        query.append("WHERE S.studyGroupId NOT IN ( ");
-        query.append("    SELECT studyGroupId ");
-        query.append("    FROM StudyGroupApplication ");
-        query.append("    WHERE stuId = ? AND status = '수락' ");
-        query.append(") ");
-        query.append("AND S.leaderId != ? ");
+        query.append("WHERE S.leaderId != ? ");
        
         if (searchParam != null && !searchParam.trim().isEmpty()) {
             query.append("AND (S.name LIKE ? OR ic.name LIKE ?) ");
         }
 
         List<Object> params = new ArrayList<>();
-        params.add(stuid); // 학생 ID
         params.add(stuid); // 리더 ID (예: ? 자리에 들어갈 값)
 
         if (searchParam != null && !searchParam.trim().isEmpty()) {
@@ -706,6 +698,94 @@ public StudyGroup findGroupInfo(long groupId) {
         
         jdbcUtil.close();
         return members;
+    }
+
+    public List<Member> findStudyMemberDetails(int studyGroupId) throws SQLException {
+    	List<Member> members = new ArrayList<>();
+
+        String sql = "SELECT s.id, s.name, s.email, s.phone, m.img " +
+                     "FROM Student s " +
+                     "JOIN Member m ON s.id = m.id " +
+                     "JOIN StudyGroupApplication sga ON s.id = sga.stuId " +
+                     "WHERE sga.studyGroupId = ? AND sga.status = '수락' " +
+                     "ORDER BY s.name";
+
+        jdbcUtil.setSqlAndParameters(sql, new Object[]{studyGroupId});
+        ResultSet rs = jdbcUtil.executeQuery();
+
+        while (rs.next()) {
+        	members.add(new Member(
+        			rs.getString("id"),
+        			null,
+        			rs.getString("name"),
+        			rs.getString("email"),
+        			rs.getString("phone"),
+        			rs.getString("img")));
+        }
+
+        jdbcUtil.close();
+        return members;
+    }
+
+    public List<LocalDate> findMonthSchedule(int studyGroupId, int month, int year) {
+        List<LocalDate> eventDates = new ArrayList<>();
+
+        String sql =
+                "SELECT DISTINCT TRUNC(startDate) AS eventDate " +
+                "FROM studySchedule " +
+                "WHERE (type <> 'regular' OR type IS NULL) " +
+                "AND EXTRACT(MONTH FROM startDate) = ? " +
+                "AND EXTRACT(YEAR FROM startDate) = ? " +
+                "AND studyGroupId = ? " +
+
+                "UNION " +
+
+                "SELECT DISTINCT TRUNC(createAt) AS eventDate " +
+                "FROM studyNotice " +
+                "WHERE EXTRACT(MONTH FROM createAt) = ? " +
+                "AND EXTRACT(YEAR FROM createAt) = ? " +
+                "AND studyGroupId = ? " +
+
+                "UNION " +
+
+                "SELECT DISTINCT TRUNC(dueDate) AS eventDate " +
+                "FROM studyAssignment " +
+                "WHERE EXTRACT(MONTH FROM dueDate) = ? " +
+                "AND EXTRACT(YEAR FROM dueDate) = ? " +
+                "AND studyGroupId = ? " +
+
+                "UNION " +
+
+                "SELECT DISTINCT TRUNC(createAt) AS eventDate " +
+                "FROM studyAssignment " +
+                "WHERE createAt IS NOT NULL " +
+                "AND EXTRACT(MONTH FROM createAt) = ? " +
+                "AND EXTRACT(YEAR FROM createAt) = ? " +
+                "AND studyGroupId = ? " +
+
+                "ORDER BY eventDate";
+
+        jdbcUtil.setSqlAndParameters(sql,
+                new Object[]{month, year, studyGroupId, month, year, studyGroupId, month, year, studyGroupId, month, year, studyGroupId});
+
+        try {
+            ResultSet rs = jdbcUtil.executeQuery();
+
+            while (rs.next()) {
+                Date eventDate = rs.getDate("eventDate");
+                if (eventDate != null) {
+                    eventDates.add(eventDate.toLocalDate());
+                }
+            }
+            return eventDates;
+        } catch (Exception ex) {
+            jdbcUtil.rollback();
+            ex.printStackTrace();
+        } finally {
+            jdbcUtil.close();
+        }
+
+        return eventDates;
     }
 
 

@@ -2,6 +2,7 @@ package controller.lecture;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,7 @@ import model.domain.Assignment;
 import model.domain.Notice;
 import model.domain.Schedule;
 import model.domain.lecture.Lecture;
+import model.domain.member.Member;
 import model.domain.studyGroup.StudyGroup;
 import model.service.LectureManager;
 import model.service.StudyManager;
@@ -22,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 import controller.AuthorizationUtils;
+import controller.CalendarEventJsonUtils;
 import controller.Controller;
 import controller.member.MemberSessionUtils;
 
@@ -54,10 +57,7 @@ public class ViewMyLectureController implements Controller {
         }
             log.debug("선택된 날짜: " + selectedDate);
  
-            List<Assignment> assignmentList = manager.findAssignmentsByLectureIdAndDueDate(lectureId, selectedDate);
-            log.debug("과제목록: " + assignmentList);
-
-            List<Notice> noticeList = manager.findNoticesByLectureIdAndDate(lectureId, selectedDate);
+            List<Notice> noticeList = manager.findNoticesByLectureId(lectureId);
             log.debug("공지목록: " + noticeList);
             
 //            LocalDate today = LocalDate.now();
@@ -72,18 +72,25 @@ public class ViewMyLectureController implements Controller {
             
 
             List<Assignment> assignments = manager.findAssignmentsByLectureId(lectureId);
+            List<Assignment> selectedAssignments = manager.findAssignmentsByLectureIdAndDueDate(lectureId, selectedDate);
+            List<Schedule> calendarSchedules = manager.getScheduleCalendarList(
+                    selectedDate.getYear(), selectedDate.getMonthValue(), memberId);
+            String calendarEventsJson = CalendarEventJsonUtils.build(
+                    calendarSchedules, assignments, lectureId, YearMonth.from(selectedDate), false);
             log.debug("과제: " + assignments);
 
             // 필요한 비즈니스 로직 수행 (예: DB 조회)
             request.setAttribute("selectedDate", selectedDate);
-            request.setAttribute("assignmentList", assignmentList);
+            request.setAttribute("assignmentList", assignments);
+            request.setAttribute("selectedAssignmentList", selectedAssignments);
             request.setAttribute("noticeList", noticeList);
             request.setAttribute("regularSchedules", regularSchedules);
             request.setAttribute("specialSchedules", specialSchedules);
+            request.setAttribute("calendarEventsJson", calendarEventsJson);
 
             log.debug("lectureInfo: " + lectureId);
 
-            List<String> members = manager.findLectureMembers(lectureId);
+            List<Member> members = manager.findLectureMemberDetails(lectureId);
             log.debug("members: " + members);
 
     		Boolean isTeacher= AuthorizationUtils.canManageLecture(memberId, lectureInfo);

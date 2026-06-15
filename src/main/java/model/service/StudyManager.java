@@ -13,6 +13,7 @@ import model.dao.studygroup.StudyScheduleDao;
 import model.domain.Assignment;
 import model.domain.Notice;
 import model.domain.Schedule;
+import model.domain.member.Member;
 import model.domain.studyGroup.StudyGroup;
 
 import java.util.List;
@@ -81,6 +82,9 @@ public class StudyManager {
     public List<Schedule> findScheduleById(long studyId, String type) throws SQLException {
     	return scheduleDao.findSchedulesByStudyId(studyId, type);
     }
+    public Schedule findScheduleDetailById(int scheduleId) {
+    	return scheduleDao.findScheduleById(scheduleId);
+    }
     public void updateSchedule (Schedule schedule)throws SQLException{
     	scheduleDao.updateSchedule(schedule);
     }
@@ -104,6 +108,10 @@ public class StudyManager {
     public List<Notice> findNoticesBystudygroupid(int studygroupid) {
         return noticeDao.findNoticesBystudygroupid(studygroupid);
     }
+
+    public Notice findNoticeById(int noticeId) {
+        return noticeDao.findNoticeById(noticeId);
+    }
     
     public List<Notice> searchNotices(int studygroupid, String searchParam) {
         return noticeDao.searchNotices(studygroupid, searchParam);
@@ -118,19 +126,31 @@ public class StudyManager {
     	noticeDao.createNotice(notice.getStudyId(), notice.getTitle(), notice.getDescription(), notice.getCreateat());
     }
     public void createAssignment(Assignment ass) {
-    	assignmentDao.createAssignment(ass.getStudyId(), ass.getTitle(), ass.getDescription(), ass.getDueDate(), "");
+    	assignmentDao.createAssignment(ass);
     }
     //스터디 멤버 조회
     public List<String> findStudyMembers(int studyGruopId) throws SQLException {
     	return studyDao.findStudyMembers(studyGruopId);
     }
+
+    public List<Member> findStudyMemberDetails(int studyGroupId) throws SQLException {
+    	return studyDao.findStudyMemberDetails(studyGroupId);
+    }
     
     public List<Assignment> findAssignmentsByStudyId(int studyId) {
         return assignmentDao.findAssignmentsByStudyId(studyId);
     }
+
+    public Assignment findAssignmentById(int assignmentId) {
+        return assignmentDao.findAssignmentById(assignmentId);
+    }
     
     public boolean isStudyConflict(String stuId, String newDayOfWeek) throws SQLException {
 		return studyDao.isStudyConflict(stuId, newDayOfWeek);
+    }
+
+    public List<LocalDate> findMonthSchedule(int studyId, int month, int year) throws SQLException {
+    	return studyDao.findMonthSchedule(studyId, month, year);
     }
     
 }

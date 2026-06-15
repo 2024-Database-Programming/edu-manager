@@ -65,6 +65,23 @@ public class MainController implements Controller {
 
 // 데이터
 		// 가져오기
+		int todayYear = currentDate.getYear();
+		int todayMonth = currentDate.getMonthValue();
+		List<Schedule> todayLectureScheduleEntries = lectureScheduleEntries;
+		List<Notice> todayLectureNoticeEntries = lectureNoticeEntries;
+		List<Assignment> todayLectureAssignmentEntries = lectureAssignmentEntries;
+		List<Schedule> todayStudyScheduleEntries = studyScheduleEntries;
+		List<Notice> todayStudyNoticeEntries = studyNoticeEntries;
+		List<Assignment> todayStudyAssignmentEntries = studyAssignmentEntries;
+
+		if (year != todayYear || month != todayMonth) {
+			todayLectureScheduleEntries = lectureManager.getScheduleCalendarList(todayYear, todayMonth, memberId);
+			todayLectureNoticeEntries = lectureManager.getNoticeCalendarList(todayYear, todayMonth, memberId);
+			todayLectureAssignmentEntries = lectureManager.getAssignmentCalendarList(todayYear, todayMonth, memberId);
+			todayStudyScheduleEntries = studyManager.getScheduleCalendarList(todayYear, todayMonth, memberId);
+			todayStudyNoticeEntries = studyManager.getNoticeCalendarList(todayYear, todayMonth, memberId);
+			todayStudyAssignmentEntries = studyManager.getAssignmentCalendarList(todayYear, todayMonth, memberId);
+		}
 
 		// 데이터를 JSP에 전달
 		request.setAttribute("lectureScheduleEntries", lectureScheduleEntries);
@@ -73,6 +90,12 @@ public class MainController implements Controller {
 		request.setAttribute("studyScheduleEntries", studyScheduleEntries);
 		request.setAttribute("studyNoticeEntries", studyNoticeEntries);
 		request.setAttribute("studyAssignmentEntries", studyAssignmentEntries);
+		request.setAttribute("todayLectureScheduleEntries", todayLectureScheduleEntries);
+		request.setAttribute("todayLectureNoticeEntries", todayLectureNoticeEntries);
+		request.setAttribute("todayLectureAssignmentEntries", todayLectureAssignmentEntries);
+		request.setAttribute("todayStudyScheduleEntries", todayStudyScheduleEntries);
+		request.setAttribute("todayStudyNoticeEntries", todayStudyNoticeEntries);
+		request.setAttribute("todayStudyAssignmentEntries", todayStudyAssignmentEntries);
 		request.setAttribute("year", year);
 		request.setAttribute("month", month);
 		request.setAttribute("selectedDay", selectedDay);

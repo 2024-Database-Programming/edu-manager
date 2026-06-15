@@ -91,7 +91,7 @@ form input:focus {
 	flex-wrap: wrap;
 	align-items: center;
 	gap: 0 8px;
-	margin-bottom: 16px;
+	margin-bottom: 12px;
 }
 
 .input-group > label {
@@ -130,6 +130,10 @@ form input:focus {
 	width: 100%;
 	margin-top: 8px;
 	display: flex;
+}
+
+form .filebox {
+	margin-bottom: 32px;
 }
 
 #nextBt {
@@ -186,7 +190,12 @@ font[color="red"],
 
 /* 아이디 중복확인 인라인 메시지 (팝업 대신 필드 아래 작은 글씨) */
 .dupmsg-line {
+	display: none;
 	flex: 0 0 100%;
+}
+
+.dupmsg-line:not(:empty) {
+	display: block;
 	min-height: 16px;
 	margin-top: 6px;
 }

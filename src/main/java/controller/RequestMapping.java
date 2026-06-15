@@ -16,6 +16,7 @@ import controller.lecture.UpdateLectureController;
 import controller.lecture.ViewLectureAssignmentsController;
 import controller.lecture.ViewLectureController;
 import controller.lecture.ViewLectureNoticeListController;
+import controller.lecture.ViewLectureItemDetailController;
 import controller.lecture.ViewMyLectureController;
 import controller.lecture.ViewMyLectureListController;
 import controller.lecture.ExcludingLectureAndStudyGroupController;
@@ -56,6 +57,7 @@ import controller.study.CreateStudyNoticeController;
 import controller.study.CreateStudyScheduleController;
 import controller.study.UpdateStudyController;
 import controller.study.ViewMyStudyController;
+import controller.study.ViewStudyItemDetailController;
 
 //import controller.user.*;
 //import controller.comm.*;
@@ -121,9 +123,10 @@ public class RequestMapping {
         // 스터디 수정
         mappings.put("/study/update", new UpdateStudyController());
 
-      		//내 스터디 상세보기
+		//내 스터디 상세보기
 //		mappings.put("/study/selectDate", new ViewMyStudyController());
 		mappings.put("/mystudy/view", new ViewMyStudyController());
+        mappings.put("/study/itemDetail", new ViewStudyItemDetailController());
       
 		//스터디 일정(특정),공지,과제 추가
         mappings.put("/study/addSchedule", new CreateStudyScheduleController());
@@ -135,6 +138,7 @@ public class RequestMapping {
 
         //내 강의 상세보기
 		mappings.put("/mylecture/view", new ViewMyLectureController());
+        mappings.put("/lecture/itemDetail", new ViewLectureItemDetailController());
 
 		//스터디 일정(특정),공지,과제 추가
         mappings.put("/lecture/addSchedule", new CreateLectureScheduleController());

@@ -11,6 +11,9 @@ import controller.member.MemberSessionUtils;
 public class LoginController implements Controller {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		if (!"POST".equalsIgnoreCase(request.getMethod())) {
+			return "redirect:/member/login/form";
+		}
 
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");

@@ -1,7 +1,11 @@
 package model.dao.studygroup;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,236 +13,231 @@ import model.dao.JDBCUtil;
 import model.domain.Assignment;
 
 public class StudyAssignmentDao {
-	private JDBCUtil jdbcUtil = null; // JDBCUtil 필드 선언
+	private JDBCUtil jdbcUtil = null;
 
-	public StudyAssignmentDao() { // 생성자
-		jdbcUtil = new JDBCUtil(); // JDBCUtil 객체 생성
+	public StudyAssignmentDao() {
+		jdbcUtil = new JDBCUtil();
 	}
 
-	// 날짜로 스터디 과제 목록 조회
 	public List<Assignment> findAssignmentsByDate(int year, int month, String memberId) {
 		StringBuffer query = new StringBuffer();
-		query.append("SELECT DISTINCT la.studyassignmentid AS id, la.duedate, la.title, la.description, ");
+		query.append("SELECT DISTINCT la.studyassignmentid AS id, la.duedate, la.createat, ");
+		query.append("la.starttime, la.duetime, la.title, la.description, la.textfile, ");
 		query.append("la.studygroupid, l.name AS lectureName ");
 		query.append("FROM studyassignment la ");
 		query.append("JOIN studygroup l ON la.studygroupid = l.studygroupid ");
 		query.append("WHERE (l.leaderId = ? ");
 		query.append("OR EXISTS (SELECT 1 FROM StudyGroupApplication sga ");
 		query.append("WHERE sga.studyGroupId = l.studyGroupId AND sga.stuId = ? AND sga.status = '수락')) ");
-		query.append("AND EXTRACT(YEAR FROM la.duedate) = ? AND EXTRACT(MONTH FROM la.duedate) = ? ");
+		query.append("AND (");
+		query.append("(EXTRACT(YEAR FROM la.duedate) = ? AND EXTRACT(MONTH FROM la.duedate) = ?) ");
+		query.append("OR (la.createat IS NOT NULL AND EXTRACT(YEAR FROM la.createat) = ? ");
+		query.append("AND EXTRACT(MONTH FROM la.createat) = ?)");
+		query.append(") ");
 		query.append("ORDER BY la.duedate");
 
-		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { memberId, memberId, year, month });
+		jdbcUtil.setSqlAndParameters(query.toString(),
+				new Object[] { memberId, memberId, year, month, year, month });
 		List<Assignment> assignments = new ArrayList<>();
 
 		try {
-			ResultSet rs = jdbcUtil.executeQuery(); // 질의 실행
+			ResultSet rs = jdbcUtil.executeQuery();
 			while (rs.next()) {
-				Assignment ass = new Assignment();
-				ass.setId(rs.getInt("id"));
-				ass.setTitle(rs.getString("title"));
-				ass.setDescription(rs.getString("description"));
-				ass.setStudyId(rs.getInt("studygroupid"));
-				ass.setDueDate(rs.getDate("duedate").toLocalDate());
-				ass.setLectureName(rs.getString("lectureName")); // 강의 이름 설정
-
-				assignments.add(ass); // 리스트에 과제 추가
+				assignments.add(mapAssignment(rs, "id", "studygroupid"));
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			jdbcUtil.close(); // ResultSet, PreparedStatement, Connection 등 해제
+			jdbcUtil.close();
 		}
 
 		return assignments;
 	}
 
-	// 과제 생성
-	public void createAssignment(int studyId, String title, String description, LocalDate dueDate, String textFile) {
+	public void createAssignment(Assignment assignment) {
 		StringBuffer query = new StringBuffer();
-		query.append(
-				"INSERT INTO studyassignment (studyassignmentid, studygroupid, title, description, duedate, textfile, createat) ");
-		query.append("VALUES (SEQ_STUDY_ASSIGNMENT_ID.nextval, ?, ?, ?, ?, ?, SYSDATE)");
+		query.append("INSERT INTO studyassignment ");
+		query.append("(studyassignmentid, studygroupid, title, description, duedate, starttime, duetime, textfile, createat) ");
+		query.append("VALUES (SEQ_STUDY_ASSIGNMENT_ID.nextval, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-		// SQL 쿼리와 매개변수 설정
-		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { studyId, title, description, dueDate, textFile });
+		jdbcUtil.setSqlAndParameters(query.toString(),
+				new Object[] { assignment.getStudyId(), assignment.getTitle(), assignment.getDescription(),
+						toSqlDate(assignment.getDueDate()), toSqlTime(assignment.getStartTime()),
+						toSqlTime(assignment.getDueTime()), assignment.getTextFile(),
+						toSqlDate(assignment.getCreateat()) });
 
 		try {
-			int rs = jdbcUtil.executeUpdate(); // 질의 실행 (INSERT문은 executeUpdate로 실행)
-			if (rs > 0) {
-			} else {
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
+			jdbcUtil.executeUpdate();
 			jdbcUtil.commit();
-			jdbcUtil.close(); // 연결 자원 해제
+		} catch (Exception ex) {
+			jdbcUtil.rollback();
+			throw new RuntimeException("스터디 과제 저장에 실패했습니다.", ex);
+		} finally {
+			jdbcUtil.close();
 		}
 	}
 
-	// 과제 상세 조회
-	public Assignment findAssignmentById(int assignment_id) {
+	public Assignment findAssignmentById(int assignmentId) {
 		StringBuffer query = new StringBuffer();
-		query.append("SELECT studyassignmentid, duedate, title, description, createat, textfile, studygroupid ");
+		query.append("SELECT studyassignmentid, duedate, title, description, createat, ");
+		query.append("starttime, duetime, textfile, studygroupid ");
 		query.append("FROM studyassignment ");
 		query.append("WHERE studyassignmentid = ?");
 
-		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { assignment_id });
+		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { assignmentId });
 
 		try {
-			Assignment ass = null;
-			ResultSet rs = jdbcUtil.executeQuery(); // 질의 실행
+			ResultSet rs = jdbcUtil.executeQuery();
 			if (rs.next()) {
-				ass = new Assignment();
-				ass.setId(assignment_id);
-				ass.setTitle(rs.getString("title"));
-				ass.setDescription(rs.getString("description"));
-				ass.setTextFile(rs.getString("textfile"));
-				ass.setLectureId(rs.getInt("studygroupid"));
-
-				Date sqlDate = rs.getDate("duedate");
-				if (sqlDate != null) {
-					ass.setDueDate(sqlDate.toLocalDate());
-				}
-
-				sqlDate = rs.getDate("createat");
-				if (sqlDate != null) {
-					ass.setCreateat(sqlDate.toLocalDate());
-				}
+				return mapAssignment(rs, "studyassignmentid", "studygroupid");
 			}
-			return ass;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			jdbcUtil.close(); // ResultSet, PreparedStatement, Connection 등 해제
+			jdbcUtil.close();
 		}
 		return null;
 	}
 
-	// 스터디 아이디로 스터디 과제 목록 조회
 	public List<Assignment> findAssignmentsByStudyId(int studyId) {
 		StringBuffer query = new StringBuffer();
-		query.append("SELECT studyassignmentid, duedate, title, description, createat, textfile, studygroupid ");
+		query.append("SELECT studyassignmentid, duedate, title, description, createat, ");
+		query.append("starttime, duetime, textfile, studygroupid ");
 		query.append("FROM studyassignment ");
-		query.append("WHERE studygroupid = ?");
+		query.append("WHERE studygroupid = ? ");
+		query.append("ORDER BY duedate, duetime, title ");
 
 		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { studyId });
 		List<Assignment> assignments = new ArrayList<>();
 
 		try {
-			ResultSet rs = jdbcUtil.executeQuery(); // 질의 실행
+			ResultSet rs = jdbcUtil.executeQuery();
 			while (rs.next()) {
-				Assignment ass = new Assignment();
-				ass.setId(rs.getInt("studyassignmentid"));
-				ass.setTitle(rs.getString("title"));
-				ass.setDescription(rs.getString("description"));
-				ass.setTextFile(rs.getString("textfile"));
-				ass.setLectureId(rs.getInt("studygroupid"));
-
-				Date sqlDueDate = rs.getDate("duedate");
-				if (sqlDueDate != null) {
-					ass.setDueDate(sqlDueDate.toLocalDate());
-				}
-
-				Date sqlCreateAt = rs.getDate("createat");
-				if (sqlCreateAt != null) {
-					ass.setCreateat(sqlCreateAt.toLocalDate());
-				}
-
-				assignments.add(ass); // 리스트에 과제 추가
+				assignments.add(mapAssignment(rs, "studyassignmentid", "studygroupid"));
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			jdbcUtil.close(); // ResultSet, PreparedStatement, Connection 등 해제
+			jdbcUtil.close();
 		}
 
 		return assignments;
 	}
 
-	// 스터디 아이디랑 마감날짜로 스터디 과제 목록 조회
 	public List<Assignment> findAssignmentsByStudyIdAndDueDate(int studyId, LocalDate dueDate) {
 		StringBuffer query = new StringBuffer();
-		query.append("SELECT studyassignmentid, duedate, title, description, createat, textfile, studygroupid ");
+		query.append("SELECT studyassignmentid, duedate, title, description, createat, ");
+		query.append("starttime, duetime, textfile, studygroupid ");
 		query.append("FROM studyassignment ");
-		query.append("WHERE studygroupid = ? AND TRUNC(duedate) = ?");
+		query.append("WHERE studygroupid = ? AND (");
+		query.append("TRUNC(duedate) = ? ");
+		query.append("OR TRUNC(createat) = ? ");
+		query.append("OR (? BETWEEN TRUNC(createat) AND TRUNC(duedate))");
+		query.append(") ");
+		query.append("ORDER BY duedate, duetime, title ");
 
-		java.sql.Date sqlDueDate = java.sql.Date.valueOf(dueDate);
+		Date sqlDueDate = Date.valueOf(dueDate);
 
-		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { studyId, sqlDueDate });
+		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { studyId, sqlDueDate, sqlDueDate, sqlDueDate });
 		List<Assignment> assignments = new ArrayList<>();
 
 		try {
-			ResultSet rs = jdbcUtil.executeQuery(); // 질의 실행
+			ResultSet rs = jdbcUtil.executeQuery();
 			while (rs.next()) {
-				Assignment ass = new Assignment();
-				ass.setId(rs.getInt("studyassignmentid"));
-				ass.setTitle(rs.getString("title"));
-				ass.setDescription(rs.getString("description"));
-				ass.setTextFile(rs.getString("textfile"));
-				ass.setLectureId(rs.getInt("studygroupid"));
-
-				ass.setDueDate(rs.getDate("duedate").toLocalDate());
-
-				Date sqlCreateAt = rs.getDate("createat");
-				if (sqlCreateAt != null) {
-					ass.setCreateat(sqlCreateAt.toLocalDate());
-				}
-
-				assignments.add(ass); // 리스트에 과제 추가
+				assignments.add(mapAssignment(rs, "studyassignmentid", "studygroupid"));
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			jdbcUtil.close(); // ResultSet, PreparedStatement, Connection 등 해제
+			jdbcUtil.close();
 		}
 
 		return assignments;
 	}
 
-	// 과제 삭제
 	public void deleteAssignmentById(int assignmentId) {
 		StringBuffer query = new StringBuffer();
 		query.append("DELETE FROM studyassignment ");
 		query.append("WHERE studyassignmentid = ?");
 
-		// SQL 쿼리와 매개변수 설정
 		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { assignmentId });
 
 		try {
-			int rs = jdbcUtil.executeUpdate(); // DELETE 문은 executeUpdate로 실행
-			if (rs > 0) {
-			} else {
-			}
+			jdbcUtil.executeUpdate();
+			jdbcUtil.commit();
 		} catch (Exception ex) {
+			jdbcUtil.rollback();
 			ex.printStackTrace();
 		} finally {
-			jdbcUtil.commit();
-			jdbcUtil.close(); // 연결 자원 해제
+			jdbcUtil.close();
 		}
 	}
 
-	// 과제 수정
 	public void updateAssignment(int assignmentId, String title, String description, Date dueDate, String textFile) {
 		StringBuffer query = new StringBuffer();
 		query.append("UPDATE studyassignment ");
 		query.append("SET title = ?, description = ?, duedate = ?, textfile = ? ");
 		query.append("WHERE studyassignmentid = ?");
 
-		// SQL 쿼리와 매개변수 설정
 		jdbcUtil.setSqlAndParameters(query.toString(),
 				new Object[] { title, description, dueDate, textFile, assignmentId });
 
 		try {
-			int rs = jdbcUtil.executeUpdate(); // UPDATE 문은 executeUpdate로 실행
-			if (rs > 0) {
-			} else {
-			}
+			jdbcUtil.executeUpdate();
+			jdbcUtil.commit();
 		} catch (Exception ex) {
+			jdbcUtil.rollback();
 			ex.printStackTrace();
 		} finally {
-			jdbcUtil.commit();
-			jdbcUtil.close(); // 연결 자원 해제
+			jdbcUtil.close();
 		}
+	}
+
+	private Assignment mapAssignment(ResultSet rs, String idColumn, String ownerColumn) throws SQLException {
+		Assignment assignment = new Assignment();
+		assignment.setId(rs.getInt(idColumn));
+		assignment.setTitle(rs.getString("title"));
+		assignment.setDescription(rs.getString("description"));
+		assignment.setTextFile(rs.getString("textfile"));
+		assignment.setStudyId(rs.getInt(ownerColumn));
+
+		Date dueDate = rs.getDate("duedate");
+		if (dueDate != null) {
+			assignment.setDueDate(dueDate.toLocalDate());
+		}
+
+		Date createAt = rs.getDate("createat");
+		if (createAt != null) {
+			assignment.setCreateat(createAt.toLocalDate());
+		}
+
+		Time startTime = rs.getTime("starttime");
+		if (startTime != null) {
+			assignment.setStartTime(startTime.toLocalTime());
+		}
+
+		Time dueTime = rs.getTime("duetime");
+		if (dueTime != null) {
+			assignment.setDueTime(dueTime.toLocalTime());
+		}
+
+		setLectureNameIfPresent(assignment, rs);
+		return assignment;
+	}
+
+	private void setLectureNameIfPresent(Assignment assignment, ResultSet rs) {
+		try {
+			assignment.setLectureName(rs.getString("lectureName"));
+		} catch (SQLException ignored) {
+			// Some detail queries do not include the parent study name.
+		}
+	}
+
+	private Date toSqlDate(LocalDate date) {
+		return date == null ? null : Date.valueOf(date);
+	}
+
+	private Time toSqlTime(LocalTime time) {
+		return time == null ? null : Time.valueOf(time);
 	}
 }

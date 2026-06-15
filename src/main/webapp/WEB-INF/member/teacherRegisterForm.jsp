@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds9">
-<link rel=stylesheet href="<c:url value='/css/registerForm.css' />?v=20260613-ds9"
+<link rel=stylesheet href="<c:url value='/css/registerForm.css' />?v=20260615-spacing3"
 	type="text/css">
 <title>EduManager registerForm</title>
 </head>
@@ -44,7 +44,7 @@
 	<div class="page">
 		<header>
 			<nav>
-				<a href="<c:url value='/member/login'/>" id="logo-link"> <img
+				<a href="<c:url value='/member/login/form'/>" id="logo-link"> <img
 					src="<c:url value='/images/edumanager-logo.png' />" alt="Edu Logo" />
 				</a>
 			</nav>

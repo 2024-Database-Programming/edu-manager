@@ -38,6 +38,7 @@ public class CreateStudyScheduleController implements Controller {
 		if (request.getMethod().equals("GET")) {
 			request.setAttribute("groupId", request.getParameter("groupId"));
 			request.setAttribute("startDate", LocalDate.parse(request.getParameter("selectedDate")));
+			request.setAttribute("category", normalizeScheduleCategory(request.getParameter("category")));
 			return "/study/addSchedule.jsp";
 		};
 
@@ -49,7 +50,7 @@ public class CreateStudyScheduleController implements Controller {
 			schedule.setStartDate(LocalDate.parse(request.getParameter("startDate")));
 			schedule.setStartTime(LocalTime.parse(request.getParameter("startTime")));
 			schedule.setEndTime(LocalTime.parse(request.getParameter("endTime")));
-			schedule.setType("special");
+			schedule.setType(normalizeScheduleCategory(request.getParameter("category")));
 			
 				int scheduleId = manager.createSchedule(schedule);
 			log.debug("Create Schedule : {}", scheduleId);
@@ -65,5 +66,12 @@ public class CreateStudyScheduleController implements Controller {
 			request.getSession().setAttribute("flashError", "일정 추가 중 오류가 발생했습니다.");
 			return "redirect:/study/over-view?groupId=" + groupId;
 		}
+	}
+
+	private String normalizeScheduleCategory(String category) {
+		if ("class".equals(category) || "exam".equals(category) || "event".equals(category)) {
+			return category;
+		}
+		return "event";
 	}
 }

@@ -28,6 +28,7 @@
 
 .form {
 	width: min(560px, calc(100% - 2 * var(--gutter)));
+	min-width: min(320px, calc(100vw - 2 * var(--gutter)));
 	margin: 0 auto;
 	padding: 28px;
 	box-sizing: border-box;
@@ -47,6 +48,17 @@
 
 .time-input {
 	margin-bottom: 16px;
+}
+
+.date-time-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px 16px;
+	margin-bottom: 16px;
+}
+
+.date-time-grid .time-input {
+	margin-bottom: 0;
 }
 
 .assignment-name,
@@ -104,6 +116,15 @@
 	resize: vertical;
 }
 
+input[type="date"].input-field,
+input[type="date"].time-selector {
+	min-width: 190px;
+}
+
+input[type="time"].time-selector {
+	min-width: 160px;
+}
+
 .button-container {
 	display: flex;
 	justify-content: center;
@@ -134,4 +155,10 @@
 .complete-button:hover {
 	color: var(--on-brand);
 	background-color: var(--brand-strong);
+}
+
+@media (max-width: 620px) {
+	.date-time-grid {
+		grid-template-columns: 1fr;
+	}
 }

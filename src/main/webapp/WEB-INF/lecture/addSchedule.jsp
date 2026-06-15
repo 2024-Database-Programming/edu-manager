@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>일정 추가하기</title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-<link rel="stylesheet" href="<c:url value='/css/addSchedule.css' />?v=20260613-ds4" />
+<link rel="stylesheet" href="<c:url value='/css/addSchedule.css' />?v=20260615-category1" />
 </head>
 <body>
 	<div class="main-container">
@@ -22,11 +22,19 @@
 						type="text" id="schedule-name" name="title"
 						placeholder="제목을 입력하세요" class="input" required />
 				</div>
+				<div class="deadline-input">
+					<label for="category" class="deadline">카테고리</label>
+					<select id="category" name="category" class="time-selector" required>
+						<option value="event" ${category == 'event' ? 'selected' : ''}>일정</option>
+						<option value="class" ${category == 'class' ? 'selected' : ''}>수업</option>
+						<option value="exam" ${category == 'exam' ? 'selected' : ''}>시험</option>
+					</select>
+				</div>
 				<!-- 일정 날짜 -->
 				<div class="deadline-input">
 					<label for="schedule-date" class="deadline">일정 날짜</label> <input
 						type="date" id="schedule-date" name="startDate" value="${startDate}"
-						class="input-field" readonly/>
+						class="input-field" required />
 				</div>
 				<!-- 시작 시간 -->
 				<div class="time-input">
@@ -44,8 +52,6 @@
 			<!-- 제출 버튼 -->
 			<input type="hidden" name="lectureId" id="lectureId"
 					value="${lectureId}">
-					<input type="hidden" name="startDate" id="startDate"
-					value="${startDate}">
 			<div class="button-container">
 				<button type="submit" class="complete-button">완료</button>
 			</div>
