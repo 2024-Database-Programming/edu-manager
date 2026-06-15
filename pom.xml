@@ -20,12 +20,13 @@
 		<servlet-api.version>4.0.1</servlet-api.version>
 		<jsp.version>2.3.3</jsp.version>
 		<jstl.version>1.2</jstl.version>
-		<logback-classic.version>1.2.6</logback-classic.version>
-		<commons-dbcp2.version>2.9.0</commons-dbcp2.version>
-		<commons-fileupload.version>1.4</commons-fileupload.version>
-		<jackson-databind.version>2.12.5</jackson-databind.version>
+		<logback-classic.version>1.5.34</logback-classic.version>
+		<commons-dbcp2.version>2.14.0</commons-dbcp2.version>
+		<commons-fileupload.version>1.6.0</commons-fileupload.version>
+		<commons-io.version>2.22.0</commons-io.version>
+		<jackson-databind.version>2.22.0</jackson-databind.version>
 		<junit.version>4.13.2</junit.version>
-		<oracle-jdbc-driver.version>21.3.0.0</oracle-jdbc-driver.version>
+		<oracle-jdbc-driver.version>23.26.2.0.0</oracle-jdbc-driver.version>
 	</properties>
 
 	<dependencies>
@@ -67,9 +68,9 @@
 			<version>${commons-fileupload.version}</version>
 		</dependency>
 		<dependency>
-    		<groupId>commons-io</groupId>
-    		<artifactId>commons-io</artifactId>
-    		<version>2.11.0</version>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
 		</dependency>
 
 		<!-- for JSON processing -->
@@ -100,7 +101,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>3.15.0</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -108,7 +109,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>3.2.2</version>
+				<version>3.5.1</version>
 			</plugin>
 		</plugins>
 	</build>
