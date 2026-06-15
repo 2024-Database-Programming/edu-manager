@@ -12,7 +12,9 @@
 - **서비스 목적**: 강의 모집부터 수강 신청, 스터디 운영, 일정·공지·과제 관리까지 — 교육 활동의 전 과정을 하나의 웹 서비스로 제공
 
 <div align="center">
-  <img src="src/main/webapp/images/edumanager-logo.png" alt="EduManager" width="240" />
+  <img src="src/main/webapp/images/edumanager-logo.png" alt="EduManager" width="200" />
+  <br/><br/>
+  <img src="./docs/calendar.png" alt="EduManager 메인 — 일정 캘린더" width="780" />
 </div>
 
 # 목차
@@ -46,20 +48,20 @@ EduManager는 **역할(학생 · 강사) 기반**의 교육 관리 웹 서비스
 
 # 주요 화면 및 기능 소개
 
-> 각 기능 화면 캡처를 `docs/` 폴더에 추가하고 아래 표의 셀을 `<img src="./docs/...">` 로 교체하면 이미지로 표시됩니다.
+> 강사 계정으로 로그인해 캡처한 실제 서비스 화면입니다.
 
 ## 회원 · 인증
 
 <table>
   <tr>
-    <th width="280">로그인</th>
-    <th width="280">회원가입 (학생 / 강사)</th>
-    <th width="280">프로필 사진 업로드</th>
+    <th width="33%">로그인</th>
+    <th width="33%">회원가입 (역할 선택)</th>
+    <th width="33%">내 정보</th>
   </tr>
   <tr>
-    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
-    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
-    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
+    <td><img src="./docs/login.png" alt="로그인" width="100%"/></td>
+    <td><img src="./docs/register.png" alt="회원가입 역할 선택" width="100%"/></td>
+    <td><img src="./docs/myinfo.png" alt="내 정보" width="100%"/></td>
   </tr>
 </table>
 
@@ -72,14 +74,14 @@ EduManager는 **역할(학생 · 강사) 기반**의 교육 관리 웹 서비스
 
 <table>
   <tr>
-    <th width="280">강의 개설 (강사)</th>
-    <th width="280">강의 목록 · 상세</th>
-    <th width="280">공지 · 과제 · 수강신청</th>
+    <th width="33%">강의 · 스터디 신청 목록</th>
+    <th width="33%">강의 상세</th>
+    <th width="33%">강의 개설 (강사)</th>
   </tr>
   <tr>
-    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
-    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
-    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
+    <td><img src="./docs/registration.png" alt="신청 목록" width="100%"/></td>
+    <td><img src="./docs/lecture-detail.png" alt="강의 상세" width="100%"/></td>
+    <td><img src="./docs/lecture-create.png" alt="강의 개설" width="100%"/></td>
   </tr>
 </table>
 
@@ -89,18 +91,9 @@ EduManager는 **역할(학생 · 강사) 기반**의 교육 관리 웹 서비스
 
 ## 스터디 그룹
 
-<table>
-  <tr>
-    <th width="280">스터디 개설</th>
-    <th width="280">가입 신청</th>
-    <th width="280">수락 / 거절 관리</th>
-  </tr>
-  <tr>
-    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
-    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
-    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
-  </tr>
-</table>
+<div align="center">
+  <img src="./docs/study-create.png" alt="스터디 개설" width="620"/>
+</div>
 
 - 스터디 **개설·수정**, 모집 인원과 정기 모임 요일 설정
 - **가입 신청 → 리더의 수락 / 거절** 흐름
@@ -110,12 +103,12 @@ EduManager는 **역할(학생 · 강사) 기반**의 교육 관리 웹 서비스
 
 <table>
   <tr>
-    <th width="420">통합 일정 캘린더</th>
-    <th width="420">마이페이지</th>
+    <th width="50%">통합 일정 캘린더</th>
+    <th width="50%">마이페이지</th>
   </tr>
   <tr>
-    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
-    <td align="center"><br/><sub>화면 캡처 예정</sub><br/><br/></td>
+    <td><img src="./docs/calendar.png" alt="일정 캘린더" width="100%"/></td>
+    <td><img src="./docs/mypage.png" alt="마이페이지" width="100%"/></td>
   </tr>
 </table>
 
