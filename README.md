@@ -7,7 +7,7 @@
 
 - **서비스명**: EduManager
 - **개발 기간**: 2024.0X ~ 2024.1X
-- **개발 인원**: O명
+- **개발 인원**: 4명
 - **프로젝트**: 데이터베이스 프로그래밍 팀 프로젝트
 - **서비스 목적**: 강의 모집부터 수강 신청, 스터디 운영, 일정·공지·과제 관리까지 — 교육 활동의 전 과정을 하나의 웹 서비스로 제공
 
@@ -19,6 +19,7 @@
 
 # 목차
 
+- [팀원](#팀원)
 - [기획 배경](#기획-배경)
 - [서비스 소개](#서비스-소개)
 - [주요 화면 및 기능 소개](#주요-화면-및-기능-소개)
@@ -27,6 +28,29 @@
 - [ERD](#erd)
 - [프로젝트 구조](#프로젝트-구조)
 - [기술 스택](#기술-스택)
+
+# 팀원
+
+<table>
+  <tr>
+    <td align="center" width="160">
+      <a href="https://github.com/sondahyun"><img src="https://github.com/sondahyun.png" width="100" height="100" style="border-radius:50%"/><br/><b>손다현</b></a><br/>
+      <sub>@sondahyun</sub>
+    </td>
+    <td align="center" width="160">
+      <a href="https://github.com/heessunny"><img src="https://github.com/heessunny.png" width="100" height="100" style="border-radius:50%"/><br/><b>김희선</b></a><br/>
+      <sub>@heessunny</sub>
+    </td>
+    <td align="center" width="160">
+      <a href="https://github.com/JoEunHyang"><img src="https://github.com/JoEunHyang.png" width="100" height="100" style="border-radius:50%"/><br/><b>조은향</b></a><br/>
+      <sub>@JoEunHyang</sub>
+    </td>
+    <td align="center" width="160">
+      <a href="https://github.com/zzinggny"><img src="https://github.com/zzinggny.png" width="100" height="100" style="border-radius:50%"/><br/><b>zzinggny</b></a><br/>
+      <sub>@zzinggny</sub>
+    </td>
+  </tr>
+</table>
 
 # 기획 배경
 
