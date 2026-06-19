@@ -109,6 +109,10 @@
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.5.1</version>
+				<configuration>
+					<!-- 컨텍스트 루트/배포 URL을 edu-manager로 고정 (Eclipse m2e 재생성 시에도 /edu-manager 유지) -->
+					<warName>edu-manager</warName>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
