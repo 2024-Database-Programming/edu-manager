@@ -38,6 +38,11 @@ public class SubmitLectureAssignmentController implements Controller {
 			return "redirect:/lecture/itemDetail?type=assignment&id=" + assignmentId + "&selectedDate=" + selectedDate;
 		}
 
+		if (isPastDue(assignment)) { // 마감 시간이 지나면 제출 차단
+			request.getSession().setAttribute("flashError", "마감 시간이 지나 제출할 수 없습니다.");
+			return "redirect:/lecture/itemDetail?type=assignment&id=" + assignmentId + "&selectedDate=" + selectedDate;
+		}
+
 		try {
 			String description = trim(request.getParameter("submissionDescription"));
 			UploadedFile file = MultipartUploadUtils.readOptionalFile(request, "submissionFile");
@@ -63,6 +68,14 @@ public class SubmitLectureAssignmentController implements Controller {
 			request.getSession().setAttribute("flashError", "과제 제출에 실패했습니다. 파일 크기와 입력 내용을 확인해 주세요.");
 		}
 		return "redirect:/lecture/itemDetail?type=assignment&id=" + assignmentId + "&selectedDate=" + selectedDate;
+	}
+
+	private boolean isPastDue(Assignment a) {
+		if (a == null || a.getDueDate() == null) {
+			return false; // 마감일이 없으면 제한하지 않음
+		}
+		java.time.LocalTime time = a.getDueTime() != null ? a.getDueTime() : java.time.LocalTime.MAX;
+		return java.time.LocalDateTime.now().isAfter(java.time.LocalDateTime.of(a.getDueDate(), time));
 	}
 
 	private String trim(String value) {

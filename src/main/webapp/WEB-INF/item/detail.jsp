@@ -139,16 +139,23 @@
 										</c:if>
 									</div>
 								</c:if>
-								<form class="submission-form" action="${submitUrl}" method="POST" enctype="multipart/form-data">
-									<input type="hidden" name="assignmentId" value="${itemId}" />
-									<input type="hidden" name="selectedDate" value="${selectedDate}" />
-									<label for="submissionDescription">제출 내용</label>
-									<textarea id="submissionDescription" name="submissionDescription"
-										placeholder="제출 설명을 입력하세요."></textarea>
-									<label for="submissionFile">제출 파일</label>
-									<input type="file" id="submissionFile" name="submissionFile" class="submission-file" />
-									<button type="submit">제출하기</button>
-								</form>
+								<c:choose>
+									<c:when test="${submissionPastDue}">
+										<div class="empty-note">마감 시간이 지나 제출할 수 없습니다.</div>
+									</c:when>
+									<c:otherwise>
+										<form class="submission-form" action="${submitUrl}" method="POST" enctype="multipart/form-data">
+											<input type="hidden" name="assignmentId" value="${itemId}" />
+											<input type="hidden" name="selectedDate" value="${selectedDate}" />
+											<label for="submissionDescription">제출 내용</label>
+											<textarea id="submissionDescription" name="submissionDescription"
+												placeholder="제출 설명을 입력하세요."></textarea>
+											<label for="submissionFile">제출 파일</label>
+											<input type="file" id="submissionFile" name="submissionFile" class="submission-file" />
+											<button type="submit">제출하기</button>
+										</form>
+									</c:otherwise>
+								</c:choose>
 							</section>
 						</c:when>
 					</c:choose>

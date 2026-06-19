@@ -124,6 +124,7 @@ public class ViewLectureItemDetailController implements Controller {
 				AssignmentSubmission mySubmission = submissionDao.findByStudent("lecture", id, memberId);
 				request.setAttribute("canSubmitAssignment", true);
 				request.setAttribute("mySubmission", mySubmission);
+				request.setAttribute("submissionPastDue", isPastDue(manager.findAssignmentById(id)));
 			}
 		}
 		return "/item/detail.jsp";
@@ -207,6 +208,14 @@ public class ViewLectureItemDetailController implements Controller {
 
 	private boolean containsExamKeyword(String title) {
 		return title != null && (title.contains("시험") || title.contains("중간") || title.contains("기말") || title.contains("평가"));
+	}
+
+	private boolean isPastDue(Assignment a) {
+		if (a == null || a.getDueDate() == null) {
+			return false;
+		}
+		java.time.LocalTime time = a.getDueTime() != null ? a.getDueTime() : java.time.LocalTime.MAX;
+		return java.time.LocalDateTime.now().isAfter(java.time.LocalDateTime.of(a.getDueDate(), time));
 	}
 
 	private String safe(String value, String fallback) {
