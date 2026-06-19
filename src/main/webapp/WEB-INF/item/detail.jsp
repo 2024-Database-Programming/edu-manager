@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${itemTitle}</title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-<link rel="stylesheet" href="<c:url value='/css/item_detail.css' />?v=20260616-submit1" type="text/css">
+<link rel="stylesheet" href="<c:url value='/css/item_detail.css' />?v=20260619-read1" type="text/css">
 </head>
 <body>
 	<div class="page">
@@ -141,7 +141,7 @@
 								</c:if>
 								<c:choose>
 									<c:when test="${submissionPastDue}">
-										<div class="empty-note">마감 시간이 지나 제출할 수 없습니다.</div>
+										<div class="submission-closed">마감 시간이 지나 제출할 수 없습니다.</div>
 									</c:when>
 									<c:otherwise>
 										<form class="submission-form" action="${submitUrl}" method="POST" enctype="multipart/form-data">
