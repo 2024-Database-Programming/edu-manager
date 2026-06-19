@@ -19,15 +19,15 @@
 .title {
 	display: block;
 	height: auto;
-	margin: 28px 0 20px;
-	font-size: 24px;
-	font-weight: 800;
+	margin: 28px 0 22px;
+	font-size: 23px;
+	font-weight: 700;
 	color: var(--ink);
 	text-align: center;
 }
 
 .form {
-	width: min(560px, calc(100% - 2 * var(--gutter)));
+	width: min(720px, calc(100% - 2 * var(--gutter)));
 	min-width: min(320px, calc(100vw - 2 * var(--gutter)));
 	margin: 0 auto;
 	padding: 28px;
@@ -71,7 +71,7 @@
 	margin-bottom: 8px;
 	color: var(--ink-2);
 	font-weight: 700;
-	font-size: 13px;
+	font-size: 14px;
 	text-align: left;
 }
 
@@ -142,7 +142,7 @@
 	color: var(--brand);
 	font-family: 'Pretendard', inherit;
 	font-size: 13px;
-	font-weight: 900;
+	font-weight: 700;
 	cursor: pointer;
 }
 

@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds9">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/study_make.css?v=20260615-layout1" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/study_make.css?v=20260620-wide1" />
 <title>EduManager</title>
 <script src="${pageContext.request.contextPath}/js/updateLecture.js"></script>
 <script>

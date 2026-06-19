@@ -7,7 +7,7 @@
 }
 
 #makeStudy_form {
-	width: min(640px, 100%);
+	width: min(820px, 100%);
 	min-width: 0;
 	margin-top: 8px;
 	padding: 28px 28px 24px;
@@ -21,7 +21,7 @@
 .subTitle {
 	font-size: 22px;
 	color: var(--ink);
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: -0.01em;
 }
 
@@ -42,7 +42,7 @@
 	display: inline-block;
 	margin-bottom: 8px;
 	color: var(--ink-2);
-	font-size: 13px;
+	font-size: 14px;
 	font-weight: 700;
 }
 
