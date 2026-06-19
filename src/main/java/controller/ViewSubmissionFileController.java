@@ -35,9 +35,11 @@ public class ViewSubmissionFileController implements Controller {
 				: submission.getContentType();
 		String encodedFileName = URLEncoder.encode(submission.getFileName(), StandardCharsets.UTF_8).replace("+", "%20");
 
+		boolean preview = "true".equals(request.getParameter("preview"));
+		String disposition = preview && submission.isImage() ? "inline" : "attachment";
 		response.setContentType(contentType);
 		response.setContentLength(submission.getData().length);
-		response.setHeader("Content-Disposition", "attachment; filename*=UTF-8''" + encodedFileName);
+		response.setHeader("Content-Disposition", disposition + "; filename*=UTF-8''" + encodedFileName);
 		ServletOutputStream out = response.getOutputStream();
 		out.write(submission.getData());
 		out.flush();

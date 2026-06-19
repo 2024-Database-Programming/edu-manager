@@ -92,4 +92,8 @@ public class AssignmentSubmission {
 	public boolean isHasFile() {
 		return hasFile();
 	}
+
+	public boolean isImage() {
+		return contentType != null && contentType.startsWith("image/");
+	}
 }
