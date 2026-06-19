@@ -151,6 +151,41 @@ EduManager는 **역할(학생 · 강사) 기반**의 교육 관리 웹 서비스
 - **통합 일정 캘린더** — 수업·일정·시험·과제를 날짜별로 확인하고 항목 클릭 시 상세 페이지로 이동
 - 마이페이지: 내 정보 · 내 강의 · 내 스터디 · 찜 목록
 
+## 공지 · 과제 관리 (강사)
+
+<table>
+  <tr>
+    <th width="33%">공지 등록</th>
+    <th width="33%">과제 등록</th>
+    <th width="33%">강의 수정</th>
+  </tr>
+  <tr>
+    <td><img src="./docs/add-notice.png" alt="공지 등록" width="100%"/></td>
+    <td><img src="./docs/add-assignment.png" alt="과제 등록" width="100%"/></td>
+    <td><img src="./docs/lecture-edit.png" alt="강의 수정" width="100%"/></td>
+  </tr>
+</table>
+
+## 과제함 · 제출 (학생)
+
+<table>
+  <tr>
+    <th width="33%">과제함 · 마감 관리</th>
+    <th width="33%">과제 제출</th>
+    <th width="33%">마감 시 제출 차단</th>
+  </tr>
+  <tr>
+    <td><img src="./docs/assignment-list.png" alt="과제함" width="100%"/></td>
+    <td><img src="./docs/assignment-submit.png" alt="과제 제출" width="100%"/></td>
+    <td><img src="./docs/assignment-closed.png" alt="마감 시 제출 차단" width="100%"/></td>
+  </tr>
+</table>
+
+- 공지·과제 **등록 시 파일 첨부**, 항목 **수정·삭제** 지원
+- 과제 **제출**(설명 + 파일 업로드), 과제함에 `D-3`·`기한마감` 자동 표시
+- **마감 시간이 지나면 제출 차단** (서버 검증 + UI에서 제출 폼 숨김)
+- **제출물 접근 제어**: 강사는 전체 제출물 열람·다운로드, 학생은 **본인 제출물만**
+
 # 프로젝트 핵심 기술
 
 ## 프레임워크 없는 MVC — 프런트 컨트롤러 직접 구현
