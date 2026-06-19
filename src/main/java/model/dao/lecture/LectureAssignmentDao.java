@@ -106,16 +106,12 @@ public class LectureAssignmentDao {
 		query.append("SELECT lectureassignmentid, duedate, title, description, createat, ");
 		query.append("starttime, duetime, textfile, lectureid ");
 		query.append("FROM lectureassignment ");
-		query.append("WHERE lectureId = ? AND (");
-		query.append("TRUNC(duedate) = ? ");
-		query.append("OR TRUNC(createat) = ? ");
-		query.append("OR (? BETWEEN TRUNC(createat) AND TRUNC(duedate))");
-		query.append(") ");
+		query.append("WHERE lectureId = ? AND TRUNC(duedate) = ? ");
 		query.append("ORDER BY duedate, duetime, title ");
 
 		Date sqlDueDate = Date.valueOf(dueDate);
 
-		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { lectureId, sqlDueDate, sqlDueDate, sqlDueDate });
+		jdbcUtil.setSqlAndParameters(query.toString(), new Object[] { lectureId, sqlDueDate });
 		List<Assignment> assignments = new ArrayList<>();
 
 		try {

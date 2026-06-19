@@ -43,19 +43,13 @@ public final class CalendarEventJsonUtils {
 					continue;
 				}
 
-				LocalDate start = assignment.getCreateat() != null ? assignment.getCreateat() : assignment.getDueDate();
-				LocalDate end = assignment.getDueDate() != null ? assignment.getDueDate() : start;
-				if (start == null || end == null) {
+				// 과제는 마감일에만 캘린더에 표시 (시작~마감 전체 기간을 매일 찍지 않음)
+				LocalDate due = assignment.getDueDate() != null ? assignment.getDueDate() : assignment.getCreateat();
+				if (due == null || !YearMonth.from(due).equals(month)) {
 					continue;
 				}
-
-				LocalDate cursor = start.isBefore(month.atDay(1)) ? month.atDay(1) : start;
-				LocalDate rangeEnd = end.isAfter(month.atEndOfMonth()) ? month.atEndOfMonth() : end;
-				while (!cursor.isAfter(rangeEnd)) {
-					appendEvent(json, needsComma, cursor, "assignment", assignment.getId(), "과제", safeTitle(assignment.getTitle(), "과제"),
-							assignmentPeriod(assignment));
-					cursor = cursor.plusDays(1);
-				}
+				appendEvent(json, needsComma, due, "assignment", assignment.getId(), "과제", safeTitle(assignment.getTitle(), "과제"),
+						assignmentPeriod(assignment));
 			}
 		}
 
