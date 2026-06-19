@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	const selectedDateValue = selectedDateInput.value || "";
-	const eventDates = new Set((eventsInput?.value || "").match(/\d{4}-\d{2}-\d{2}/g) || []);
-	const calendarEventsByDate = buildCalendarEventMap(calendarEventsScript?.textContent || "");
+	const eventDates = new Set(((eventsInput && eventsInput.value) || "").match(/\d{4}-\d{2}-\d{2}/g) || []);
+	const calendarEventsByDate = buildCalendarEventMap((calendarEventsScript && calendarEventsScript.textContent) || "");
 	let currentDate = selectedDateValue ? parseLocalDate(selectedDateValue) : new Date();
 
 	function parseLocalDate(value) {
@@ -52,8 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	function itemDetailUrl(type, id, date) {
-		const lectureId = document.getElementById("lectureId")?.value;
-		const groupId = document.getElementById("groupId")?.value;
+		const lectureElement = document.getElementById("lectureId");
+		const groupElement = document.getElementById("groupId");
+		const lectureId = lectureElement ? lectureElement.value : "";
+		const groupId = groupElement ? groupElement.value : "";
 		if (!id || (!lectureId && !groupId)) {
 			return "#";
 		}
@@ -153,32 +155,44 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	}
 
-	document.getElementById("previousMonthIcon")?.addEventListener("click", () => {
-		currentDate.setMonth(currentDate.getMonth() - 1);
-		renderCalendar(currentDate);
-	});
+	const previousMonthIcon = document.getElementById("previousMonthIcon");
+	if (previousMonthIcon) {
+		previousMonthIcon.addEventListener("click", () => {
+			currentDate.setMonth(currentDate.getMonth() - 1);
+			renderCalendar(currentDate);
+		});
+	}
 
-	document.getElementById("nextMonthIcon")?.addEventListener("click", () => {
-		currentDate.setMonth(currentDate.getMonth() + 1);
-		renderCalendar(currentDate);
-	});
+	const nextMonthIcon = document.getElementById("nextMonthIcon");
+	if (nextMonthIcon) {
+		nextMonthIcon.addEventListener("click", () => {
+			currentDate.setMonth(currentDate.getMonth() + 1);
+			renderCalendar(currentDate);
+		});
+	}
 
-	document.querySelector(".calendarTable")?.addEventListener("click", (event) => {
-		const cell = event.target.closest("td.currentMonth");
-		if (!cell) {
-			return;
-		}
+	const calendarTable = document.querySelector(".calendarTable");
+	if (calendarTable) {
+		calendarTable.addEventListener("click", (event) => {
+			const cell = event.target.closest("td.currentMonth");
+			if (!cell) {
+				return;
+			}
 
-		const selectedDay = cell.dataset.day;
-		const year = calendarYear.textContent;
-		const month = calendarHeader.textContent;
-		const fullDate = `${year}-${String(month).padStart(2, "0")}-${String(selectedDay).padStart(2, "0")}`;
+			const selectedDay = cell.dataset.day;
+			const year = calendarYear.textContent;
+			const month = calendarHeader.textContent;
+			const fullDate = `${year}-${String(month).padStart(2, "0")}-${String(selectedDay).padStart(2, "0")}`;
 
-		document.querySelector(".calendarTable .selected")?.classList.remove("selected");
-		cell.classList.add("selected");
-		selectedDateInput.value = fullDate;
-		document.getElementById("dateForm").submit();
-	});
+			const previouslySelected = document.querySelector(".calendarTable .selected");
+			if (previouslySelected) {
+				previouslySelected.classList.remove("selected");
+			}
+			cell.classList.add("selected");
+			selectedDateInput.value = fullDate;
+			document.getElementById("dateForm").submit();
+		});
+	}
 
 	renderCalendar(currentDate);
 });
