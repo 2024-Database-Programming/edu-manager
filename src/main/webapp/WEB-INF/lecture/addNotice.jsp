@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>공지 추가하기</title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-<link rel="stylesheet" href="<c:url value='/css/addSchedule.css' />?v=20260620-wide1" />
+<link rel="stylesheet" href="<c:url value='/css/addSchedule.css' />?v=20260620-wide2" />
 </head>
 <body>
 	<div class="main-container">

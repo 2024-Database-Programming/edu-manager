@@ -16,6 +16,12 @@
 	margin: 0 auto;
 }
 
+/* 폼 본체 폭은 form 요소에 직접 지정 (자식 div의 % 폭이 shrink-to-fit로 무너지는 문제 해결) */
+.main-container > form {
+	width: min(760px, calc(100% - 2 * var(--gutter)));
+	margin: 0 auto;
+}
+
 .title {
 	display: block;
 	height: auto;
@@ -27,8 +33,8 @@
 }
 
 .form {
-	width: min(720px, calc(100% - 2 * var(--gutter)));
-	min-width: min(320px, calc(100vw - 2 * var(--gutter)));
+	width: 100%;
+	min-width: 0;
 	margin: 0 auto;
 	padding: 28px;
 	box-sizing: border-box;
