@@ -338,6 +338,22 @@ body .page {
 	font-size: 15px;
 }
 
+.submission-preview {
+	max-width: 240px;
+	max-height: 180px;
+	margin-top: 10px;
+	border: 1px solid var(--line);
+	border-radius: var(--r-sm);
+	display: block;
+}
+
+.submission-empty {
+	margin: 8px 0 0;
+	color: var(--faint);
+	font-size: 13px;
+	font-style: italic;
+}
+
 .submission-form {
 	display: grid;
 	grid-template-columns: 1fr;

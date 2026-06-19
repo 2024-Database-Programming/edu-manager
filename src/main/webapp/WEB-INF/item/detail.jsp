@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${itemTitle}</title>
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-<link rel="stylesheet" href="<c:url value='/css/item_detail.css' />?v=20260619-read1" type="text/css">
+<link rel="stylesheet" href="<c:url value='/css/item_detail.css' />?v=20260620-sub1" type="text/css">
 </head>
 <body>
 	<div class="page">
@@ -106,7 +106,8 @@
 													<div>
 														<strong><c:out value="${submission.studentId}" /></strong>
 														<span><c:out value="${submission.submittedAt}" /></span>
-														<p><c:out value="${submission.description}" /></p>
+														<c:choose><c:when test="${not empty submission.description}"><p><c:out value="${submission.description}" /></p></c:when><c:otherwise><p class="submission-empty">(제출 내용 없음)</p></c:otherwise></c:choose>
+														<c:if test="${submission.hasFile and submission.image}"><c:url var="submissionPreviewUrl" value="/submission/download"><c:param name="id" value="${submission.id}" /><c:param name="preview" value="true" /></c:url><a href="${submissionPreviewUrl}" target="_blank"><img class="submission-preview" src="${submissionPreviewUrl}" alt="제출 이미지" /></a></c:if>
 													</div>
 													<c:if test="${submission.hasFile}">
 														<c:url var="submissionFileUrl" value="/submission/download">
