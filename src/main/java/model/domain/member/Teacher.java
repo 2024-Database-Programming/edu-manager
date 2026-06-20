@@ -64,7 +64,7 @@ public class Teacher {
 		if (pwd == null) {
 			return false;
 		}
-		return this.pwd.equals(pwd);
+		return model.dao.PasswordHasher.matches(pwd, this.pwd);
 	}
 
 	public boolean isSameMember(String id) {

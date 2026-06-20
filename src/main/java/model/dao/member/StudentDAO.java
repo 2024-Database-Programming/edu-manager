@@ -21,7 +21,7 @@ public class StudentDAO {
 	 */
 	public int create(Student student) throws SQLException {
 		String sql = "INSERT INTO STUDENT VALUES (?, ?, ?, ?, ?, ?)";
-		Object[] param = new Object[] { student.getId(), student.getPwd(), student.getName(), student.getEmail(),
+		Object[] param = new Object[] { student.getId(), model.dao.PasswordHasher.ensureHashed(student.getPwd()), student.getName(), student.getEmail(),
 				student.getPhone(), student.getAgeRange() };
 		jdbcUtil.setSqlAndParameters(sql, param); // JDBCUtil 에 insert문과 매개 변수 설정
 
@@ -43,7 +43,7 @@ public class StudentDAO {
 	 */
 	public int update(Student student) throws SQLException {
 		String sql = "UPDATE STUDENT " + "SET pwd=?, email=?, phone=? " + "WHERE id=?";
-		Object[] param = new Object[] { student.getPwd(), student.getEmail(), student.getPhone(), student.getId() };
+		Object[] param = new Object[] { model.dao.PasswordHasher.ensureHashed(student.getPwd()), student.getEmail(), student.getPhone(), student.getId() };
 
 		jdbcUtil.setSqlAndParameters(sql, param); // JDBCUtil에 update문과 매개 변수 설정
 

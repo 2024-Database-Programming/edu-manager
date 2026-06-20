@@ -23,7 +23,7 @@ public class MemberDAO {
 	 */
 	public int create(Member member) throws SQLException {
 		String sql = "INSERT INTO MEMBER VALUES (?, ?, ?, ?, ?, ?)";
-		Object[] param = new Object[] { member.getId(), member.getPwd(), member.getName(), member.getEmail(),
+		Object[] param = new Object[] { member.getId(), model.dao.PasswordHasher.ensureHashed(member.getPwd()), member.getName(), member.getEmail(),
 				member.getPhone(), "/images/profileImg.svg" };
 		jdbcUtil.setSqlAndParameters(sql, param); // JDBCUtil 에 insert문과 매개 변수 설정
 
@@ -45,7 +45,7 @@ public class MemberDAO {
 	 */
 	public int update(Member member) throws SQLException {
 		String sql = "UPDATE MEMBER " + "SET pwd=?, email=?, phone=?, img=? " + "WHERE id=?";
-		Object[] param = new Object[] { member.getPwd(), member.getEmail(), member.getPhone(), member.getImg(), member.getId() };
+		Object[] param = new Object[] { model.dao.PasswordHasher.ensureHashed(member.getPwd()), member.getEmail(), member.getPhone(), member.getImg(), member.getId() };
 		jdbcUtil.setSqlAndParameters(sql, param); // JDBCUtil에 update문과 매개 변수 설정
 
 		try {
@@ -204,13 +204,13 @@ public class MemberDAO {
 	 * 주어진 사용자 ID와 비밀번호가 일치하는지 확인
 	 */
 	public boolean verifyPassword(String id, String pwd) throws SQLException {
-	    String sql = "SELECT count(*) FROM MEMBER WHERE id=? AND pwd=?";
-	    jdbcUtil.setSqlAndParameters(sql, new Object[] { id, pwd });
+	    String sql = "SELECT pwd FROM MEMBER WHERE id=?";
+	    jdbcUtil.setSqlAndParameters(sql, new Object[] { id });
 
 	    try {
 	        ResultSet rs = jdbcUtil.executeQuery();
 	        if (rs.next()) {
-	            return rs.getInt(1) == 1; // ID와 비밀번호가 일치하면 true
+	            return model.dao.PasswordHasher.matches(pwd, rs.getString("pwd")); // 해시/레거시 평문 모두 검증
 	        }
 	    } catch (Exception ex) {
 	        ex.printStackTrace();

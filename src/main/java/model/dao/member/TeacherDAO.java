@@ -23,7 +23,7 @@ public class TeacherDAO {
 	 */
 	public int create(Teacher teacher) throws SQLException {
 		String sql = "INSERT INTO TEACHER VALUES (?, ?, ?, ?, ?)";
-		Object[] param = new Object[] { teacher.getId(), teacher.getPwd(), teacher.getName(), teacher.getEmail(),
+		Object[] param = new Object[] { teacher.getId(), model.dao.PasswordHasher.ensureHashed(teacher.getPwd()), teacher.getName(), teacher.getEmail(),
 				teacher.getPhone() };
 		jdbcUtil.setSqlAndParameters(sql, param); // JDBCUtil 에 insert문과 매개 변수 설정
 
@@ -45,7 +45,7 @@ public class TeacherDAO {
 	 */
 	public int update(Teacher teacher) throws SQLException {
 		String sql = "UPDATE TEACHER " + "SET pwd=?, email=?, phone=? " + "WHERE id=?";
-		Object[] param = new Object[] { teacher.getPwd(), teacher.getEmail(), teacher.getPhone(), teacher.getId() };
+		Object[] param = new Object[] { model.dao.PasswordHasher.ensureHashed(teacher.getPwd()), teacher.getEmail(), teacher.getPhone(), teacher.getId() };
 
 		jdbcUtil.setSqlAndParameters(sql, param); // JDBCUtil에 update문과 매개 변수 설정
 
