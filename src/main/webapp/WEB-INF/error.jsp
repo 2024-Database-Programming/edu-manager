@@ -22,7 +22,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+<link rel="stylesheet" href="<c:url value='/css/theme.css'/>?v=20260621-toss1">
 <title>EduManager · 오류 <%= big %></title>
 </head>
 <body>

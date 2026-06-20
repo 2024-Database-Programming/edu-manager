@@ -9,7 +9,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260621-toss1">
 <link rel="stylesheet" href="<c:url value='/css/study_details.css' />?v=20260616-detail2"
 	type="text/css">
 <script src="<c:url value='/js/study_calendar.js' />?v=20260616-detail2"></script>

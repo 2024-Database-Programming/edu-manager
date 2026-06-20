@@ -7,8 +7,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-    <link rel="stylesheet" href="<c:url value='/css/myInfo.css' />?v=20260613-ds4" type="text/css">
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260621-toss1">
+    <link rel="stylesheet" href="<c:url value='/css/myInfo.css' />?v=20260621-toss1" type="text/css">
     <title>내 정보 확인</title>
 </head>
 <body>

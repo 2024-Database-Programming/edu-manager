@@ -5,8 +5,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-    <link rel="stylesheet" href="<c:url value='/css/deleteConfirm.css' />?v=20260613-ds4" type="text/css">
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260621-toss1">
+    <link rel="stylesheet" href="<c:url value='/css/deleteConfirm.css' />?v=20260621-toss1" type="text/css">
     <title>회원 탈퇴 확인</title>
      <script>
         // 탈퇴 성공 시 알림 후 리다이렉트

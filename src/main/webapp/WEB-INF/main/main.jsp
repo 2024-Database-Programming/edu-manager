@@ -206,7 +206,7 @@ for (Assignment entry : studyAssignmentEntries) {
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260621-toss1">
 <link rel="stylesheet" href="<c:url value='/css/main.css' />?v=20260616-focus1" type="text/css">
 <script>
 	function changeMonth(offset) {

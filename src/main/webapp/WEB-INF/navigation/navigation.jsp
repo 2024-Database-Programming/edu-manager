@@ -5,8 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-<link rel=stylesheet href="<c:url value='/css/navigation.css' />?v=20260613-ds4" type="text/css">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260621-toss1">
+<link rel=stylesheet href="<c:url value='/css/navigation.css' />?v=20260621-toss1" type="text/css">
 <title>Insert title here</title>
 </head>
 <body>

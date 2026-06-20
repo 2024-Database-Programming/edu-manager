@@ -5,8 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>EduManager</title>
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/navigation.css?v=20260613-ds4" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260621-toss1">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/navigation.css?v=20260621-toss1" />
 <style>
 .member-page {
 	width: min(960px, calc(100% - 2 * var(--gutter)));

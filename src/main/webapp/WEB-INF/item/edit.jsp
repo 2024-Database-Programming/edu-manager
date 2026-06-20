@@ -7,7 +7,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${itemLabel} 수정</title>
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260613-ds4">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/theme.css'/>?v=20260621-toss1">
 <link rel="stylesheet" href="<c:url value='/css/item_edit.css' />?v=20260616-edit1" type="text/css">
 </head>
 <body>
