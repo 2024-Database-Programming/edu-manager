@@ -1,0 +1,7 @@
+# DB 접속 설정 템플릿
+# 이 파일을 같은 폴더에 context.properties 로 복사한 뒤 실제 값으로 채우세요.
+# context.properties 는 .gitignore 로 git 추적에서 제외됩니다(자격증명 보호).
+db.driver=oracle.jdbc.driver.OracleDriver
+db.url=jdbc:oracle:thin:@<HOST>:1521/<SERVICE_NAME>
+db.username=<DB_USERNAME>
+db.password=<DB_PASSWORD>

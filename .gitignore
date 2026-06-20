@@ -4,3 +4,6 @@
 
 # macOS
 .DS_Store
+
+# DB 자격증명 — context.properties.example 을 복사해서 각자 생성 (추적 금지)
+/src/main/resources/context.properties
