@@ -3,6 +3,7 @@ package controller.member;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.AuthorizationUtils;
 import controller.Controller;
 import model.domain.member.Member;
 import model.service.member.MemberManager;
@@ -21,6 +22,13 @@ public class ViewUserController implements Controller {
 		String userId = request.getParameter("id");
 		if (userId == null || userId.isBlank()) {
 			userId = MemberSessionUtils.getLoginMemberId(request.getSession());
+		}
+
+		// 본인 또는 관리자만 타인 상세 조회 (IDOR 방지)
+		String loginId = MemberSessionUtils.getLoginMemberId(request.getSession());
+		if (!userId.equals(loginId) && !AuthorizationUtils.isAdmin(loginId)) {
+			request.getSession().setAttribute("flashError", "본인 정보만 조회할 수 있습니다.");
+			return "redirect:/mypage";
 		}
 
 		Member member = null;

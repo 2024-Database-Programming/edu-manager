@@ -3,6 +3,7 @@ package controller.member;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import controller.AuthorizationUtils;
 import controller.Controller;
 import model.domain.member.Member;
 import model.service.member.MemberManager;
@@ -15,6 +16,13 @@ public class ListMemberController implements Controller {
 		// 로그인 여부 확인
 		if (!MemberSessionUtils.hasLogined(request.getSession())) {
 			return "redirect:/member/login/form"; // login form 요청으로 redirect
+		}
+
+		// 회원 명부는 관리자만 열람 (전 회원 이메일/전화 노출 방지)
+		String adminLoginId = MemberSessionUtils.getLoginMemberId(request.getSession());
+		if (!AuthorizationUtils.isAdmin(adminLoginId)) {
+			request.getSession().setAttribute("flashError", "접근 권한이 없습니다.");
+			return "redirect:/main";
 		}
 
 		/*

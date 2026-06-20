@@ -11,6 +11,11 @@ public final class AuthorizationUtils {
     private AuthorizationUtils() {
     }
 
+    // 관리자 여부 (현재 규칙: id == "admin". 추후 MEMBER.role 컬럼 도입 시 교체)
+    public static boolean isAdmin(String memberId) {
+        return "admin".equals(memberId);
+    }
+
     public static boolean canViewLecture(LectureManager manager, String memberId, Lecture lecture) throws SQLException {
         if (memberId == null || lecture == null) {
             return false;
