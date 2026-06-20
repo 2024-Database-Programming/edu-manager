@@ -42,7 +42,7 @@
 ### 반경 · 그림자 · 타이포 · 레이아웃
 | 그룹 | 토큰 |
 |---|---|
-| **반경** | `--r-xs 8` · `--r-sm 10` · `--r-md 12` · `--r-lg 16` · `--r-xl 20` · `--r-pill 999` |
+| **반경** | `--r-xs 10` · `--r-sm 12` · `--r-md 14` · `--r-lg 20` · `--r-xl 24` · `--r-pill 999` *(Toss 톤: 둥글게)* |
 | **그림자** | `--shadow-xs/-sm/(기본)/-lg` (옅은 입체) · `--shadow-brand`(네이비 버튼) |
 | **타이포** | `--font: 'Pretendard', system-ui …` · 본문 15px / line-height 1.5 |
 | **레이아웃** | `--page-max 1120px` · `--page-wide 1200px` · `--gutter 24px` |
