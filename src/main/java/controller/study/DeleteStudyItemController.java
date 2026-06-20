@@ -59,14 +59,20 @@ public class DeleteStudyItemController implements Controller {
 			return "redirect:/mystudy/view?groupId=" + groupId + "&selectedDate=" + selectedDate;
 		}
 
-		new AttachmentDao().deleteByItem("study", itemType, id);
-		if ("assignment".equals(itemType)) {
-			new AssignmentSubmissionDao().deleteByAssignment("study", id);
-			manager.deleteAssignmentById(id);
-		} else if ("notice".equals(itemType)) {
-			manager.deleteNoticeById(id);
-		} else {
-			manager.deleteScheduleById(id);
+		try {
+			new AttachmentDao().deleteByItem("study", itemType, id);
+			if ("assignment".equals(itemType)) {
+				new AssignmentSubmissionDao().deleteByAssignment("study", id);
+				manager.deleteAssignmentById(id);
+			} else if ("notice".equals(itemType)) {
+				manager.deleteNoticeById(id);
+			} else {
+				manager.deleteScheduleById(id);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			request.getSession().setAttribute("flashError", "삭제 중 오류가 발생했습니다. 다시 시도해 주세요.");
+			return "redirect:/mystudy/view?groupId=" + groupId + "&selectedDate=" + selectedDate;
 		}
 
 		request.getSession().setAttribute("flashMessage", "항목이 삭제되었습니다.");
