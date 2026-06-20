@@ -20,7 +20,12 @@ public class ViewStudyNoticeListController implements Controller {
             return "redirect:/member/login/form"; // login form 요청으로 redirect
         }
 
-        int groupId = Integer.parseInt(request.getParameter("groupId"));
+        int groupId;
+        try {
+            groupId = Integer.parseInt(request.getParameter("groupId"));
+        } catch (NumberFormatException ex) {
+            return "redirect:/registration";
+        }
         String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
         StudyGroupManager studyGroupAccessManager = StudyGroupManager.getInstance();
         StudyManager studyGroupManager = StudyManager.getInstance();
