@@ -23,15 +23,18 @@
           </ul>
       </nav>
 	</header>
-	<%-- 작업 실패 시 1회성 알림(flash): 컨트롤러가 session "flashError"에 담으면 여기서 1번 표시 후 제거 --%>
-	<%
-	    Object __flash = session.getAttribute("flashError");
-	    if (__flash != null) { session.removeAttribute("flashError"); }
-	%>
-	<% if (__flash != null) { %>
+	<%-- 작업 결과 1회성 알림(flash): 컨트롤러가 session flashError/flashMessage 에 담으면 여기서 1번 표시 후 제거 (c:out으로 이스케이프) --%>
+	<c:if test="${not empty sessionScope.flashError}">
 		<div style="max-width:1200px;margin:14px auto 0;padding:12px 16px;border-radius:10px;background:#fef2f2;border:1px solid #f6cccc;color:#dc2626;font-weight:600;text-align:center;">
-			<%= __flash %>
+			<c:out value="${sessionScope.flashError}" />
 		</div>
-	<% } %>
+		<c:remove var="flashError" scope="session" />
+	</c:if>
+	<c:if test="${not empty sessionScope.flashMessage}">
+		<div style="max-width:1200px;margin:14px auto 0;padding:12px 16px;border-radius:10px;background:#ecfdf3;border:1px solid #bbf7d0;color:#047857;font-weight:600;text-align:center;">
+			<c:out value="${sessionScope.flashMessage}" />
+		</div>
+		<c:remove var="flashMessage" scope="session" />
+	</c:if>
 </body>
 </html>

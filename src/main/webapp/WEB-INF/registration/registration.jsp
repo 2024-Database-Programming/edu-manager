@@ -28,7 +28,7 @@
                      <input type="text" name="searchParam" placeholder="검색어를 입력하세요">
                   </c:when>
                   <c:otherwise>
-                     <input type="text" name="searchParam" placeholder="${searchParam}">
+                     <input type="text" name="searchParam" placeholder="<c:out value='${searchParam}'/>">
                   </c:otherwise>
                </c:choose>
                
