@@ -38,11 +38,9 @@ public class MainController implements Controller {
 		String selectedDayParam = request.getParameter("selectedDay");
 
 		// 파라미터가 없으면 현재 연도와 월을 기본값으로 설정
-		int year = (yearParam != null && !yearParam.isEmpty()) ? Integer.parseInt(yearParam) : currentDate.getYear();
-		int month = (monthParam != null && !monthParam.isEmpty()) ? Integer.parseInt(monthParam)
-				: currentDate.getMonthValue();
-		int selectedDay = (selectedDayParam != null && !selectedDayParam.isEmpty()) ? Integer.parseInt(selectedDayParam)
-				: currentDate.getDayOfMonth();
+		int year = parseIntOr(yearParam, currentDate.getYear());
+		int month = clamp(parseIntOr(monthParam, currentDate.getMonthValue()), 1, 12);
+		int selectedDay = clamp(parseIntOr(selectedDayParam, currentDate.getDayOfMonth()), 1, 31);
 
 
 		String memberId = MemberSessionUtils.getLoginMemberId(request.getSession());
@@ -102,5 +100,21 @@ public class MainController implements Controller {
 
 		// main 화면으로 이동(forwarding)
 		return "/main/main.jsp";
+	}
+
+	// 잘못된 쿼리 파라미터(?year=abc 등)에 500 대신 기본값으로 폴백
+	private int parseIntOr(String value, int fallback) {
+		if (value == null || value.isEmpty()) {
+			return fallback;
+		}
+		try {
+			return Integer.parseInt(value.trim());
+		} catch (NumberFormatException ex) {
+			return fallback;
+		}
+	}
+
+	private int clamp(int value, int min, int max) {
+		return value < min ? min : (value > max ? max : value);
 	}
 }
