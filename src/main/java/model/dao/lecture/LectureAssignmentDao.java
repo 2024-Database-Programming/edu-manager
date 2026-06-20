@@ -165,7 +165,7 @@ public class LectureAssignmentDao {
 			jdbcUtil.commit();
 		} catch (Exception ex) {
 			jdbcUtil.rollback();
-			ex.printStackTrace();
+			throw new RuntimeException("과제 삭제 실패: id=" + assignmentId, ex); // 삼키면 거짓 성공이 표시됨 → 전파
 		} finally {
 			jdbcUtil.close();
 		}
