@@ -51,8 +51,8 @@
 				<c:forEach var="notice" items="${studyGroupNoticeList}">
 					<tr class="notice-row clickable-row"
 						onclick="window.location.href='<c:url value='/study/itemDetail'><c:param name='groupId' value='${groupId}' /><c:param name='selectedDate' value='${notice.createat}' /><c:param name='type' value='notice' /><c:param name='id' value='${notice.id}' /></c:url>'">
-						<td class="title">${notice.title}</td>
-						<td class="description">${notice.description}</td>
+						<td class="title"><c:out value="${notice.title}"/></td>
+						<td class="description"><c:out value="${notice.description}"/></td>
 						<td class="createat">${notice.createat}</td>
 					</tr>
 				</c:forEach>

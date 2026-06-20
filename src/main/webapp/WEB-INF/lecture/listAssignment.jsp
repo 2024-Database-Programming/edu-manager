@@ -28,8 +28,8 @@
 				<c:forEach var="assignment" items="${lectureAssignmentList}">
 					<tr class="notice-row clickable-row"
 						onclick="window.location.href='<c:url value='/lecture/itemDetail'><c:param name='lectureId' value='${groupId}' /><c:param name='selectedDate' value='${assignment.dueDate}' /><c:param name='type' value='assignment' /><c:param name='id' value='${assignment.id}' /></c:url>'">
-						<td class="title">${assignment.title}</td>
-						<td class="description">${assignment.description}</td>
+						<td class="title"><c:out value="${assignment.title}"/></td>
+						<td class="description"><c:out value="${assignment.description}"/></td>
 						<td class="createat">
 							<span id="dueDate-${assignment.id}"></span>
 						</td>

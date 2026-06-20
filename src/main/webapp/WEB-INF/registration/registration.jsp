@@ -91,18 +91,18 @@
                   <div class="groupGallery" style="--category-color: ${group.categoryColor};">
                      <a
                         href="<c:url value='/lecture/over-view'><c:param name='lectureId' value='${group.lectureId}'/></c:url>">
-                        <img class="groupGalleryImage" src="<c:url value='${group.img}' />" alt="${group.name}"
+                        <img class="groupGalleryImage" src="<c:url value='${group.img}' />" alt="<c:out value='${group.name}'/>"
                            onload="if (this.src.indexOf('eduLogo.png') !== -1 || this.src.indexOf('white.png') !== -1) { this.closest('.groupGallery').classList.add('has-fallback-cover'); this.remove(); }"
                            onerror="this.closest('.groupGallery').classList.add('has-fallback-cover'); this.remove();">
                         <div class="default-cover" aria-hidden="true">
                            <span class="cover-kicker">EduManager</span>
                            <span class="cover-title">강의</span>
                         </div>
-                        <span class="groupGalleryTitle">${group.name}</span>
+                        <span class="groupGalleryTitle"><c:out value="${group.name}"/></span>
                         <div class="gallery-meta">
                            <span class="groupGalleryCategory"
-                              style="background-color: ${group.categoryColor};">${group.categoryName}</span>
-                           <span class="groupGalleryTeacherName">${group.teacherName}</span>
+                              style="background-color: ${group.categoryColor};"><c:out value="${group.categoryName}"/></span>
+                           <span class="groupGalleryTeacherName"><c:out value="${group.teacherName}"/></span>
                         </div>
                      </a>
                   </div>
@@ -118,17 +118,17 @@
                   <div class="groupGallery" style="--category-color: ${studyGroup.categoryColor};">
                      <a
                         href="<c:url value='/study/over-view'><c:param name='groupId' value='${studyGroup.studyGroupId}'/></c:url>">
-                        <img class="groupGalleryImage" src="<c:url value='${studyGroup.img}' />" alt="${studyGroup.name}"
+                        <img class="groupGalleryImage" src="<c:url value='${studyGroup.img}' />" alt="<c:out value='${studyGroup.name}'/>"
                            onload="if (this.src.indexOf('eduLogo.png') !== -1 || this.src.indexOf('white.png') !== -1) { this.closest('.groupGallery').classList.add('has-fallback-cover'); this.remove(); }"
                            onerror="this.closest('.groupGallery').classList.add('has-fallback-cover'); this.remove();">
                         <div class="default-cover" aria-hidden="true">
                            <span class="cover-kicker">EduManager</span>
                            <span class="cover-title">스터디</span>
                         </div>
-                        <span class="groupGalleryTitle">${studyGroup.name}</span>
+                        <span class="groupGalleryTitle"><c:out value="${studyGroup.name}"/></span>
                         <div class="gallery-meta">
                            <span class="groupGalleryCategory"
-                              style="background-color: ${studyGroup.categoryColor};">${studyGroup.categoryName}</span>
+                              style="background-color: ${studyGroup.categoryColor};"><c:out value="${studyGroup.categoryName}"/></span>
                         </div>
                      </a>
                   </div>

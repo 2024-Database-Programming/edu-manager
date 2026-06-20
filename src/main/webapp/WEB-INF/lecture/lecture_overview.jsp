@@ -22,10 +22,10 @@
 				</div>
 				<div class="overViewInfo">
 					<div class="overViewInfoText" id="lectureTeacherName">
-						${teacherName} 강사님</div>
+						<c:out value="${teacherName}"/> 강사님</div>
 					<div class="overViewInfoText" id="lectureTeacherPhone">
 						<img src="<c:url value='/images/phoneIcon.svg' />"
-							class="infoIcon" />${teacherPhone}
+							class="infoIcon" /><c:out value="${teacherPhone}"/>
 					</div>
 					<div class="overViewInfoText" id="lectureTeacherRoom">
 						<img src="<c:url value='/images/roomIcon.svg' />"
@@ -34,8 +34,8 @@
 				</div>
 			</div>
 			<div class="section2">
-				<div id="lectureOverviewTitle">${lectureName}</div>
-				<div id="lectureOverviewDescription">${description}</div>
+				<div id="lectureOverviewTitle"><c:out value="${lectureName}"/></div>
+				<div id="lectureOverviewDescription"><c:out value="${description}"/></div>
 				<div class="section3">
 					<c:choose>
 						<c:when test="${existStudent}">
@@ -138,8 +138,8 @@
 						<img src="<c:url value='/images/profileImg.svg' />"
 							class="reviewProfileImg" />
 						<div class="reviewTextContainer">
-							<div class="reviewUserName">${group.memberName}</div>
-							<div class="reviewText">${group.reviewText}</div>
+							<div class="reviewUserName"><c:out value="${group.memberName}"/></div>
+							<div class="reviewText"><c:out value="${group.reviewText}"/></div>
 						</div>
 
 					</div>

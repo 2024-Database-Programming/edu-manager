@@ -109,15 +109,15 @@
 				</div>
 				<div class="member-row">
 					<div class="member-label">이름</div>
-					<div>${member.name}</div>
+					<div><c:out value="${member.name}"/></div>
 				</div>
 				<div class="member-row">
 					<div class="member-label">이메일</div>
-					<div>${member.email}</div>
+					<div><c:out value="${member.email}"/></div>
 				</div>
 				<div class="member-row">
 					<div class="member-label">전화번호</div>
-					<div>${member.phone}</div>
+					<div><c:out value="${member.phone}"/></div>
 				</div>
 				<div class="member-actions">
 					<c:if test="${curUserId == member.id || curUserId == 'admin'}">

@@ -29,7 +29,7 @@
 				</div>
 				<div class="overViewInfo">
 					<div class="overViewInfoText" id="studyGroupPlace">
-						<img src="<c:url value='/images/roomIcon.svg' />" class="infoIcon" />${place}
+						<img src="<c:url value='/images/roomIcon.svg' />" class="infoIcon" /><c:out value="${place}"/>
 					</div>
 					<div class="overViewInfoText" id="studyGroupTime">
 						<img src="<c:url value='/images/overViewTime.svg' />"
@@ -41,8 +41,8 @@
 				</div>
 			</div>
 			<div class="section2">
-				<div id="groupOverviewTitle">${groupName}</div>
-				<div id="groupOverviewDescription">${description}</div>
+				<div id="groupOverviewTitle"><c:out value="${groupName}"/></div>
+				<div id="groupOverviewDescription"><c:out value="${description}"/></div>
 
 				<div class="section3">
 					<div class="likeButtonContainer">
@@ -129,8 +129,8 @@
 						<img src="<c:url value='/images/profileImg.svg' />"
 							class="reviewProfileImg" />
 						<div class="reviewTextContainer">
-							<div class="reviewUserName">${group.memberName}</div>
-							<div class="reviewText">${group.reviewText}</div>
+							<div class="reviewUserName"><c:out value="${group.memberName}"/></div>
+							<div class="reviewText"><c:out value="${group.reviewText}"/></div>
 						</div>
 
 					</div>

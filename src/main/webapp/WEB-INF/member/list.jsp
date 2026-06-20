@@ -76,9 +76,9 @@
 					<c:forEach var="member" items="${memberList}">
 						<tr>
 							<td>${member.id}</td>
-							<td>${member.name}</td>
-							<td>${member.email}</td>
-							<td>${member.phone}</td>
+							<td><c:out value="${member.name}"/></td>
+							<td><c:out value="${member.email}"/></td>
+							<td><c:out value="${member.phone}"/></td>
 							<td><a class="member-link" href="<c:url value='/member/view'><c:param name='id' value='${member.id}' /></c:url>">보기</a></td>
 						</tr>
 					</c:forEach>
