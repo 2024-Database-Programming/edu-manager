@@ -127,12 +127,9 @@ private boolean isAssignmentOnDate(Assignment assignment, LocalDate date) {
 	if (date == null) {
 		return false;
 	}
-	LocalDate start = assignment.getCreateat();
-	LocalDate due = assignment.getDueDate();
-	if (start != null && due != null) {
-		return !date.isBefore(start) && !date.isAfter(due);
-	}
-	return date.equals(start) || date.equals(due);
+	// 과제는 마감일에만 표시 (시작~마감 기간 내내 X)
+	LocalDate due = assignment.getDueDate() != null ? assignment.getDueDate() : assignment.getCreateat();
+	return date.equals(due);
 }
 
 private <T> List<T> safeList(Object value) {
@@ -152,10 +149,9 @@ private <T> void addToDayMap(Map<Integer, List<T>> map, LocalDate date, T value,
 }
 
 private void addAssignmentToDayMap(Map<Integer, List<Assignment>> map, Assignment assignment, int year, int month) {
-	addToDayMap(map, assignment.getCreateat(), assignment, year, month);
-	if (assignment.getDueDate() != null && !assignment.getDueDate().equals(assignment.getCreateat())) {
-		addToDayMap(map, assignment.getDueDate(), assignment, year, month);
-	}
+	// 과제는 마감일에만 그리드에 표시
+	LocalDate due = assignment.getDueDate() != null ? assignment.getDueDate() : assignment.getCreateat();
+	addToDayMap(map, due, assignment, year, month);
 }
 %>
 <%
