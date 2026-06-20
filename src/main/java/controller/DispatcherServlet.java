@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 //@WebServlet(name="dispatcherSevlet", urlPatterns="/", loadOnStartup=1)
-@MultipartConfig
+@MultipartConfig(maxFileSize = 10L * 1024 * 1024, maxRequestSize = 50L * 1024 * 1024, fileSizeThreshold = 1024 * 1024)
 public class DispatcherServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(DispatcherServlet.class);

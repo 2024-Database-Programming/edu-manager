@@ -15,6 +15,10 @@ public class ViewImageController implements Controller {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		if (!controller.member.MemberSessionUtils.hasLogined(request.getSession())) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED); // 비로그인 무단 열람(IDOR) 차단
+			return null;
+		}
 		String type = request.getParameter("type");
 		String id = request.getParameter("id");
 
@@ -29,8 +33,17 @@ public class ViewImageController implements Controller {
 			return null; // DispatcherServlet은 null이면 forward 없이 종료
 		}
 
-		response.setContentType(img.contentType != null && !img.contentType.isEmpty()
-				? img.contentType : "application/octet-stream");
+		// 저장된 contentType을 그대로 신뢰하지 않음: 이미지 화이트리스트만 인라인, 그 외엔 다운로드 처리(SVG/HTML 인라인 렌더 차단)
+		String ct = img.contentType == null ? "" : img.contentType.toLowerCase();
+		boolean isImage = ct.equals("image/png") || ct.equals("image/jpeg") || ct.equals("image/jpg")
+				|| ct.equals("image/gif") || ct.equals("image/webp");
+		response.setHeader("X-Content-Type-Options", "nosniff"); // MIME 스니핑 차단
+		if (isImage) {
+			response.setContentType(ct);
+		} else {
+			response.setContentType("application/octet-stream");
+			response.setHeader("Content-Disposition", "attachment");
+		}
 		response.setContentLength(img.data.length);
 		// 캐시 허용(같은 URL은 내용이 바뀔 때 id/쿼리로 무력화)
 		response.setHeader("Cache-Control", "max-age=300");
