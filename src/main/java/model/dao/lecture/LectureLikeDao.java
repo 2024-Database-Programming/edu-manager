@@ -15,12 +15,15 @@ public class LectureLikeDao {
     public boolean isLikedByUser(String memberId, long lectureId) throws SQLException {
         String sql = "SELECT COUNT(*) FROM LectureLike WHERE stuId = ? AND lectureId = ?";
         jdbcUtil.setSqlAndParameters(sql, new Object[]{memberId, lectureId});
-
-        ResultSet rs = jdbcUtil.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1) > 0; // 좋아요가 있으면 true, 없으면 false
+        try {
+            ResultSet rs = jdbcUtil.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // 좋아요가 있으면 true, 없으면 false
+            }
+            return false;
+        } finally {
+            jdbcUtil.close(); // 예외가 나도 커넥션 반환
         }
-        return false;
     }
 
     // 좋아요 추가
@@ -67,23 +70,25 @@ public List<Lecture> getLikedLectures(String memberId) throws SQLException {
                  "WHERE ll.stuId = ?";
                  
     jdbcUtil.setSqlAndParameters(sql, new Object[]{memberId});
-    ResultSet rs = jdbcUtil.executeQuery();
-    
-    // 결과에서 정보를 추출하여 Lecture 객체에 설정
-    while (rs.next()) {
-        Lecture lecture = new Lecture();
-        lecture.setLectureId(rs.getInt("lectureId"));
-        lecture.setName(rs.getString("name"));
-        lecture.setCategory(rs.getString("category"));
-        lecture.setImg(rs.getString("img"));
-        lecture.setTeacherName(rs.getString("teacherName"));
-        lecture.setCategoryColor(rs.getString("color"));
-        lecture.setCategoryName(rs.getString("categoryName"));
-        
-        lectureList.add(lecture);
+    try {
+        ResultSet rs = jdbcUtil.executeQuery();
+
+        // 결과에서 정보를 추출하여 Lecture 객체에 설정
+        while (rs.next()) {
+            Lecture lecture = new Lecture();
+            lecture.setLectureId(rs.getInt("lectureId"));
+            lecture.setName(rs.getString("name"));
+            lecture.setCategory(rs.getString("category"));
+            lecture.setImg(rs.getString("img"));
+            lecture.setTeacherName(rs.getString("teacherName"));
+            lecture.setCategoryColor(rs.getString("color"));
+            lecture.setCategoryName(rs.getString("categoryName"));
+
+            lectureList.add(lecture);
+        }
+        return lectureList;
+    } finally {
+        jdbcUtil.close(); // 예외가 나도 커넥션 반환
     }
-    
-    jdbcUtil.close();
-    return lectureList;
 }
 }

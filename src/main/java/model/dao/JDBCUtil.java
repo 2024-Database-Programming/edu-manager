@@ -5,208 +5,205 @@ package model.dao;
 
 import java.sql.*;
 
+/**
+ * JDBCUtil — 싱글톤 매니저가 DAO(따라서 이 JDBCUtil 인스턴스)를 공유하므로,
+ * conn/pstmt/rs 등 모든 가변 상태를 ThreadLocal로 두어 요청 스레드 간 간섭을 차단한다.
+ * 단일 스레드 동작은 기존(인스턴스 필드) 방식과 동일하다.
+ */
 public class JDBCUtil {
-	private ConnectionManager connMan = new ConnectionManager();
-	private String sql = null; // 실행할 query
-	private Object[] parameters = null;; // PreparedStatement 의 매개변수 값을 저장하는 배열
-	private Connection conn = null;
-	private PreparedStatement pstmt = null;
-	private CallableStatement cstmt = null;
-	private ResultSet rs = null;
-	private int resultSetType = ResultSet.TYPE_FORWARD_ONLY, resultSetConcurrency = ResultSet.CONCUR_READ_ONLY;
+	private final ConnectionManager connMan = new ConnectionManager(); // DBCP 풀 래퍼(공유 안전)
+
+	// 모든 가변 상태를 스레드별로 분리
+	private final ThreadLocal<String> sql = new ThreadLocal<>();
+	private final ThreadLocal<Object[]> parameters = new ThreadLocal<>();
+	private final ThreadLocal<Connection> conn = new ThreadLocal<>();
+	private final ThreadLocal<PreparedStatement> pstmt = new ThreadLocal<>();
+	private final ThreadLocal<CallableStatement> cstmt = new ThreadLocal<>();
+	private final ThreadLocal<ResultSet> rs = new ThreadLocal<>();
+	private final ThreadLocal<Integer> resultSetType = ThreadLocal.withInitial(() -> ResultSet.TYPE_FORWARD_ONLY);
+	private final ThreadLocal<Integer> resultSetConcurrency = ThreadLocal.withInitial(() -> ResultSet.CONCUR_READ_ONLY);
 
 	// 기본 생성자
 	public JDBCUtil() {
 	}
 
-	
-	// 매개변수 없는 query를 전달받아 query를 설정하는 생성자
-	// public JDBCUtil(String sql) {
-	//	 this.setSql(sql); }
-	 /* 
-	 * // 매개변수의 배열과 함께 query를 전달받아 각각을 설정하는 생성자 public JDBCUtil(String sql, Object[]
-	 * parameters) { this.setSql(sql); this.setParameters(parameters); }
-	 * 
-	  sql 변수 setter */
-	 public void setSql(String sql) { this.sql = sql; }
-	 
-	 /* Object[] 변수 setter public void setParameters(Object[] parameters) {
-	 * this.parameters = parameters; }
-	 */
-
-	// sql 변수 getter
-	public String getSql() {
-		return this.sql;
+	public void setSql(String sql) {
+		this.sql.set(sql);
 	}
 
-	// 매개변수 배열에서 특정위치의 매개변수를 반환하는 메소드
+	public String getSql() {
+		return this.sql.get();
+	}
+
+	// 매개변수 배열에서 특정위치의 매개변수를 반환
 	private Object getParameter(int index) throws Exception {
 		if (index >= getParameterSize())
 			throw new Exception("INDEX 값이 파라미터의 갯수보다 많습니다.");
-		return parameters[index];
+		return parameters.get()[index];
 	}
 
-	// 매개변수의 개수를 반환하는 메소드
+	// 매개변수의 개수를 반환
 	private int getParameterSize() {
-		return parameters == null ? 0 : parameters.length;
+		Object[] p = parameters.get();
+		return p == null ? 0 : p.length;
 	}
 
 	// sql 및 Object[] 변수 setter
 	public void setSqlAndParameters(String sql, Object[] parameters) {
-		this.sql = sql;
-		this.parameters = parameters;
-		this.resultSetType = ResultSet.TYPE_FORWARD_ONLY;
-		this.resultSetConcurrency = ResultSet.CONCUR_READ_ONLY;
+		this.sql.set(sql);
+		this.parameters.set(parameters);
+		this.resultSetType.set(ResultSet.TYPE_FORWARD_ONLY);
+		this.resultSetConcurrency.set(ResultSet.CONCUR_READ_ONLY);
 	}
 
 	// sql 및 Object[], resultSetType, resultSetConcurrency 변수 setter
 	public void setSqlAndParameters(String sql, Object[] parameters, int resultSetType, int resultSetConcurrency) {
-		this.sql = sql;
-		this.parameters = parameters;
-		this.resultSetType = resultSetType;
-		this.resultSetConcurrency = resultSetConcurrency;
+		this.sql.set(sql);
+		this.parameters.set(parameters);
+		this.resultSetType.set(resultSetType);
+		this.resultSetConcurrency.set(resultSetConcurrency);
+	}
+
+	// 현재 스레드의 Connection 확보(없으면 풀에서 획득)
+	private Connection currentConnection() throws SQLException {
+		if (conn.get() == null) {
+			Connection c = connMan.getConnection();
+			c.setAutoCommit(false);
+			conn.set(c);
+		}
+		return conn.get();
 	}
 
 	// 현재의 PreparedStatement를 반환
 	private PreparedStatement getPreparedStatement() throws SQLException {
-		if (conn == null) {
-			conn = connMan.getConnection();
-			conn.setAutoCommit(false);
-		}
-		if (pstmt != null)
-			pstmt.close();
-		pstmt = conn.prepareStatement(sql, resultSetType, resultSetConcurrency);
-		// JDBCUtil.printDataSourceStats(ds);
-		return pstmt;
+		Connection c = currentConnection();
+		if (pstmt.get() != null)
+			pstmt.get().close();
+		PreparedStatement ps = c.prepareStatement(sql.get(), resultSetType.get(), resultSetConcurrency.get());
+		pstmt.set(ps);
+		return ps;
 	}
 
-	// JDBCUtil의 쿼리와 매개변수를 이용해 executeQuery를 수행하는 메소드
+	// executeQuery 수행
 	public ResultSet executeQuery() {
 		try {
-			pstmt = getPreparedStatement();
+			PreparedStatement ps = getPreparedStatement();
 			for (int i = 0; i < getParameterSize(); i++) {
-				pstmt.setObject(i + 1, getParameter(i));
+				ps.setObject(i + 1, getParameter(i));
 			}
-			rs = pstmt.executeQuery();
-			return rs;
+			ResultSet r = ps.executeQuery();
+			rs.set(r);
+			return r;
 		} catch (Exception ex) {
-			// 예외를 삼키고 null을 반환하면 호출부에서 rs.next() 시 엉뚱한 NPE가 난다.
-			// 실제 원인(SQL 오류 등)이 보이도록 그대로 전파한다.
-			// unchecked 로 던져 호출부 시그니처 변경 없이 기존 try/catch(Exception)에서 처리되게 한다.
-			throw new RuntimeException("executeQuery 실패: " + sql, ex);
+			// 예외를 삼키면 호출부에서 rs.next() 시 엉뚱한 NPE가 난다 → 원인 그대로 전파
+			throw new RuntimeException("executeQuery 실패: " + sql.get(), ex);
 		}
 	}
 
-	// JDBCUtil의 쿼리와 매개변수를 이용해 executeUpdate를 수행하는 메소드
+	// executeUpdate 수행
 	public int executeUpdate() throws SQLException, Exception {
-		pstmt = getPreparedStatement();
+		PreparedStatement ps = getPreparedStatement();
 		int parameterSize = getParameterSize();
 		for (int i = 0; i < parameterSize; i++) {
-			if (getParameter(i) == null) { // 매개변수 값이 널이 부분이 있을 경우
-				pstmt.setString(i + 1, null);
+			if (getParameter(i) == null) {
+				ps.setString(i + 1, null);
 			} else {
-				pstmt.setObject(i + 1, getParameter(i));
+				ps.setObject(i + 1, getParameter(i));
 			}
 		}
-		return pstmt.executeUpdate();
+		return ps.executeUpdate();
 	}
 
 	// 현재의 CallableStatement를 반환
 	private CallableStatement getCallableStatement() throws SQLException {
-		if (conn == null) {
-			conn = connMan.getConnection();
-			conn.setAutoCommit(false);
-		}
-		if (cstmt != null)
-			cstmt.close();
-		cstmt = conn.prepareCall(sql);
-		return cstmt;
+		Connection c = currentConnection();
+		if (cstmt.get() != null)
+			cstmt.get().close();
+		CallableStatement cs = c.prepareCall(sql.get());
+		cstmt.set(cs);
+		return cs;
 	}
 
-	// JDBCUtil의 쿼리와 매개변수를 이용해 CallableStatement의 execute를 수행하는 메소드
+	// CallableStatement의 execute를 수행
 	public boolean execute(JDBCUtil source) throws SQLException, Exception {
-		cstmt = getCallableStatement();
+		CallableStatement cs = getCallableStatement();
 		for (int i = 0; i < source.getParameterSize(); i++) {
-			cstmt.setObject(i + 1, source.getParameter(i));
+			cs.setObject(i + 1, source.getParameter(i));
 		}
-		return cstmt.execute();
+		return cs.execute();
 	}
 
-	// PK 컬럼 이름 배열을 이용하여 PreparedStatement를 생성 (INSERT문에서 Sequence를 통해 PK 값을 생성하는 경우)
+	// PK 컬럼 이름 배열을 이용하여 PreparedStatement를 생성 (Sequence로 PK 생성하는 INSERT용)
 	private PreparedStatement getPreparedStatement(String[] columnNames) throws SQLException {
-		if (conn == null) {
-			conn = connMan.getConnection();
-			conn.setAutoCommit(false);
-		}
-		if (pstmt != null)
-			pstmt.close();
-		pstmt = conn.prepareStatement(sql, columnNames);
-		return pstmt;
+		Connection c = currentConnection();
+		if (pstmt.get() != null)
+			pstmt.get().close();
+		PreparedStatement ps = c.prepareStatement(sql.get(), columnNames);
+		pstmt.set(ps);
+		return ps;
 	}
 
 	// 위 메소드를 이용하여 PreparedStatement를 생성한 후 executeUpdate 실행
 	public int executeUpdate(String[] columnNames) throws SQLException, Exception {
-		pstmt = getPreparedStatement(columnNames); // 위 메소드를 호출
+		PreparedStatement ps = getPreparedStatement(columnNames);
 		int parameterSize = getParameterSize();
 		for (int i = 0; i < parameterSize; i++) {
-			if (getParameter(i) == null) { // 매개변수 값이 널이 부분이 있을 경우
-				pstmt.setString(i + 1, null);
+			if (getParameter(i) == null) {
+				ps.setString(i + 1, null);
 			} else {
-				pstmt.setObject(i + 1, getParameter(i));
+				ps.setObject(i + 1, getParameter(i));
 			}
 		}
-		return pstmt.executeUpdate();
+		return ps.executeUpdate();
 	}
 
 	// PK 컬럼의 값(들)을 포함하는 ResultSet 객체 구하기
 	public ResultSet getGeneratedKeys() {
 		try {
-			return pstmt.getGeneratedKeys();
+			return pstmt.get().getGeneratedKeys();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	// 자원 반환
+	// 자원 반환 (현재 스레드의 자원만 닫고 ThreadLocal 슬롯 제거)
 	public void close() {
-		if (rs != null) {
-			try {
-				rs.close();
-				rs = null;
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
+		try {
+			if (rs.get() != null) rs.get().close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			rs.remove();
 		}
-		if (pstmt != null) {
-			try {
-				pstmt.close();
-				pstmt = null;
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
+		try {
+			if (pstmt.get() != null) pstmt.get().close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.remove();
 		}
-		if (cstmt != null) {
-			try {
-				cstmt.close();
-				cstmt = null;
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
+		try {
+			if (cstmt.get() != null) cstmt.get().close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			cstmt.remove();
 		}
-		if (conn != null) {
-			try {
-				conn.close();
-				conn = null;
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
+		try {
+			if (conn.get() != null) conn.get().close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			conn.remove();
 		}
+		sql.remove();
+		parameters.remove();
 	}
 
 	public void commit() {
 		try {
-			if (conn != null) conn.commit();   // conn 이 null 이면(이미 닫힘) NPE로 원인 예외를 가리지 않도록
+			if (conn.get() != null) conn.get().commit();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -214,19 +211,19 @@ public class JDBCUtil {
 
 	public void rollback() {
 		try {
-			if (conn != null) conn.rollback();
+			if (conn.get() != null) conn.get().rollback();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	// DataSource 를 종료
+	// DataSource 를 종료 (앱 종료 시점 전용 — 요청 처리 중 호출 금지)
 	public void shutdownPool() {
 		this.close();
 		connMan.close();
 	}
 
-	// 현재 활성화 상태인 Connection 의 개수와 비활성화 상태인 Connection 개수 출력
+	// 활성/비활성 Connection 개수 출력
 	public void printDataSourceStats() {
 		connMan.printDataSourceStats();
 	}
