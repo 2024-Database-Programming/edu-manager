@@ -43,8 +43,25 @@ public class CreateStudyController implements Controller {
 			return "/study/creationForm.jsp";
 		}
 
-		// POST요청
-		StudyGroup study = new StudyGroup(0L, request.getParameter("name"), request.getParameter("img"),request.getParameter("description"), Long.parseLong(request.getParameter("capacity")),
+		// POST요청 — 입력 검증(빈 이름/비숫자·범위 밖 정원 차단)
+		String name = request.getParameter("name");
+		if (name == null || name.trim().isEmpty()) {
+			request.getSession().setAttribute("flashError", "스터디 이름을 입력해 주세요.");
+			return "redirect:/study/create";
+		}
+		long capacity;
+		try {
+			capacity = Long.parseLong(request.getParameter("capacity"));
+		} catch (NumberFormatException e) {
+			request.getSession().setAttribute("flashError", "모집 인원을 숫자로 입력해 주세요.");
+			return "redirect:/study/create";
+		}
+		if (capacity < 1 || capacity > 99) {
+			request.getSession().setAttribute("flashError", "모집 인원은 1~99명 사이로 입력해 주세요.");
+			return "redirect:/study/create";
+		}
+
+		StudyGroup study = new StudyGroup(0L, name, request.getParameter("img"), request.getParameter("description"), capacity,
 				request.getParameter("category"), null, leaderId);
 		study.setPlace(request.getParameter("place"));
 		
