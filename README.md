@@ -286,7 +286,12 @@ erDiagram
 @db/ALTER_SCHEDULE_DESCRIPTION.sql
 @db/CREATE_ITEM_ATTACHMENT.sql
 @db/CREATE_ASSIGNMENT_SUBMISSION.sql
+@db/WIDEN_PWD_FOR_HASH.sql
+@db/MEMBER_DELETE_CASCADE.sql
 ```
+
+> - `WIDEN_PWD_FOR_HASH.sql` — 비밀번호 해시(PBKDF2) 저장을 위한 `pwd` 컬럼 확대 (미적용 시 신규 회원가입 실패)
+> - `MEMBER_DELETE_CASCADE.sql` — 회원 삭제 시 연관 데이터(수강신청·찜·리뷰·제출물·이미지 등) 정리 트리거
 
 빌드 검증은 Maven으로 수행합니다.
 
