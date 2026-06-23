@@ -287,11 +287,13 @@ erDiagram
 @db/CREATE_ITEM_ATTACHMENT.sql
 @db/CREATE_ASSIGNMENT_SUBMISSION.sql
 @db/WIDEN_PWD_FOR_HASH.sql
+@db/SOFT_DELETE_MEMBER.sql
 @db/MEMBER_DELETE_CASCADE.sql
 ```
 
 > - `WIDEN_PWD_FOR_HASH.sql` — 비밀번호 해시(PBKDF2) 저장을 위한 `pwd` 컬럼 확대 (미적용 시 신규 회원가입 실패)
-> - `MEMBER_DELETE_CASCADE.sql` — 회원 삭제 시 연관 데이터(수강신청·찜·리뷰·제출물·이미지 등) 정리 트리거
+> - `SOFT_DELETE_MEMBER.sql` — 회원 탈퇴를 **소프트 삭제+익명화**로 전환하기 위한 `MEMBER.status` 컬럼 추가 (미적용 시 로그인·회원목록·탈퇴 쿼리가 `ORA-00904`로 실패)
+> - `MEMBER_DELETE_CASCADE.sql` — *(선택)* 과거 하드 삭제용 연쇄정리 트리거. 소프트 삭제 도입으로 더 이상 발화하지 않으며, 관리자가 SQL로 직접 하드 삭제할 때를 대비한 안전망으로만 의미가 있음
 
 빌드 검증은 Maven으로 수행합니다.
 
