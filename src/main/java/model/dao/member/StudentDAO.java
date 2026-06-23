@@ -81,6 +81,27 @@ public class StudentDAO {
 	}
 
 	/**
+	 * 학생 역할 행을 익명화한다(소프트 삭제). 행은 남기되 개인정보(name/email/phone/pwd)만 스크럽한다.
+	 * MEMBER.softDelete 와 함께 호출되어, stuId 로 연결된 후기/제출 등이 "(탈퇴회원)"으로 표기되게 한다.
+	 */
+	public int softDelete(String id) throws SQLException {
+		String sql = "UPDATE STUDENT SET name=?, email=NULL, phone=NULL, pwd=? WHERE id=?";
+		jdbcUtil.setSqlAndParameters(sql, new Object[] { "(탈퇴회원)", "(withdrawn)", id });
+
+		try {
+			int result = jdbcUtil.executeUpdate(); // update 문 실행
+			return result;
+		} catch (Exception ex) {
+			jdbcUtil.rollback();
+			ex.printStackTrace();
+		} finally {
+			jdbcUtil.commit();
+			jdbcUtil.close(); // resource 반환
+		}
+		return 0;
+	}
+
+	/**
 	 * 주어진 사용자 ID에 해당하는 사용자 정보를 데이터베이스에서 찾아 Member 도메인 클래스에 저장하여 반환.
 	 */
 	public Student findStudent(String id) throws SQLException {

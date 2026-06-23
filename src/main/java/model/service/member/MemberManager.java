@@ -61,6 +61,14 @@ public class MemberManager {
 		return memberDAO.remove(id);
 	}
 
+	/**
+	 * 회원 탈퇴(소프트 삭제). 행을 지우지 않고 status='WITHDRAWN'으로 표시하며 개인정보를 익명화한다.
+	 * 자식 데이터(수강/제출/후기/스터디 등)와 FK 무결성은 보존된다.
+	 */
+	public int withdraw(String id) throws SQLException, MemberNotFoundException {
+		return memberDAO.softDelete(id);
+	}
+
 	public Member findMember(String id) throws SQLException, MemberNotFoundException {
 		Member member = memberDAO.findMember(id);
 
@@ -91,6 +99,9 @@ public class MemberManager {
 			throws SQLException, MemberNotFoundException, PasswordMismatchException {
 		Member member = findMember(id);
 
+		if (memberDAO.isWithdrawn(id)) { // 탈퇴(소프트 삭제)된 계정은 로그인 차단
+			throw new MemberNotFoundException("탈퇴한 계정입니다.");
+		}
 		if (!member.matchPassword(pwd)) {
 			throw new PasswordMismatchException("비밀번호가 일치하지 않습니다.");
 		}

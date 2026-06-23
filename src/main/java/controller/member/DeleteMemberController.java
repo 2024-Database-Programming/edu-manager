@@ -40,12 +40,13 @@ public class DeleteMemberController implements Controller {
 
 			StudentDAO studentDAO = new StudentDAO();
 			TeacherDAO teacherDAO = new TeacherDAO();
+			// 소프트 삭제(탈퇴): 역할 행 익명화 후 MEMBER를 status='WITHDRAWN'으로 표시.
 			if (studentDAO.existingStudent(deleteId)) {
-				studentDAO.remove(deleteId);
+				studentDAO.softDelete(deleteId);
 			} else if (teacherDAO.existingTeacher(deleteId)) {
-				teacherDAO.remove(deleteId);
+				teacherDAO.softDelete(deleteId);
 			}
-			manager.remove(deleteId); // 사용자 정보 삭제
+			manager.withdraw(deleteId); // 사용자 정보 소프트 삭제(익명화)
 			if (MemberSessionUtils.isLoginMember("admin", session)) // 로그인한 사용자가 관리자
 				return "redirect:/member/list"; // 사용자 리스트로 이동
 			else // 로그인한 사용자는 이미 삭제됨

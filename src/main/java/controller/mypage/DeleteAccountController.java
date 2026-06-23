@@ -39,13 +39,15 @@ public class DeleteAccountController implements Controller {
                 return "/mypage/deleteConfirm.jsp";
             }
 
-            // 외래키 참조가 있는 역할 데이터를 먼저 삭제한 뒤 Member를 삭제한다.
+            // 소프트 삭제(탈퇴): 행을 지우지 않고 status='WITHDRAWN' + 개인정보 익명화.
+            // 역할 행(STUDENT/TEACHER)도 함께 익명화한 뒤 MEMBER를 처리한다.
+            // (수강/제출/후기/스터디 등 자식 데이터와 FK 무결성은 보존된다.)
             if (studentDAO.existingStudent(memberId)) {
-                studentDAO.remove(memberId);
+                studentDAO.softDelete(memberId);
             } else if (teacherDAO.existingTeacher(memberId)) {
-                teacherDAO.remove(memberId);
+                teacherDAO.softDelete(memberId);
             }
-            memberDAO.remove(memberId);
+            memberDAO.softDelete(memberId);
 
             session.invalidate(); // 세션 무효화
             // 탈퇴 성공 상태를 JSP에 전달

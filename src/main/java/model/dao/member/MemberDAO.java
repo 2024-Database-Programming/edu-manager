@@ -82,6 +82,51 @@ public class MemberDAO {
 	}
 
 	/**
+	 * 회원을 "소프트 삭제(탈퇴)"한다. 행을 지우지 않고 status='WITHDRAWN'으로 표시하며
+	 * 개인정보(name/email/phone/pwd)는 익명화(스크럽)한다. 이로써 수강/제출/후기/스터디 등
+	 * 자식 데이터와 FK는 보존되고, 작성자만 "(탈퇴회원)"으로 표기된다.
+	 */
+	public int softDelete(String id) throws SQLException {
+		String sql = "UPDATE MEMBER "
+				+ "SET status='WITHDRAWN', name=?, email=NULL, phone=NULL, pwd=?, img='/images/profileImg.svg' "
+				+ "WHERE id=?";
+		// pwd는 어떤 입력과도 일치하지 않는 표식값으로 덮어써 재인증을 막는다(로그인 상태 게이트와 이중 방어).
+		jdbcUtil.setSqlAndParameters(sql, new Object[] { "(탈퇴회원)", "(withdrawn)", id });
+
+		try {
+			int result = jdbcUtil.executeUpdate(); // update 문 실행
+			return result;
+		} catch (Exception ex) {
+			jdbcUtil.rollback();
+			ex.printStackTrace();
+		} finally {
+			jdbcUtil.commit();
+			jdbcUtil.close(); // resource 반환
+		}
+		return 0;
+	}
+
+	/**
+	 * 주어진 사용자 ID가 탈퇴(소프트 삭제)된 계정인지 검사. 로그인 차단 게이트에 사용.
+	 */
+	public boolean isWithdrawn(String id) throws SQLException {
+		String sql = "SELECT count(*) FROM MEMBER WHERE id=? AND status='WITHDRAWN'";
+		jdbcUtil.setSqlAndParameters(sql, new Object[] { id });
+
+		try {
+			ResultSet rs = jdbcUtil.executeQuery(); // query 실행
+			if (rs.next()) {
+				return rs.getInt(1) > 0;
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			jdbcUtil.close(); // resource 반환
+		}
+		return false;
+	}
+
+	/**
 	 * 주어진 사용자 ID에 해당하는 사용자 정보를 데이터베이스에서 찾아 User 도메인 클래스에 저장하여 반환.
 	 */
 	public Member findMember(String id) throws SQLException {
@@ -128,7 +173,7 @@ public class MemberDAO {
 	 * 전체 사용자 정보를 검색하여 List에 저장 및 반환
 	 */
 	public List<Member> findMemberList() throws SQLException {
-		String sql = "SELECT id, name, email, phone, img " + "FROM MEMBER " + "ORDER BY id";
+		String sql = "SELECT id, name, email, phone, img " + "FROM MEMBER " + "WHERE status='ACTIVE' " + "ORDER BY id";
 		jdbcUtil.setSqlAndParameters(sql, null); // JDBCUtil에 query문 설정
 
 		try {
@@ -153,7 +198,7 @@ public class MemberDAO {
 	 * 전체 사용자 정보를 검색한 후 현재 페이지와 페이지당 출력할 사용자 수를 이용하여 해당하는 사용자 정보만을 List에 저장하여 반환.
 	 */
 	public List<Member> findMemberList(int currentPage, int countPerPage) throws SQLException {
-		String sql = "SELECT id, name, email, phone, img " + "FROM MEMBER " + "ORDER BY id";
+		String sql = "SELECT id, name, email, phone, img " + "FROM MEMBER " + "WHERE status='ACTIVE' " + "ORDER BY id";
 		jdbcUtil.setSqlAndParameters(sql, null, // JDBCUtil에 query문 설정
 				ResultSet.TYPE_SCROLL_INSENSITIVE, // cursor scroll 가능
 				ResultSet.CONCUR_READ_ONLY);
