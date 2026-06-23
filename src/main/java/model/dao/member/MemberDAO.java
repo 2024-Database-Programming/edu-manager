@@ -22,7 +22,8 @@ public class MemberDAO {
 	 * 사용자 관리 테이블에 새로운 사용자 생성.
 	 */
 	public int create(Member member) throws SQLException {
-		String sql = "INSERT INTO MEMBER VALUES (?, ?, ?, ?, ?, ?)";
+		// status 컬럼(소프트 삭제용, DEFAULT 'ACTIVE')이 추가되어 위치기반 INSERT가 깨지므로 컬럼명을 명시한다.
+		String sql = "INSERT INTO MEMBER (id, pwd, name, email, phone, img) VALUES (?, ?, ?, ?, ?, ?)";
 		Object[] param = new Object[] { member.getId(), model.dao.PasswordHasher.ensureHashed(member.getPwd()), member.getName(), member.getEmail(),
 				member.getPhone(), "/images/profileImg.svg" };
 		jdbcUtil.setSqlAndParameters(sql, param); // JDBCUtil 에 insert문과 매개 변수 설정
