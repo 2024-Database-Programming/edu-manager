@@ -333,12 +333,12 @@ EduManager/
     │   ├── controller                 # 프런트 컨트롤러 + 도메인별 Controller
     │   │   ├── DispatcherServlet.java #   └ 진입점 (Front Controller)
     │   │   ├── RequestMapping.java    #   └ URL ↔ Controller 매핑
-    │   │   └── lecture / study / studyGroup / member / mypage / main
+    │   │   └── lecture / study / member / mypage / main
     │   ├── filter                     # EncodingFilter, ResourceFilter
     │   └── model
-    │       ├── domain                 # 도메인 객체 (Member, Lecture, StudyGroup …)
-    │       ├── service                # Manager (비즈니스 로직, 싱글톤)
-    │       └── dao                    # DAO + JDBCUtil + ConnectionManager
+    │       ├── domain                 # 도메인 객체 - lecture / study / member / calendar
+    │       ├── service                # Manager(비즈니스 로직, 싱글톤) - lecture / study / member
+    │       └── dao                    # DAO + JDBCUtil + ConnectionManager - lecture / study / member
     ├── resources                      # context.properties (DB 접속 정보)
     └── webapp
         ├── css / js / images          # 정적 리소스 (네이비 디자인 시스템)
