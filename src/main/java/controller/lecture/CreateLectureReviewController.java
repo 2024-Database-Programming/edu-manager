@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import controller.Controller;
 import controller.member.MemberSessionUtils;
 import model.domain.lecture.LectureReview;
-import model.service.LectureManager;
+import model.service.lecture.LectureManager;
 import model.service.member.MemberManager;
 
 public class CreateLectureReviewController implements Controller {

@@ -14,7 +14,7 @@ import model.dao.AssignmentSubmissionDao;
 import model.domain.Assignment;
 import model.domain.AssignmentSubmission;
 import model.domain.lecture.Lecture;
-import model.service.LectureManager;
+import model.service.lecture.LectureManager;
 
 public class SubmitLectureAssignmentController implements Controller {
 	@Override

@@ -1,4 +1,4 @@
-package controller.studyGroup;
+package controller.study;
 
 import java.util.List;
 
@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.Controller;
 import controller.member.MemberSessionUtils;
-import model.domain.studyGroup.StudyGroup;
-import model.domain.studyGroup.StudyGroupReview;
-import model.service.StudyManager;
-import model.service.StudyGroupManager;
+import model.domain.study.StudyGroup;
+import model.domain.study.StudyGroupReview;
+import model.service.study.StudyManager;
+import model.service.study.StudyGroupManager;
 
 public class ViewStudyGroupController implements Controller {
 

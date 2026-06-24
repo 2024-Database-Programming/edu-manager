@@ -15,8 +15,8 @@ import controller.Controller;
 import controller.MultipartUploadUtils;
 import controller.member.MemberSessionUtils;
 import model.domain.Assignment;
-import model.service.StudyGroupManager;
-import model.service.StudyManager;
+import model.service.study.StudyGroupManager;
+import model.service.study.StudyManager;
 
 public class CreateStudyAssignmentController implements Controller {
 	private static final Logger log = LoggerFactory.getLogger(CreateStudyAssignmentController.class);

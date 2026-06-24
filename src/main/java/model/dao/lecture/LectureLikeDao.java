@@ -7,7 +7,7 @@ import java.util.List;
 
 import model.dao.JDBCUtil;
 import model.domain.lecture.Lecture;
-import model.domain.studyGroup.StudyGroup;
+import model.domain.study.StudyGroup;
 
 public class LectureLikeDao {
     private JDBCUtil jdbcUtil = new JDBCUtil();

@@ -1,4 +1,4 @@
-package model.dao.studygroup;
+package model.dao.study;
 
 import java.sql.Date;
 import java.sql.ResultSet;

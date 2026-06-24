@@ -1,4 +1,4 @@
-package model.dao.studygroup;
+package model.dao.study;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,9 +15,9 @@ import model.dao.JDBCUtil;
 import model.domain.lecture.Lecture;
 import model.domain.lecture.LectureReview;
 import model.domain.member.Member;
-import model.domain.studyGroup.StudyGroup;
-import model.domain.studyGroup.StudyGroupApplication;
-import model.domain.studyGroup.StudyGroupReview;
+import model.domain.study.StudyGroup;
+import model.domain.study.StudyGroupApplication;
+import model.domain.study.StudyGroupReview;
 
 public class StudyGroupDao {
    private JDBCUtil jdbcUtil = null;

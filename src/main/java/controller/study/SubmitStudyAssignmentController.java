@@ -13,9 +13,9 @@ import controller.member.MemberSessionUtils;
 import model.dao.AssignmentSubmissionDao;
 import model.domain.Assignment;
 import model.domain.AssignmentSubmission;
-import model.domain.studyGroup.StudyGroup;
-import model.service.StudyGroupManager;
-import model.service.StudyManager;
+import model.domain.study.StudyGroup;
+import model.service.study.StudyGroupManager;
+import model.service.study.StudyManager;
 
 public class SubmitStudyAssignmentController implements Controller {
 	@Override

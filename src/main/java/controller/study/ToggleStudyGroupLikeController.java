@@ -1,11 +1,11 @@
-package controller.studyGroup;
+package controller.study;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.Controller;
 import controller.member.MemberSessionUtils;
-import model.service.StudyGroupManager;
+import model.service.study.StudyGroupManager;
 
 public class ToggleStudyGroupLikeController implements Controller {
 

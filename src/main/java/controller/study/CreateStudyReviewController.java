@@ -1,12 +1,12 @@
-package controller.studyGroup;
+package controller.study;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.Controller;
 import controller.member.MemberSessionUtils;
-import model.domain.studyGroup.StudyGroupReview;
-import model.service.StudyGroupManager;
+import model.domain.study.StudyGroupReview;
+import model.service.study.StudyGroupManager;
 import model.service.member.MemberManager;
 
 public class CreateStudyReviewController implements Controller {

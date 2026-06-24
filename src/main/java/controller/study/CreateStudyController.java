@@ -16,10 +16,10 @@ import controller.Controller;
 import controller.member.MemberSessionUtils;
 import model.dao.ImageDAO;
 import model.dao.member.InterestCategoryDAO;
-import model.dao.studygroup.StudyGroupDao;
+import model.dao.study.StudyGroupDao;
 import model.domain.Schedule;
-import model.domain.studyGroup.StudyGroup;
-import model.service.StudyManager;
+import model.domain.study.StudyGroup;
+import model.service.study.StudyManager;
 
 public class CreateStudyController implements Controller {
 	private static final Logger log = LoggerFactory.getLogger(CreateStudyController.class);

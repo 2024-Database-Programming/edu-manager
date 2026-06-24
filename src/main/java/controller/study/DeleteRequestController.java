@@ -1,4 +1,4 @@
-package controller.studyGroup;
+package controller.study;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import controller.AuthorizationUtils;
 import controller.Controller;
 import controller.member.MemberSessionUtils;
-import model.domain.studyGroup.StudyGroup;
-import model.domain.studyGroup.StudyGroupApplication;
-import model.service.StudyGroupManager;
+import model.domain.study.StudyGroup;
+import model.domain.study.StudyGroupApplication;
+import model.service.study.StudyGroupManager;
 
 public class DeleteRequestController implements Controller {
 

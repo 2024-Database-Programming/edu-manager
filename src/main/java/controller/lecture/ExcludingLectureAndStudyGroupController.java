@@ -9,9 +9,9 @@ import controller.Controller;
 import controller.member.MemberSessionUtils;
 import model.domain.lecture.Lecture;
 import model.domain.member.Teacher;
-import model.domain.studyGroup.StudyGroup;
-import model.service.LectureManager;
-import model.service.StudyGroupManager;
+import model.domain.study.StudyGroup;
+import model.service.lecture.LectureManager;
+import model.service.study.StudyGroupManager;
 import model.service.member.TeacherManager;
 
 public class ExcludingLectureAndStudyGroupController implements Controller {

@@ -17,7 +17,7 @@ import controller.member.MemberSessionUtils;
 import model.dao.member.InterestCategoryDAO;
 import model.domain.Schedule;
 import model.domain.lecture.Lecture;
-import model.service.LectureManager;
+import model.service.lecture.LectureManager;
 import model.service.member.MemberManager;
 
 public class UpdateLectureController implements Controller {

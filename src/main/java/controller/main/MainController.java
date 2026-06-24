@@ -10,8 +10,8 @@ import model.domain.Schedule;
 import model.domain.Assignment;
 import model.domain.Notice;
 import model.domain.calendar.CalendarDTO;
-import model.service.LectureManager;
-import model.service.StudyManager;
+import model.service.lecture.LectureManager;
+import model.service.study.StudyManager;
 
 public class MainController implements Controller {
 	// private static final int countPerPage = 100; // 한 화면에 출력할 사용자 수

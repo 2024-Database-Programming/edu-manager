@@ -13,7 +13,7 @@ import model.domain.Notice;
 import model.domain.lecture.Lecture;
 import model.domain.lecture.LectureEnrollment;
 import model.domain.member.Member;
-import model.domain.studyGroup.StudyGroupApplication;
+import model.domain.study.StudyGroupApplication;
 
 public class LectureDao {
     private JDBCUtil jdbcUtil = null; // JDBCUtil 필드 선언

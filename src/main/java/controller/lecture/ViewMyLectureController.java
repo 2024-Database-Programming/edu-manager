@@ -16,9 +16,9 @@ import model.domain.Notice;
 import model.domain.Schedule;
 import model.domain.lecture.Lecture;
 import model.domain.member.Member;
-import model.domain.studyGroup.StudyGroup;
-import model.service.LectureManager;
-import model.service.StudyManager;
+import model.domain.study.StudyGroup;
+import model.service.lecture.LectureManager;
+import model.service.study.StudyManager;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;

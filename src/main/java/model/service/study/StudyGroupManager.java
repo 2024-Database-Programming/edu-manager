@@ -1,15 +1,15 @@
-package model.service;
+package model.service.study;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import model.dao.studygroup.StudyGroupDao;
+import model.dao.study.StudyGroupDao;
 import model.domain.Notice;
-import model.domain.studyGroup.StudyGroup;
-import model.domain.studyGroup.StudyGroupApplication;
-import model.domain.studyGroup.StudyGroupReview;
+import model.domain.study.StudyGroup;
+import model.domain.study.StudyGroupApplication;
+import model.domain.study.StudyGroupReview;
 
 
 public class StudyGroupManager {

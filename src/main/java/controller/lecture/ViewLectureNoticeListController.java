@@ -9,7 +9,7 @@ import controller.AuthorizationUtils;
 import controller.Controller;
 import controller.member.MemberSessionUtils;
 import model.domain.Notice;
-import model.service.LectureManager;
+import model.service.lecture.LectureManager;
 
 public class ViewLectureNoticeListController implements Controller {
 

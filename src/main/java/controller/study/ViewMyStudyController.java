@@ -11,8 +11,8 @@ import model.domain.Assignment;
 import model.domain.Notice;
 import model.domain.Schedule;
 import model.domain.member.Member;
-import model.domain.studyGroup.StudyGroup;
-import model.service.StudyManager;
+import model.domain.study.StudyGroup;
+import model.service.study.StudyManager;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ import controller.AuthorizationUtils;
 import controller.CalendarEventJsonUtils;
 import controller.Controller;
 import controller.member.MemberSessionUtils;
-import model.service.StudyGroupManager;
+import model.service.study.StudyGroupManager;
 
 
 public class ViewMyStudyController implements Controller {

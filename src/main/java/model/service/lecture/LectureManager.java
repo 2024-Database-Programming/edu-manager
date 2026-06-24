@@ -1,5 +1,5 @@
 
-package model.service;
+package model.service.lecture;
 
 import java.sql.SQLException;
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package model.domain.studyGroup;
+package model.domain.study;
 
 import java.util.Date;
 

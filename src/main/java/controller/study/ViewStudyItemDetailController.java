@@ -14,9 +14,9 @@ import model.domain.Assignment;
 import model.domain.AssignmentSubmission;
 import model.domain.Notice;
 import model.domain.Schedule;
-import model.domain.studyGroup.StudyGroup;
-import model.service.StudyGroupManager;
-import model.service.StudyManager;
+import model.domain.study.StudyGroup;
+import model.service.study.StudyGroupManager;
+import model.service.study.StudyManager;
 
 public class ViewStudyItemDetailController implements Controller {
 	@Override

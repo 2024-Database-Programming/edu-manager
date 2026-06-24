@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.Controller;
 import controller.member.MemberSessionUtils;
-import model.service.LectureManager;
+import model.service.lecture.LectureManager;
 
 
 public class ToggleLectureLikeController implements Controller {

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import controller.Controller;
 import controller.member.MemberSessionUtils;
 import model.domain.lecture.Lecture;
-import model.service.LectureManager;
+import model.service.lecture.LectureManager;
 import model.service.member.StudentManager;
 
 public class ViewMyLectureListController  implements Controller {

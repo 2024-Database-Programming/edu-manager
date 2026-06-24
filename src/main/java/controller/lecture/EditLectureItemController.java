@@ -15,7 +15,7 @@ import model.domain.Assignment;
 import model.domain.Notice;
 import model.domain.Schedule;
 import model.domain.lecture.Lecture;
-import model.service.LectureManager;
+import model.service.lecture.LectureManager;
 
 public class EditLectureItemController implements Controller {
 	@Override

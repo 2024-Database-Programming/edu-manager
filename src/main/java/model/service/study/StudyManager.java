@@ -1,4 +1,4 @@
-package model.service;
+package model.service.study;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -6,15 +6,15 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import model.dao.studygroup.StudyAssignmentDao;
-import model.dao.studygroup.StudyGroupDao;
-import model.dao.studygroup.StudyNoticeDao;
-import model.dao.studygroup.StudyScheduleDao;
+import model.dao.study.StudyAssignmentDao;
+import model.dao.study.StudyGroupDao;
+import model.dao.study.StudyNoticeDao;
+import model.dao.study.StudyScheduleDao;
 import model.domain.Assignment;
 import model.domain.Notice;
 import model.domain.Schedule;
 import model.domain.member.Member;
-import model.domain.studyGroup.StudyGroup;
+import model.domain.study.StudyGroup;
 
 import java.util.List;
 
